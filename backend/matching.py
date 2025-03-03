@@ -130,7 +130,7 @@ def get_top_matches(team_index, top_n=len(teams)-1):
     team_size = teams[team_name]["team_size"]
     match_scores = []
 
-    # Filter teams based on team size
+    # filter teams based on team size
     if team_size == 1:
         compatible_teams = [i for i in range(len(teams)) if teams[team_names[i]]["team_size"] in [1, 2, 3]]
     elif team_size == 2:
