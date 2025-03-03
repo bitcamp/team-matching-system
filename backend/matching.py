@@ -47,12 +47,15 @@ teams = {
 }
 
 # step 2: define encoding for categories
+
+# encoding categories (everything but skills) using one hot encoding --> transform into binary vector (ex. AI = [1 0 0], Healthcare = [0 1 0], etc)
 def encode_categorical(categories):
     flattened = [item for sublist in categories for item in sublist]
     encoder = OneHotEncoder(sparse_output=False)
     encoded = encoder.fit_transform(np.array(flattened).reshape(-1, 1))
     return encoded
 
+# encoding skills using one hot encoding --> binary vector for each skill
 def encode_skills(skills_list, all_possible_skills):
     encoder = OneHotEncoder(sparse_output=False)
     skill_vectors = []
@@ -88,6 +91,7 @@ encoded_working_preferences = encode_categorical(working_preferences)
 def get_similarity_matrix(features):
     return cosine_similarity(features)
 
+# calc cos sim per category
 primary_track_sim = np.array([[1 if primary_tracks[i] == primary_tracks[j] else 0 for j in range(len(team_names))] for i in range(len(team_names))])
 avg_skill_sim = cosine_similarity(np.array(avg_skill_levels).reshape(-1, 1))
 project_sim = get_similarity_matrix(encoded_projects)
@@ -99,19 +103,23 @@ def get_complementary_skill_matching(team_index, top_n=len(teams)-1):
     team_skills = np.array(encoded_skills[team_index])
     all_other_teams = np.array([encoded_skills[i] for i in range(len(team_names)) if i != team_index])
 
+    # 1 - cos_similarity = inverse similarity
     sim_matrix = cosine_similarity([team_skills], all_other_teams)[0]
     complementary_scores = 1 - sim_matrix 
 
+    # sort teams based on complementarity
     sorted_indices = np.argsort(complementary_scores)[::-1]
     best_matches = [(team_names[i], round(complementary_scores[i], 3)) for i in sorted_indices[:top_n]]
     
     return best_matches
 
-# step 5: compute final match score for complementary skills and general similarity with weighting
+# step 5: compute final match score for complementary skills and general similarity with weighting for each
 def get_combined_match_score(i, j, complementary_weight=0.7, similarity_weight=0.6):
+    # compute complementary score
     complementary_score = get_complementary_skill_matching(i, top_n=len(teams)-1)
     complementary_score = next((score for team, score in complementary_score if team == team_names[j]), 0)
 
+    # compute general similarity score (multiplied by weights that take care of prioritizing)
     general_similarity = (
         primary_track_sim[i][j] * 0.45 +
         avg_skill_sim[i][j] * 0.45 +
@@ -120,6 +128,7 @@ def get_combined_match_score(i, j, complementary_weight=0.7, similarity_weight=0
         working_pref_sim[i][j] * 0.35
     )
 
+    # combine complementary skills and general similarity scores
     final_score = complementary_score * complementary_weight + general_similarity * similarity_weight
 
     return final_score
@@ -143,6 +152,7 @@ def get_top_matches(team_index, top_n=len(teams)-1):
             score = get_combined_match_score(team_index, i)
             match_scores.append((team_names[i], score))
 
+    # sort by combined match score
     sorted_matches = sorted(match_scores, key=lambda x: x[1], reverse=True)
 
     return sorted_matches[:top_n]
