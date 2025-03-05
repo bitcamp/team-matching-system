@@ -1,157 +1,158 @@
+@import url("https://fonts.googleapis.com/css2?family=Aleo");
+
 @font-face {
-    font-family: 'Avenir';
-    font-style: normal;
-    font-weight: 301;
-    font-display: auto;
-    font-display: swap;
-    src: local('Avenir'), url('./AvenirLTStd-Light.otf') format('opentype');
-  }
-  
-  @import url('https://fonts.googleapis.com/css2?family=Aleo');
-  /* Aleo */
-  
-  body {
-    background-color: #34045b;
-    background-image: url("Brownandpurplecaves.svg");
-    background-size: cover;
-  
-    /* background-image: url("./hero-clouds.png");
+  font-family: "Avenir";
+  font-style: normal;
+  font-weight: 301;
+  font-display: auto;
+  font-display: swap;
+  src: local("Avenir"), url("./AvenirLTStd-Light.otf") format("opentype");
+}
+
+/* Aleo */
+
+body {
+  background-color: #eddfd5;
+
+  /* background-image: url("./hero-clouds.png");
     background-size: cover; */
-    /*centered on x, starting 56px lower than top for y so that the navbar doesn't cover image*/
-    /*background-position: center 56px;*/
-    background-repeat: no-repeat;
-    /* height: 100vh; */
-  }
-  
-  @media (max-width: 768px) {
-    body {
-      background-repeat: no-repeat;
-      height: auto;
-      background-image: url("Purplecavestretchedevenmore-new.svg");
-      max-height: 100vh;
-    }
-  }
-  @media (max-width: 564px) {
-    body {
-      background-repeat: no-repeat;
-      height: auto;
-      background-image: url("Purplecavestretchedevenmore.svg");
-      max-height: 100vh;
-    }
-  }
-  
-  /* COLORS */
-  :root {
-    --green: #b5d5b2;
-    --dark-green: #90aa8e;
-    --cyan: #00ffff;
-    --dirty-cyan: rgb(0, 200, 200);
-    --lavender: #b6a1c4;
-    --light-lavender: #ded2e5;
-    --dark-lavender: #8d7c98;
-    --darker-lavender: #82708f;
-    --rose: #ff7bac;
-    --white: #ffffff;
-    --black: #000000;
-    --asphalt-grey: #2d2d2d;
-    --charcoal-grey: #464343;
-    --dark-hero-blue: #087f8a;
-    --orange_grad: radial-gradient(50% 49.08% at 0% 50.92%,
-        #ff793f 48.23%,
-        #ffaf3f 100%);
-    --light-orange: #ff6f3f;
-    --mango-orange: #ffaf3f;
-    --flame-red: #ff3f46;
-    --soil: #7f6c5f;
-    --bark: #a58d7c;
-    --sand: #e5d8ce;
-    --red-orange: #e87347;
-    --faded-red-orange: #e8734780;
-    --pale-red: #ea6666;
-    --faded-pale-red: #ea666640;
-    --pale-grey: #bbbbbb;
-    --faded-light-grey: #d9d9d980;
-    --bitcamp-font-title: Aleo;
-    --bitcamp-font-general: Avenir;
-    --bitcamp-fontsize-title: 48px;
-    --bitcamp-fontsize-heading: 32px;
-    --bitcamp-fontsize-body: 16px;
-    --bitcamp-fontsize-disclaimer: 12px;
-  }
-  
+  /*centered on x, starting 56px lower than top for y so that the navbar doesn't cover image*/
+  /*background-position: center 56px;*/
+  background-repeat: no-repeat;
+  /* height: 100vh; */
+}
+
+@media (max-width: 768px) {
   body {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    background-repeat: no-repeat;
+    height: auto;
+    background-image: url("Purplecavestretchedevenmore-new.svg");
+    max-height: 100vh;
   }
-  
-  h1,
-  h2,
-  h3,
-  h4,
-  h5 {
-    font-family: 'Aleo', sans-serif;
-    font-weight: 600;
-    -webkit-font-smoothing: antialiased;
+}
+@media (max-width: 564px) {
+  body {
+    background-repeat: no-repeat;
+    height: auto;
+    background-image: url("Purplecavestretchedevenmore.svg");
+    max-height: 100vh;
   }
-  
-  /* Header 1 */
-  h1 {
-    font-size: 2.5em;
-    color: var(--black);
-  }
-  
-  p {
-    color: var(--asphalt-grey);
-    font-size: 1rem;
-  }
-  
-  a {
-    color: var(--light-orange);
-  }
-  
-  a:hover {
-    color: var(--light-orange);
-  }
-  
-  label {
-    font-size: 0.85rem;
-    margin-bottom: 0.2rem;
-    color: var(--black);
-  }
-  
-  /* Body 2 */
-  .body-2 {
-    font-family: 'Avenir', sans-serif;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 14px;
-    line-height: 16px;
-  }
-  
+}
+
+/* COLORS */
+:root {
+  --green: #b5d5b2;
+  --dark-green: #90aa8e;
+  --cyan: #00ffff;
+  --dirty-cyan: rgb(0, 200, 200);
+  --lavender: #b6a1c4;
+  --light-lavender: #ded2e5;
+  --dark-lavender: #8d7c98;
+  --darker-lavender: #82708f;
+  --rose: #ff7bac;
+  --white: #ffffff;
+  --black: #000000;
+  --asphalt-grey: #2d2d2d;
+  --charcoal-grey: #464343;
+  --dark-hero-blue: #087f8a;
+  --orange_grad: radial-gradient(
+    50% 49.08% at 0% 50.92%,
+    #ff793f 48.23%,
+    #ffaf3f 100%
+  );
+  --light-orange: #ff6f3f;
+  --mango-orange: #ffaf3f;
+  --flame-red: #ff3f46;
+  --soil: #7f6c5f;
+  --bark: #a58d7c;
+  --sand: #e5d8ce;
+  --red-orange: #e87347;
+  --faded-red-orange: #e8734780;
+  --pale-red: #ea6666;
+  --faded-pale-red: #ea666640;
+  --pale-grey: #bbbbbb;
+  --faded-light-grey: #d9d9d980;
+  --bitcamp-font-title: Aleo;
+  --bitcamp-font-general: Avenir;
+  --bitcamp-fontsize-title: 48px;
+  --bitcamp-fontsize-heading: 32px;
+  --bitcamp-fontsize-body: 16px;
+  --bitcamp-fontsize-disclaimer: 12px;
+}
+
+body {
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: "Aleo", sans-serif;
+  font-weight: 600;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Header 1 */
+h1 {
+  font-size: 2.5em;
+  color: var(--black);
+}
+
+p {
+  color: var(--asphalt-grey);
+  font-size: 1rem;
+}
+
+a {
+  color: var(--light-orange);
+}
+
+a:hover {
+  color: var(--light-orange);
+}
+
+label {
+  font-size: 0.85rem;
+  margin-bottom: 0.2rem;
+  color: var(--black);
+}
+
+/* Body 2 */
+.body-2 {
+  font-family: "Avenir", sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 16px;
+}
+
+.main-card {
+  margin-bottom: 5.5rem !important;
+  background-color: rgba(255, 255, 255, 0.9);
+  border: none;
+  box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.125);
+}
+
+hr {
+  border-color: transparent;
+  /* border-color: rgba(181, 213, 178, 0.75); */
+}
+
+@media (min-width: 992px) {
   .main-card {
-    margin-bottom: 5.5rem !important;
-    background-color: rgba(255, 255, 255, 0.9);
-    border: none;
-    box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.125);
+    margin-bottom: 1.5rem !important;
   }
-  
-  hr {
-    border-color: transparent;
-    /* border-color: rgba(181, 213, 178, 0.75); */
+}
+
+@media (hover: none) {
+  label:hover {
+    color: inherit;
   }
-  
-  @media (min-width: 992px) {
-    .main-card {
-      margin-bottom: 1.5rem !important;
-    }
-  }
-  
-  @media (hover: none) {
-    label:hover {
-      color: inherit;
-    }
-  }
-  
-  /* Google autocomplete styles */
-  .pac-container {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  }
+}
+
+/* Google autocomplete styles */
+.pac-container {
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
+}
