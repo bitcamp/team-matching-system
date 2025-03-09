@@ -100,9 +100,16 @@ h1 {
   color: var(--black);
 }
 
+.required-label {
+  font-family: "Aleo", sans-serif;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
 p {
   color: var(--asphalt-grey);
   font-size: 1rem;
+  font-family: "Aleo", sans-serif;
 }
 
 a {
