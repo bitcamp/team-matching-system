@@ -1,8 +1,8 @@
 <template>
   <div>
     <NavBar />
-    <Login />
-    <!--<Registration />-->
+    <!-- <Login /> -->
+    <Registration />
   </div>
 </template>
 
