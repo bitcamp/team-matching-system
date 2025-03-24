@@ -1,3 +1,6 @@
+
+
+
 <template>
   <div class="registration-page">
     <h1>Profile Page</h1>
@@ -87,7 +90,7 @@
         <template #label>
           <span class="required-label">What is your experience level?</span>
         </template>
-        <b-form-radio-group v-model="form.experience" name="track" stacked>
+        <b-form-radio-group v-model="form.experience" name="experience" stacked>
           <b-form-radio value="beginner">Beginner (skill level 1-2)</b-form-radio>
           <b-form-radio value="inter">Intermediate (skill level 3-4)</b-form-radio>
           <b-form-radio value="advanced">Advanced (skill level 5)</b-form-radio>
@@ -98,7 +101,7 @@
         <template #label>
           <span class="required-label">Do you prefer working with someone with a similar skill level?</span>
         </template>
-        <b-form-radio-group v-model="form.skill_level" name="track" stacked>
+        <b-form-radio-group v-model="form.skill_level" name="skill-level" stacked>
           <b-form-radio value="yes">Yes</b-form-radio>
           <b-form-radio value="no">No</b-form-radio>
           <b-form-radio value="idc">Don't Care</b-form-radio>
@@ -149,7 +152,7 @@
         <template #label>
           <span class="required-label">How serious are you?</span>
         </template>
-        <b-form-radio-group v-model="form.serious" name="track" stacked>
+        <b-form-radio-group v-model="form.serious" name="serious" stacked>
           <b-form-radio value="win">I want to win! (16-20 hours)</b-form-radio>
           <b-form-radio value="funsies">I’m just doing this for fun (9-13 hours)</b-form-radio>
           <b-form-radio value="learning">I want to learn, if I win that will be a plus (1-8 hours)</b-form-radio>
@@ -171,7 +174,7 @@
         <template #label>
           <span class="required-label">How many team members do you already have?</span>
         </template>
-        <b-form-radio-group v-model="form.serious" name="track" stacked>
+        <b-form-radio-group v-model="form.num_team_members" name="team-members" stacked>
           <b-form-radio value="one">1</b-form-radio>
           <b-form-radio value="two">2</b-form-radio>
           <b-form-radio value="three">3</b-form-radio>
@@ -185,6 +188,7 @@
 
 <script setup>
 import { ref } from "vue";
+import axios from "axios";
 
 const form = ref({
   first_name: "",
@@ -200,11 +204,19 @@ const form = ref({
   prizes:[],
   serious:"",
   collab: [],
-  team_members:"",
+  num_team_members:"",
 });
 
-const registerUser = () => {
-  console.log("User Registered:", form.value);
+
+const registerUser = async () => {
+  try {
+    const response = await axios.post("http://localhost:5001/register", form.value);
+    alert("Registration Successful!");
+    console.log(response.data);
+  } catch (error) {
+    alert("Error registering user");
+    console.error(error);
+  }
 };
 </script>
 
