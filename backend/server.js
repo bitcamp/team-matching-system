@@ -16,30 +16,42 @@ const TABLE_NAME = "team-matching-system-dev"; // Change this to your DynamoDB t
 
 // POST route to handle form submissions
 app.post("/register", async (req, res) => {
+  console.log("Received Data:", req.body); // Debugging
   const formData = req.body;
 
-  // Define the item to be stored in DynamoDB
+  if (!formData.email) {
+    return res.status(400).json({ error: "Email is required!" });
+  }
+
+  // Check for missing fields
+  for (let key in formData) {
+    if (formData[key] === undefined) {
+      console.error(`Missing field: ${key}`);
+    }
+  }
+
   const params = {
     TableName: TABLE_NAME,
     Item: {
       email: formData.email, // Primary Key
-      first_name: formData.first_name,
-      last_name: formData.last_name,
-      year: formData.year,
-      track: formData.track,
-      languages: formData.languages,
-      experience: formData.experience,
-      skills_wanted: formData.skills_wanted,
-      skill_level: formData.skill_level,
-      projects: formData.projects,
-      prizes: formData.prizes,
-      serious: formData.serious,
-      collab: formData.collab,
-      num_team_members: formData.num_team_members,
+      first_name: formData.first_name || "N/A",
+      last_name: formData.last_name || "N/A",
+      year: formData.year || "N/A",
+      track: formData.track || "N/A",
+      languages: formData.languages || [],
+      experience: formData.experience || "N/A",
+      skills_wanted: formData.skills_wanted || [],
+      skill_level: formData.skill_level || "N/A",
+      projects: formData.projects || [],
+      prizes: formData.prizes || [],
+      serious: formData.serious || false,
+      collab: formData.collab || false,
+      num_team_members: formData.num_team_members || 0,
     },
   };
 
   try {
+    console.log("Saving to DynamoDB:", params); // Debugging
     await dynamoDB.put(params).promise();
     res.status(200).json({ message: "Registration successful!" });
   } catch (error) {
@@ -47,6 +59,7 @@ app.post("/register", async (req, res) => {
     res.status(500).json({ error: "Error saving data to DynamoDB" });
   }
 });
+
 
 // Start the server
 const PORT = 5001;
