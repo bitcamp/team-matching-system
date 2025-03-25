@@ -1,8 +1,23 @@
 <template>
   <div class="registration-page">
-    <h1>Create Your Profile!</h1>
+    <h1>{{ props.mode === 'edit' ? 'Edit Your Profile!' : 'Create Your Profile!' }}</h1>
 
     <b-form class="registration-form" @submit.prevent="registerUser">
+      <b-form-group v-if="mode === 'edit'">
+        <template #label>
+          <span class="required-label">Are you still looking for a team?</span>
+        </template>
+        <b-form-radio-group v-model="form.looking" name="looking">
+          <b-form-radio value="looking">Looking for a team</b-form-radio>
+          <b-form-radio value="inteam"
+            >Currently in a team</b-form-radio
+          >
+          <b-form-radio value="notlooking"
+            >No longer looking for a team</b-form-radio
+          >
+        </b-form-radio-group>
+      </b-form-group>
+
       <b-row>
         <b-col md="6">
           <b-form-group>
@@ -12,7 +27,7 @@
             <b-form-input
               v-model="form.first_name"
               placeholder="Enter first name"
-              required
+              required  
             ></b-form-input>
           </b-form-group>
         </b-col>
@@ -67,7 +82,7 @@
         </b-form-radio-group>
       </b-form-group>
 
-      <h4>Skills & Experience</h4>
+      <h4 class="header">Skills & Experience</h4>
       <div class="section-divider"></div>
       <b-form-group
         label="Have you participated in a hackathon before?"
@@ -151,7 +166,7 @@
         </b-form-checkbox-group>
       </b-form-group>
 
-      <h4>Interests & Project Preferences</h4>
+      <h4 class="header">Interests & Project Preferences</h4>
       <div class="section-divider"></div>
       <b-form-group>
         <template #label>
@@ -182,7 +197,7 @@
         </b-form-checkbox-group>
       </b-form-group>
 
-      <h4>Working Preferences</h4>
+      <h4 class="header">Working Preferences</h4>
       <div class="section-divider"></div>
       <b-form-group>
         <template #label>
@@ -227,20 +242,19 @@
       </b-form-group>
 
       <div class="submit-wrapper">
-  <b-button type="submit" variant="primary" class="submit-button">
-    Submit
-  </b-button>
-</div>
-
+        <b-button type="submit" variant="primary" class="submit-button">
+          {{ mode === 'edit' ? 'Save' : 'Submit' }}
+        </b-button>
+      </div>
     </b-form>
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, reactive } from "vue";
 import axios from "axios";
 
-const form = ref({
+const form = reactive({
   first_name: "",
   last_name: "",
   year: "",
@@ -256,6 +270,7 @@ const form = ref({
   serious: "",
   collab: [],
   num_team_members: "",
+  looking: "",
 });
 
 const registerUser = async () => {
@@ -271,7 +286,22 @@ const registerUser = async () => {
     console.error(error);
   }
 };
+
+const props = defineProps({
+  mode: {
+    type: String,
+    default: 'register',
+  }
+})
 </script>
+
+
+
+
+
+
+
+
 
 <style scoped>
 .registration-page {
@@ -346,10 +376,12 @@ button:hover {
 
 .section-divider {
   height: 2px;
-  background-color: #FFEAC7;
+  background-color: #ffeac7;
   margin: 0.5rem auto 1.5rem;
   border-radius: 2px;
 }
 
-
+.header {
+  margin-top: 4rem;
+}
 </style>
