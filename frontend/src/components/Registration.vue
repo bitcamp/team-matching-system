@@ -1,9 +1,6 @@
-
-
-
 <template>
   <div class="registration-page">
-    <h1>Profile Page</h1>
+    <h1>Create Your Profile!</h1>
 
     <b-form class="registration-form" @submit.prevent="registerUser">
       <b-row>
@@ -70,10 +67,31 @@
         </b-form-radio-group>
       </b-form-group>
 
-      <h4>Skills and Experience</h4>
+      <h4>Skills & Experience</h4>
+      <div class="section-divider"></div>
+      <b-form-group
+        label="Have you participated in a hackathon before?"
+        label-cols="5"
+        label-class="required-label"
+        label-for="hackathon"
+      >
+        <b-form-radio-group
+          id="hackathon"
+          v-model="form.hackathon"
+          name="hackathon"
+          class="d-flex gap-3"
+        >
+          <b-form-radio value="yes">Yes</b-form-radio>
+          <b-form-radio value="no">No</b-form-radio>
+        </b-form-radio-group>
+      </b-form-group>
+
       <b-form-group>
         <template #label>
-          <span class="required-label">What programming languages and frameworks are you comfortable with?</span>
+          <span class="required-label"
+            >What programming languages and frameworks are you comfortable
+            with?</span
+          >
         </template>
         <b-form-checkbox-group v-model="form.languages" stacked>
           <b-form-checkbox value="html/css">HTML/CSS</b-form-checkbox>
@@ -85,23 +103,30 @@
           <b-form-checkbox value="java">Java</b-form-checkbox>
         </b-form-checkbox-group>
       </b-form-group>
-      
+
       <b-form-group>
         <template #label>
           <span class="required-label">What is your experience level?</span>
         </template>
         <b-form-radio-group v-model="form.experience" name="experience" stacked>
-          <b-form-radio value="beginner">Beginner (skill level 1-2)</b-form-radio>
-          <b-form-radio value="inter">Intermediate (skill level 3-4)</b-form-radio>
+          <b-form-radio value="beginner"
+            >Beginner (skill level 1-2)</b-form-radio
+          >
+          <b-form-radio value="inter"
+            >Intermediate (skill level 3-4)</b-form-radio
+          >
           <b-form-radio value="advanced">Advanced (skill level 5)</b-form-radio>
         </b-form-radio-group>
       </b-form-group>
 
       <b-form-group>
         <template #label>
-          <span class="required-label">Do you prefer working with someone with a similar skill level?</span>
+          <span class="required-label"
+            >Do you prefer working with someone with a similar skill
+            level?</span
+          >
         </template>
-        <b-form-radio-group v-model="form.skill_level" name="skill-level" stacked>
+        <b-form-radio-group v-model="form.skill_level" name="skill-level">
           <b-form-radio value="yes">Yes</b-form-radio>
           <b-form-radio value="no">No</b-form-radio>
           <b-form-radio value="idc">Don't Care</b-form-radio>
@@ -110,7 +135,10 @@
 
       <b-form-group>
         <template #label>
-          <span class="required-label">What kind of technologies do you want your teammates to have knowledge of?</span>
+          <span class="required-label"
+            >What kind of technologies do you want your teammates to have
+            knowledge of?</span
+          >
         </template>
         <b-form-checkbox-group v-model="form.skills_wanted" stacked>
           <b-form-checkbox value="html/css">HTML/CSS</b-form-checkbox>
@@ -124,9 +152,13 @@
       </b-form-group>
 
       <h4>Interests & Project Preferences</h4>
+      <div class="section-divider"></div>
       <b-form-group>
         <template #label>
-          <span class="required-label">What kind of projects are you interested in (i.e. web, mobile, AI, etc.)?</span>
+          <span class="required-label"
+            >What kind of projects are you interested in (i.e. web, mobile, AI,
+            etc.)?</span
+          >
         </template>
         <b-form-checkbox-group v-model="form.projects" stacked>
           <b-form-checkbox value="web_dev">Web Development</b-form-checkbox>
@@ -137,7 +169,10 @@
 
       <b-form-group>
         <template #label>
-          <span class="required-label">What Bitcamp prizes are you interested in catering your project towards?</span>
+          <span class="required-label"
+            >What Bitcamp prizes are you interested in catering your project
+            towards?</span
+          >
         </template>
         <b-form-checkbox-group v-model="form.prizes" stacked>
           <b-form-checkbox value="prize_a">Prize A</b-form-checkbox>
@@ -148,20 +183,28 @@
       </b-form-group>
 
       <h4>Working Preferences</h4>
+      <div class="section-divider"></div>
       <b-form-group>
         <template #label>
           <span class="required-label">How serious are you?</span>
         </template>
-        <b-form-radio-group v-model="form.serious" name="serious" stacked>
+        <b-form-radio-group v-model="form.serious" name="serious">
           <b-form-radio value="win">I want to win! (16-20 hours)</b-form-radio>
-          <b-form-radio value="funsies">I’m just doing this for fun (9-13 hours)</b-form-radio>
-          <b-form-radio value="learning">I want to learn, if I win that will be a plus (1-8 hours)</b-form-radio>
+          <b-form-radio value="funsies"
+            >I’m just doing this for fun (9-13 hours)</b-form-radio
+          >
+          <b-form-radio value="learning"
+            >I want to learn, if I win that will be a plus (1-8
+            hours)</b-form-radio
+          >
         </b-form-radio-group>
       </b-form-group>
 
       <b-form-group>
         <template #label>
-          <span class="required-label">Which way would you prefer collaborating with your team?</span>
+          <span class="required-label"
+            >Which way would you prefer collaborating with your team?</span
+          >
         </template>
         <b-form-checkbox-group v-model="form.collab" stacked>
           <b-form-checkbox value="remote">Remote</b-form-checkbox>
@@ -172,16 +215,23 @@
 
       <b-form-group>
         <template #label>
-          <span class="required-label">How many team members do you already have?</span>
+          <span class="required-label"
+            >How many team members do you already have?</span
+          >
         </template>
-        <b-form-radio-group v-model="form.num_team_members" name="team-members" stacked>
+        <b-form-radio-group v-model="form.num_team_members" name="team-members">
           <b-form-radio value="one">1</b-form-radio>
           <b-form-radio value="two">2</b-form-radio>
           <b-form-radio value="three">3</b-form-radio>
         </b-form-radio-group>
       </b-form-group>
 
-      <b-button type="submit" variant="primary">Register</b-button>
+      <div class="submit-wrapper">
+  <b-button type="submit" variant="primary" class="submit-button">
+    Submit
+  </b-button>
+</div>
+
     </b-form>
   </div>
 </template>
@@ -196,21 +246,24 @@ const form = ref({
   year: "",
   email: "",
   track: "",
+  hackathon: null,
   languages: [],
   experience: "",
   skill_level: "",
   skills_wanted: [],
-  projects:[],
-  prizes:[],
-  serious:"",
+  projects: [],
+  prizes: [],
+  serious: "",
   collab: [],
-  num_team_members:"",
+  num_team_members: "",
 });
-
 
 const registerUser = async () => {
   try {
-    const response = await axios.post("http://localhost:5001/register", form.value);
+    const response = await axios.post(
+      "http://localhost:5001/register",
+      form.value
+    );
     alert("Registration Successful!");
     console.log(response.data);
   } catch (error) {
@@ -267,4 +320,36 @@ button {
 button:hover {
   background-color: var(--mango-orange);
 }
+
+.submit-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.submit-button {
+  background-color: var(--light-orange);
+  color: white;
+  padding: 14px 10rem;
+  margin-top: 2rem;
+  margin-bottom: 5rem;
+  font-size: 1.25rem;
+  font-family: var(--bitcamp-font-title);
+  border: none;
+  border-radius: 15px;
+  transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: var(--mango-orange);
+}
+
+.section-divider {
+  height: 2px;
+  background-color: #FFEAC7;
+  margin: 0.5rem auto 1.5rem;
+  border-radius: 2px;
+}
+
+
 </style>
