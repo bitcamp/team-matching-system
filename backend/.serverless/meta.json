@@ -1,0 +1,1583 @@
+{
+  "/Users/aryagijare/arya-data/team-matching-system/backend/serverless.yml": {
+    "versionFramework": "4.9.1",
+    "servicePath": "/Users/aryagijare/arya-data/team-matching-system/backend/serverless.yml",
+    "serviceConfigFileName": "serverless.yml",
+    "service": {
+      "org": "bitcamp",
+      "app": "portal",
+      "service": "team-matching-backend",
+      "provider": {
+        "name": "aws",
+        "region": "us-east-1",
+        "runtime": "nodejs16.x",
+        "stage": "dev",
+        "deploymentBucket": "bitcamp-portal-backend-dev-layers-deploymentbucket",
+        "environment": {
+          "PLATFORM_BASE_URL": "localhost:5173",
+          "REGISTRATION_TABLE": "team-matching-system-dev"
+        },
+        "iam": {
+          "role": {
+            "statements": [
+              {
+                "Effect": "Allow",
+                "Action": [
+                  "dynamodb:Query",
+                  "dynamodb:Scan",
+                  "dynamodb:GetItem",
+                  "dynamodb:PutItem",
+                  "dynamodb:UpdateItem",
+                  "dynamodb:DeleteItem"
+                ],
+                "Resource": "arn:aws:dynamodb:us-east-1:*"
+              },
+              {
+                "Effect": "Allow",
+                "Action": [
+                  "secretsmanager:DescribeSecret",
+                  "secretsmanager:GetSecretValue"
+                ],
+                "Resource": "arn:aws:secretsmanager:us-east-1:*"
+              },
+              {
+                "Effect": "Allow",
+                "Action": [
+                  "ses:SendTemplatedEmail"
+                ],
+                "Resource": "arn:aws:ses:us-east-1:*"
+              },
+              {
+                "Effect": "Allow",
+                "Action": [
+                  "s3:PutObject",
+                  "s3:GetObject",
+                  "s3:ListBucket",
+                  "s3:ListBucketVersions"
+                ],
+                "Resource": "arn:aws:s3:::*"
+              }
+            ]
+          }
+        },
+        "versionFunctions": true,
+        "deploymentBucketObject": {
+          "name": "bitcamp-portal-backend-dev-layers-deploymentbucket"
+        },
+        "compiledCloudFormationTemplate": {
+          "AWSTemplateFormatVersion": "2010-09-09",
+          "Description": "The AWS CloudFormation template for this Serverless application",
+          "Resources": {
+            "RegisterLogGroup": {
+              "Type": "AWS::Logs::LogGroup",
+              "Properties": {
+                "LogGroupName": "/aws/lambda/team-matching-backend-dev-register"
+              }
+            },
+            "TrackLogGroup": {
+              "Type": "AWS::Logs::LogGroup",
+              "Properties": {
+                "LogGroupName": "/aws/lambda/team-matching-backend-dev-track"
+              }
+            },
+            "IamRoleLambdaExecution": {
+              "Type": "AWS::IAM::Role",
+              "Properties": {
+                "AssumeRolePolicyDocument": {
+                  "Version": "2012-10-17",
+                  "Statement": [
+                    {
+                      "Effect": "Allow",
+                      "Principal": {
+                        "Service": [
+                          "lambda.amazonaws.com"
+                        ]
+                      },
+                      "Action": [
+                        "sts:AssumeRole"
+                      ]
+                    }
+                  ]
+                },
+                "Policies": [
+                  {
+                    "PolicyName": {
+                      "Fn::Join": [
+                        "-",
+                        [
+                          "team-matching-backend",
+                          "dev",
+                          "lambda"
+                        ]
+                      ]
+                    },
+                    "PolicyDocument": {
+                      "Version": "2012-10-17",
+                      "Statement": [
+                        {
+                          "Effect": "Allow",
+                          "Action": [
+                            "logs:CreateLogStream",
+                            "logs:CreateLogGroup",
+                            "logs:TagResource"
+                          ],
+                          "Resource": [
+                            {
+                              "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/team-matching-backend-dev*:*"
+                            }
+                          ]
+                        },
+                        {
+                          "Effect": "Allow",
+                          "Action": [
+                            "logs:PutLogEvents"
+                          ],
+                          "Resource": [
+                            {
+                              "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/team-matching-backend-dev*:*:*"
+                            }
+                          ]
+                        },
+                        {
+                          "Effect": "Allow",
+                          "Action": [
+                            "dynamodb:Query",
+                            "dynamodb:Scan",
+                            "dynamodb:GetItem",
+                            "dynamodb:PutItem",
+                            "dynamodb:UpdateItem",
+                            "dynamodb:DeleteItem"
+                          ],
+                          "Resource": "arn:aws:dynamodb:us-east-1:*"
+                        },
+                        {
+                          "Effect": "Allow",
+                          "Action": [
+                            "secretsmanager:DescribeSecret",
+                            "secretsmanager:GetSecretValue"
+                          ],
+                          "Resource": "arn:aws:secretsmanager:us-east-1:*"
+                        },
+                        {
+                          "Effect": "Allow",
+                          "Action": [
+                            "ses:SendTemplatedEmail"
+                          ],
+                          "Resource": "arn:aws:ses:us-east-1:*"
+                        },
+                        {
+                          "Effect": "Allow",
+                          "Action": [
+                            "s3:PutObject",
+                            "s3:GetObject",
+                            "s3:ListBucket",
+                            "s3:ListBucketVersions"
+                          ],
+                          "Resource": "arn:aws:s3:::*"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "Path": "/",
+                "RoleName": {
+                  "Fn::Join": [
+                    "-",
+                    [
+                      "team-matching-backend",
+                      "dev",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      "lambdaRole"
+                    ]
+                  ]
+                }
+              }
+            },
+            "RegisterLambdaFunction": {
+              "Type": "AWS::Lambda::Function",
+              "Properties": {
+                "Code": {
+                  "S3Bucket": "bitcamp-portal-backend-dev-layers-deploymentbucket",
+                  "S3Key": "serverless/team-matching-backend/dev/1742951568441-2025-03-26T01:12:48.441Z/team-matching-backend.zip"
+                },
+                "Handler": "handler.register",
+                "Runtime": "nodejs16.x",
+                "FunctionName": "team-matching-backend-dev-register",
+                "MemorySize": 256,
+                "Timeout": 15,
+                "Description": "Adds a new registration to the database",
+                "Environment": {
+                  "Variables": {
+                    "PLATFORM_BASE_URL": "localhost:5173",
+                    "REGISTRATION_TABLE": "team-matching-system-dev",
+                    "SENTRY_DSN": "https://474121de6dfb4ea7973f677619e38b2d@o414418.ingest.sentry.io/5776787",
+                    "SENTRY_ENVIRONMENT": "dev"
+                  }
+                },
+                "Role": {
+                  "Fn::GetAtt": [
+                    "IamRoleLambdaExecution",
+                    "Arn"
+                  ]
+                }
+              },
+              "DependsOn": [
+                "RegisterLogGroup"
+              ]
+            },
+            "TrackLambdaFunction": {
+              "Type": "AWS::Lambda::Function",
+              "Properties": {
+                "Code": {
+                  "S3Bucket": "bitcamp-portal-backend-dev-layers-deploymentbucket",
+                  "S3Key": "serverless/team-matching-backend/dev/1742951568441-2025-03-26T01:12:48.441Z/team-matching-backend.zip"
+                },
+                "Handler": "handler.track",
+                "Runtime": "nodejs16.x",
+                "FunctionName": "team-matching-backend-dev-track",
+                "MemorySize": 128,
+                "Timeout": 6,
+                "Description": "Keeps track of various user actions",
+                "Environment": {
+                  "Variables": {
+                    "PLATFORM_BASE_URL": "localhost:5173",
+                    "REGISTRATION_TABLE": "team-matching-system-dev",
+                    "SENTRY_DSN": "https://474121de6dfb4ea7973f677619e38b2d@o414418.ingest.sentry.io/5776787",
+                    "SENTRY_ENVIRONMENT": "dev"
+                  }
+                },
+                "Role": {
+                  "Fn::GetAtt": [
+                    "IamRoleLambdaExecution",
+                    "Arn"
+                  ]
+                }
+              },
+              "DependsOn": [
+                "TrackLogGroup"
+              ]
+            },
+            "RegisterLambdaVersionmdMxk9L9mCYI2m7vZkqRRV37O1Icem8AKhE2mU": {
+              "Type": "AWS::Lambda::Version",
+              "DeletionPolicy": "Retain",
+              "Properties": {
+                "FunctionName": {
+                  "Ref": "RegisterLambdaFunction"
+                },
+                "CodeSha256": "qlKCZb62AZbCz9+fFop+F8M3E0Cv6ny1ukW+Fa2FlIk=",
+                "Description": "Adds a new registration to the database"
+              }
+            },
+            "TrackLambdaVersionjWzDQoJHeNBD4IyTC4HbW10sn1HCiq2gm1oeD76aICQ": {
+              "Type": "AWS::Lambda::Version",
+              "DeletionPolicy": "Retain",
+              "Properties": {
+                "FunctionName": {
+                  "Ref": "TrackLambdaFunction"
+                },
+                "CodeSha256": "qlKCZb62AZbCz9+fFop+F8M3E0Cv6ny1ukW+Fa2FlIk=",
+                "Description": "Keeps track of various user actions"
+              }
+            },
+            "ApiGatewayRestApi": {
+              "Type": "AWS::ApiGateway::RestApi",
+              "Properties": {
+                "Name": "dev-team-matching-backend",
+                "EndpointConfiguration": {
+                  "Types": [
+                    "EDGE"
+                  ]
+                },
+                "Policy": ""
+              }
+            },
+            "ApiGatewayResourceRegister": {
+              "Type": "AWS::ApiGateway::Resource",
+              "Properties": {
+                "ParentId": {
+                  "Fn::GetAtt": [
+                    "ApiGatewayRestApi",
+                    "RootResourceId"
+                  ]
+                },
+                "PathPart": "register",
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                }
+              }
+            },
+            "ApiGatewayResourceTrack": {
+              "Type": "AWS::ApiGateway::Resource",
+              "Properties": {
+                "ParentId": {
+                  "Fn::GetAtt": [
+                    "ApiGatewayRestApi",
+                    "RootResourceId"
+                  ]
+                },
+                "PathPart": "track",
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                }
+              }
+            },
+            "ApiGatewayMethodRegisterOptions": {
+              "Type": "AWS::ApiGateway::Method",
+              "Properties": {
+                "AuthorizationType": "NONE",
+                "HttpMethod": "OPTIONS",
+                "MethodResponses": [
+                  {
+                    "StatusCode": "200",
+                    "ResponseParameters": {
+                      "method.response.header.Access-Control-Allow-Origin": true,
+                      "method.response.header.Access-Control-Allow-Headers": true,
+                      "method.response.header.Access-Control-Allow-Methods": true
+                    },
+                    "ResponseModels": {}
+                  }
+                ],
+                "RequestParameters": {},
+                "Integration": {
+                  "Type": "MOCK",
+                  "RequestTemplates": {
+                    "application/json": "{statusCode:200}"
+                  },
+                  "ContentHandling": "CONVERT_TO_TEXT",
+                  "IntegrationResponses": [
+                    {
+                      "StatusCode": "200",
+                      "ResponseParameters": {
+                        "method.response.header.Access-Control-Allow-Origin": "'*'",
+                        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,X-Amzn-Trace-Id'",
+                        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST'"
+                      },
+                      "ResponseTemplates": {
+                        "application/json": ""
+                      }
+                    }
+                  ]
+                },
+                "ResourceId": {
+                  "Ref": "ApiGatewayResourceRegister"
+                },
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                }
+              }
+            },
+            "ApiGatewayMethodTrackOptions": {
+              "Type": "AWS::ApiGateway::Method",
+              "Properties": {
+                "AuthorizationType": "NONE",
+                "HttpMethod": "OPTIONS",
+                "MethodResponses": [
+                  {
+                    "StatusCode": "200",
+                    "ResponseParameters": {
+                      "method.response.header.Access-Control-Allow-Origin": true,
+                      "method.response.header.Access-Control-Allow-Headers": true,
+                      "method.response.header.Access-Control-Allow-Methods": true
+                    },
+                    "ResponseModels": {}
+                  }
+                ],
+                "RequestParameters": {},
+                "Integration": {
+                  "Type": "MOCK",
+                  "RequestTemplates": {
+                    "application/json": "{statusCode:200}"
+                  },
+                  "ContentHandling": "CONVERT_TO_TEXT",
+                  "IntegrationResponses": [
+                    {
+                      "StatusCode": "200",
+                      "ResponseParameters": {
+                        "method.response.header.Access-Control-Allow-Origin": "'*'",
+                        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,X-Amzn-Trace-Id'",
+                        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST'"
+                      },
+                      "ResponseTemplates": {
+                        "application/json": ""
+                      }
+                    }
+                  ]
+                },
+                "ResourceId": {
+                  "Ref": "ApiGatewayResourceTrack"
+                },
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                }
+              }
+            },
+            "ApiGatewayMethodRegisterPost": {
+              "Type": "AWS::ApiGateway::Method",
+              "Properties": {
+                "HttpMethod": "POST",
+                "RequestParameters": {},
+                "ResourceId": {
+                  "Ref": "ApiGatewayResourceRegister"
+                },
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                },
+                "ApiKeyRequired": "<REDACTED>",
+                "AuthorizationType": "NONE",
+                "Integration": {
+                  "IntegrationHttpMethod": "POST",
+                  "Type": "AWS_PROXY",
+                  "Uri": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "arn:",
+                        {
+                          "Ref": "AWS::Partition"
+                        },
+                        ":apigateway:",
+                        {
+                          "Ref": "AWS::Region"
+                        },
+                        ":lambda:path/2015-03-31/functions/",
+                        {
+                          "Fn::GetAtt": [
+                            "RegisterLambdaFunction",
+                            "Arn"
+                          ]
+                        },
+                        "/invocations"
+                      ]
+                    ]
+                  }
+                },
+                "MethodResponses": []
+              },
+              "DependsOn": [
+                "RegisterLambdaPermissionApiGateway"
+              ]
+            },
+            "ApiGatewayMethodTrackPost": {
+              "Type": "AWS::ApiGateway::Method",
+              "Properties": {
+                "HttpMethod": "POST",
+                "RequestParameters": {},
+                "ResourceId": {
+                  "Ref": "ApiGatewayResourceTrack"
+                },
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                },
+                "ApiKeyRequired": "<REDACTED>",
+                "AuthorizationType": "NONE",
+                "Integration": {
+                  "IntegrationHttpMethod": "POST",
+                  "Type": "AWS_PROXY",
+                  "Uri": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "arn:",
+                        {
+                          "Ref": "AWS::Partition"
+                        },
+                        ":apigateway:",
+                        {
+                          "Ref": "AWS::Region"
+                        },
+                        ":lambda:path/2015-03-31/functions/",
+                        {
+                          "Fn::GetAtt": [
+                            "TrackLambdaFunction",
+                            "Arn"
+                          ]
+                        },
+                        "/invocations"
+                      ]
+                    ]
+                  }
+                },
+                "MethodResponses": []
+              },
+              "DependsOn": [
+                "TrackLambdaPermissionApiGateway"
+              ]
+            },
+            "ApiGatewayDeployment1742951562847": {
+              "Type": "AWS::ApiGateway::Deployment",
+              "Properties": {
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                },
+                "StageName": "dev"
+              },
+              "DependsOn": [
+                "ApiGatewayMethodRegisterOptions",
+                "ApiGatewayMethodTrackOptions",
+                "ApiGatewayMethodRegisterPost",
+                "ApiGatewayMethodTrackPost"
+              ]
+            },
+            "RegisterLambdaPermissionApiGateway": {
+              "Type": "AWS::Lambda::Permission",
+              "Properties": {
+                "FunctionName": {
+                  "Fn::GetAtt": [
+                    "RegisterLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "Action": "lambda:InvokeFunction",
+                "Principal": "apigateway.amazonaws.com",
+                "SourceArn": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":execute-api:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":",
+                      {
+                        "Ref": "ApiGatewayRestApi"
+                      },
+                      "/*/*"
+                    ]
+                  ]
+                }
+              }
+            },
+            "TrackLambdaPermissionApiGateway": {
+              "Type": "AWS::Lambda::Permission",
+              "Properties": {
+                "FunctionName": {
+                  "Fn::GetAtt": [
+                    "TrackLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "Action": "lambda:InvokeFunction",
+                "Principal": "apigateway.amazonaws.com",
+                "SourceArn": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":execute-api:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":",
+                      {
+                        "Ref": "ApiGatewayRestApi"
+                      },
+                      "/*/*"
+                    ]
+                  ]
+                }
+              }
+            },
+            "registrationTable": {
+              "Type": "AWS::DynamoDB::Table",
+              "Properties": {
+                "TableName": "team-matching-system-dev",
+                "BillingMode": "PAY_PER_REQUEST",
+                "AttributeDefinitions": [
+                  {
+                    "AttributeName": "email",
+                    "AttributeType": "S"
+                  },
+                  {
+                    "AttributeName": "referral_id",
+                    "AttributeType": "S"
+                  }
+                ],
+                "KeySchema": [
+                  {
+                    "AttributeName": "email",
+                    "KeyType": "HASH"
+                  }
+                ],
+                "GlobalSecondaryIndexes": [
+                  {
+                    "IndexName": "referralsIndex",
+                    "KeySchema": [
+                      {
+                        "AttributeName": "referral_id",
+                        "KeyType": "HASH"
+                      }
+                    ],
+                    "Projection": {
+                      "NonKeyAttributes": [
+                        "name"
+                      ],
+                      "ProjectionType": "INCLUDE"
+                    }
+                  }
+                ]
+              },
+              "DeletionPolicy": "Retain"
+            }
+          },
+          "Outputs": {
+            "ServerlessDeploymentBucketName": {
+              "Value": "bitcamp-portal-backend-dev-layers-deploymentbucket",
+              "Export": {
+                "Name": "sls-team-matching-backend-dev-ServerlessDeploymentBucketName"
+              }
+            },
+            "RegisterLambdaFunctionQualifiedArn": {
+              "Description": "Current Lambda function version",
+              "Value": {
+                "Ref": "RegisterLambdaVersionmdMxk9L9mCYI2m7vZkqRRV37O1Icem8AKhE2mU"
+              },
+              "Export": {
+                "Name": "sls-team-matching-backend-dev-RegisterLambdaFunctionQualifiedArn"
+              }
+            },
+            "TrackLambdaFunctionQualifiedArn": {
+              "Description": "Current Lambda function version",
+              "Value": {
+                "Ref": "TrackLambdaVersionjWzDQoJHeNBD4IyTC4HbW10sn1HCiq2gm1oeD76aICQ"
+              },
+              "Export": {
+                "Name": "sls-team-matching-backend-dev-TrackLambdaFunctionQualifiedArn"
+              }
+            },
+            "ServiceEndpoint": {
+              "Description": "URL of the service endpoint",
+              "Value": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "https://",
+                    {
+                      "Ref": "ApiGatewayRestApi"
+                    },
+                    ".execute-api.",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ".",
+                    {
+                      "Ref": "AWS::URLSuffix"
+                    },
+                    "/dev"
+                  ]
+                ]
+              },
+              "Export": {
+                "Name": "sls-team-matching-backend-dev-ServiceEndpoint"
+              }
+            }
+          }
+        },
+        "vpc": {}
+      },
+      "functions": {
+        "register": {
+          "handler": "handler.register",
+          "description": "Adds a new registration to the database",
+          "events": [
+            {
+              "http": {
+                "path": "register",
+                "method": "post",
+                "cors": {
+                  "origin": "*",
+                  "methods": [
+                    "OPTIONS",
+                    "POST"
+                  ],
+                  "headers": [
+                    "Content-Type",
+                    "X-Amz-Date",
+                    "Authorization",
+                    "X-Api-Key",
+                    "X-Amz-Security-Token",
+                    "X-Amz-User-Agent",
+                    "X-Amzn-Trace-Id"
+                  ],
+                  "allowCredentials": "<REDACTED>"
+                },
+                "integration": "AWS_PROXY"
+              }
+            }
+          ],
+          "memorySize": 256,
+          "timeout": 15,
+          "provisionedConcurrency": 0,
+          "name": "team-matching-backend-dev-register",
+          "environment": {
+            "SENTRY_DSN": "https://474121de6dfb4ea7973f677619e38b2d@o414418.ingest.sentry.io/5776787",
+            "SENTRY_ENVIRONMENT": "dev"
+          },
+          "package": {},
+          "memory": 256,
+          "runtime": "nodejs16.x",
+          "vpc": {},
+          "versionLogicalId": "RegisterLambdaVersionmdMxk9L9mCYI2m7vZkqRRV37O1Icem8AKhE2mU"
+        },
+        "track": {
+          "handler": "handler.track",
+          "description": "Keeps track of various user actions",
+          "events": [
+            {
+              "http": {
+                "path": "track",
+                "method": "post",
+                "cors": {
+                  "origin": "*",
+                  "methods": [
+                    "OPTIONS",
+                    "POST"
+                  ],
+                  "headers": [
+                    "Content-Type",
+                    "X-Amz-Date",
+                    "Authorization",
+                    "X-Api-Key",
+                    "X-Amz-Security-Token",
+                    "X-Amz-User-Agent",
+                    "X-Amzn-Trace-Id"
+                  ],
+                  "allowCredentials": "<REDACTED>"
+                },
+                "integration": "AWS_PROXY"
+              }
+            }
+          ],
+          "memorySize": 128,
+          "name": "team-matching-backend-dev-track",
+          "environment": {
+            "SENTRY_DSN": "https://474121de6dfb4ea7973f677619e38b2d@o414418.ingest.sentry.io/5776787",
+            "SENTRY_ENVIRONMENT": "dev"
+          },
+          "package": {},
+          "memory": 128,
+          "timeout": 6,
+          "runtime": "nodejs16.x",
+          "vpc": {},
+          "versionLogicalId": "TrackLambdaVersionjWzDQoJHeNBD4IyTC4HbW10sn1HCiq2gm1oeD76aICQ"
+        }
+      },
+      "resources": {
+        "Resources": {
+          "registrationTable": {
+            "Type": "AWS::DynamoDB::Table",
+            "Properties": {
+              "TableName": "team-matching-system-dev",
+              "BillingMode": "PAY_PER_REQUEST",
+              "AttributeDefinitions": [
+                {
+                  "AttributeName": "email",
+                  "AttributeType": "S"
+                },
+                {
+                  "AttributeName": "referral_id",
+                  "AttributeType": "S"
+                }
+              ],
+              "KeySchema": [
+                {
+                  "AttributeName": "email",
+                  "KeyType": "HASH"
+                }
+              ],
+              "GlobalSecondaryIndexes": [
+                {
+                  "IndexName": "referralsIndex",
+                  "KeySchema": [
+                    {
+                      "AttributeName": "referral_id",
+                      "KeyType": "HASH"
+                    }
+                  ],
+                  "Projection": {
+                    "NonKeyAttributes": [
+                      "name"
+                    ],
+                    "ProjectionType": "INCLUDE"
+                  }
+                }
+              ]
+            },
+            "DeletionPolicy": "Retain"
+          }
+        },
+        "Outputs": {}
+      },
+      "package": {
+        "exclude": [
+          "node_modules/aws/**"
+        ],
+        "artifactsS3KeyDirname": "serverless/team-matching-backend/dev/code-artifacts",
+        "deploymentBucket": "bitcamp-portal-backend-dev-layers-deploymentbucket",
+        "artifact": "/Users/aryagijare/arya-data/team-matching-system/backend/.serverless/team-matching-backend.zip",
+        "artifactDirectoryName": "serverless/team-matching-backend/dev/1742951568441-2025-03-26T01:12:48.441Z"
+      },
+      "plugins": [
+        "serverless-sentry"
+      ],
+      "custom": {
+        "provisionedConcurrency": {
+          "prd": 1,
+          "dev": 0,
+          "other": 0
+        },
+        "updateEnabled": {
+          "prd": true,
+          "other": false
+        },
+        "sentry": {
+          "dsn": "https://474121de6dfb4ea7973f677619e38b2d@o414418.ingest.sentry.io/5776787"
+        },
+        "serverless-layers": {
+          "dependenciesPath": "./package.json"
+        }
+      }
+    },
+    "provider": {
+      "name": "aws",
+      "region": "us-east-1",
+      "runtime": "nodejs16.x",
+      "stage": "dev",
+      "deploymentBucket": "bitcamp-portal-backend-dev-layers-deploymentbucket",
+      "environment": {
+        "PLATFORM_BASE_URL": "localhost:5173",
+        "REGISTRATION_TABLE": "team-matching-system-dev"
+      },
+      "iam": {
+        "role": {
+          "statements": [
+            {
+              "Effect": "Allow",
+              "Action": [
+                "dynamodb:Query",
+                "dynamodb:Scan",
+                "dynamodb:GetItem",
+                "dynamodb:PutItem",
+                "dynamodb:UpdateItem",
+                "dynamodb:DeleteItem"
+              ],
+              "Resource": "arn:aws:dynamodb:us-east-1:*"
+            },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "secretsmanager:DescribeSecret",
+                "secretsmanager:GetSecretValue"
+              ],
+              "Resource": "arn:aws:secretsmanager:us-east-1:*"
+            },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "ses:SendTemplatedEmail"
+              ],
+              "Resource": "arn:aws:ses:us-east-1:*"
+            },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "s3:PutObject",
+                "s3:GetObject",
+                "s3:ListBucket",
+                "s3:ListBucketVersions"
+              ],
+              "Resource": "arn:aws:s3:::*"
+            }
+          ]
+        }
+      },
+      "versionFunctions": true,
+      "deploymentBucketObject": {
+        "name": "bitcamp-portal-backend-dev-layers-deploymentbucket"
+      },
+      "compiledCloudFormationTemplate": {
+        "AWSTemplateFormatVersion": "2010-09-09",
+        "Description": "The AWS CloudFormation template for this Serverless application",
+        "Resources": {
+          "RegisterLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/team-matching-backend-dev-register"
+            }
+          },
+          "TrackLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/team-matching-backend-dev-track"
+            }
+          },
+          "IamRoleLambdaExecution": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+              "AssumeRolePolicyDocument": {
+                "Version": "2012-10-17",
+                "Statement": [
+                  {
+                    "Effect": "Allow",
+                    "Principal": {
+                      "Service": [
+                        "lambda.amazonaws.com"
+                      ]
+                    },
+                    "Action": [
+                      "sts:AssumeRole"
+                    ]
+                  }
+                ]
+              },
+              "Policies": [
+                {
+                  "PolicyName": {
+                    "Fn::Join": [
+                      "-",
+                      [
+                        "team-matching-backend",
+                        "dev",
+                        "lambda"
+                      ]
+                    ]
+                  },
+                  "PolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                      {
+                        "Effect": "Allow",
+                        "Action": [
+                          "logs:CreateLogStream",
+                          "logs:CreateLogGroup",
+                          "logs:TagResource"
+                        ],
+                        "Resource": [
+                          {
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/team-matching-backend-dev*:*"
+                          }
+                        ]
+                      },
+                      {
+                        "Effect": "Allow",
+                        "Action": [
+                          "logs:PutLogEvents"
+                        ],
+                        "Resource": [
+                          {
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/team-matching-backend-dev*:*:*"
+                          }
+                        ]
+                      },
+                      {
+                        "Effect": "Allow",
+                        "Action": [
+                          "dynamodb:Query",
+                          "dynamodb:Scan",
+                          "dynamodb:GetItem",
+                          "dynamodb:PutItem",
+                          "dynamodb:UpdateItem",
+                          "dynamodb:DeleteItem"
+                        ],
+                        "Resource": "arn:aws:dynamodb:us-east-1:*"
+                      },
+                      {
+                        "Effect": "Allow",
+                        "Action": [
+                          "secretsmanager:DescribeSecret",
+                          "secretsmanager:GetSecretValue"
+                        ],
+                        "Resource": "arn:aws:secretsmanager:us-east-1:*"
+                      },
+                      {
+                        "Effect": "Allow",
+                        "Action": [
+                          "ses:SendTemplatedEmail"
+                        ],
+                        "Resource": "arn:aws:ses:us-east-1:*"
+                      },
+                      {
+                        "Effect": "Allow",
+                        "Action": [
+                          "s3:PutObject",
+                          "s3:GetObject",
+                          "s3:ListBucket",
+                          "s3:ListBucketVersions"
+                        ],
+                        "Resource": "arn:aws:s3:::*"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "Path": "/",
+              "RoleName": {
+                "Fn::Join": [
+                  "-",
+                  [
+                    "team-matching-backend",
+                    "dev",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    "lambdaRole"
+                  ]
+                ]
+              }
+            }
+          },
+          "RegisterLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": "bitcamp-portal-backend-dev-layers-deploymentbucket",
+                "S3Key": "serverless/team-matching-backend/dev/1742951568441-2025-03-26T01:12:48.441Z/team-matching-backend.zip"
+              },
+              "Handler": "handler.register",
+              "Runtime": "nodejs16.x",
+              "FunctionName": "team-matching-backend-dev-register",
+              "MemorySize": 256,
+              "Timeout": 15,
+              "Description": "Adds a new registration to the database",
+              "Environment": {
+                "Variables": {
+                  "PLATFORM_BASE_URL": "localhost:5173",
+                  "REGISTRATION_TABLE": "team-matching-system-dev",
+                  "SENTRY_DSN": "https://474121de6dfb4ea7973f677619e38b2d@o414418.ingest.sentry.io/5776787",
+                  "SENTRY_ENVIRONMENT": "dev"
+                }
+              },
+              "Role": {
+                "Fn::GetAtt": [
+                  "IamRoleLambdaExecution",
+                  "Arn"
+                ]
+              }
+            },
+            "DependsOn": [
+              "RegisterLogGroup"
+            ]
+          },
+          "TrackLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": "bitcamp-portal-backend-dev-layers-deploymentbucket",
+                "S3Key": "serverless/team-matching-backend/dev/1742951568441-2025-03-26T01:12:48.441Z/team-matching-backend.zip"
+              },
+              "Handler": "handler.track",
+              "Runtime": "nodejs16.x",
+              "FunctionName": "team-matching-backend-dev-track",
+              "MemorySize": 128,
+              "Timeout": 6,
+              "Description": "Keeps track of various user actions",
+              "Environment": {
+                "Variables": {
+                  "PLATFORM_BASE_URL": "localhost:5173",
+                  "REGISTRATION_TABLE": "team-matching-system-dev",
+                  "SENTRY_DSN": "https://474121de6dfb4ea7973f677619e38b2d@o414418.ingest.sentry.io/5776787",
+                  "SENTRY_ENVIRONMENT": "dev"
+                }
+              },
+              "Role": {
+                "Fn::GetAtt": [
+                  "IamRoleLambdaExecution",
+                  "Arn"
+                ]
+              }
+            },
+            "DependsOn": [
+              "TrackLogGroup"
+            ]
+          },
+          "RegisterLambdaVersionmdMxk9L9mCYI2m7vZkqRRV37O1Icem8AKhE2mU": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "RegisterLambdaFunction"
+              },
+              "CodeSha256": "qlKCZb62AZbCz9+fFop+F8M3E0Cv6ny1ukW+Fa2FlIk=",
+              "Description": "Adds a new registration to the database"
+            }
+          },
+          "TrackLambdaVersionjWzDQoJHeNBD4IyTC4HbW10sn1HCiq2gm1oeD76aICQ": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "TrackLambdaFunction"
+              },
+              "CodeSha256": "qlKCZb62AZbCz9+fFop+F8M3E0Cv6ny1ukW+Fa2FlIk=",
+              "Description": "Keeps track of various user actions"
+            }
+          },
+          "ApiGatewayRestApi": {
+            "Type": "AWS::ApiGateway::RestApi",
+            "Properties": {
+              "Name": "dev-team-matching-backend",
+              "EndpointConfiguration": {
+                "Types": [
+                  "EDGE"
+                ]
+              },
+              "Policy": ""
+            }
+          },
+          "ApiGatewayResourceRegister": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+              "ParentId": {
+                "Fn::GetAtt": [
+                  "ApiGatewayRestApi",
+                  "RootResourceId"
+                ]
+              },
+              "PathPart": "register",
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayResourceTrack": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+              "ParentId": {
+                "Fn::GetAtt": [
+                  "ApiGatewayRestApi",
+                  "RootResourceId"
+                ]
+              },
+              "PathPart": "track",
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayMethodRegisterOptions": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "AuthorizationType": "NONE",
+              "HttpMethod": "OPTIONS",
+              "MethodResponses": [
+                {
+                  "StatusCode": "200",
+                  "ResponseParameters": {
+                    "method.response.header.Access-Control-Allow-Origin": true,
+                    "method.response.header.Access-Control-Allow-Headers": true,
+                    "method.response.header.Access-Control-Allow-Methods": true
+                  },
+                  "ResponseModels": {}
+                }
+              ],
+              "RequestParameters": {},
+              "Integration": {
+                "Type": "MOCK",
+                "RequestTemplates": {
+                  "application/json": "{statusCode:200}"
+                },
+                "ContentHandling": "CONVERT_TO_TEXT",
+                "IntegrationResponses": [
+                  {
+                    "StatusCode": "200",
+                    "ResponseParameters": {
+                      "method.response.header.Access-Control-Allow-Origin": "'*'",
+                      "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,X-Amzn-Trace-Id'",
+                      "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST'"
+                    },
+                    "ResponseTemplates": {
+                      "application/json": ""
+                    }
+                  }
+                ]
+              },
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceRegister"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayMethodTrackOptions": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "AuthorizationType": "NONE",
+              "HttpMethod": "OPTIONS",
+              "MethodResponses": [
+                {
+                  "StatusCode": "200",
+                  "ResponseParameters": {
+                    "method.response.header.Access-Control-Allow-Origin": true,
+                    "method.response.header.Access-Control-Allow-Headers": true,
+                    "method.response.header.Access-Control-Allow-Methods": true
+                  },
+                  "ResponseModels": {}
+                }
+              ],
+              "RequestParameters": {},
+              "Integration": {
+                "Type": "MOCK",
+                "RequestTemplates": {
+                  "application/json": "{statusCode:200}"
+                },
+                "ContentHandling": "CONVERT_TO_TEXT",
+                "IntegrationResponses": [
+                  {
+                    "StatusCode": "200",
+                    "ResponseParameters": {
+                      "method.response.header.Access-Control-Allow-Origin": "'*'",
+                      "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,X-Amzn-Trace-Id'",
+                      "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST'"
+                    },
+                    "ResponseTemplates": {
+                      "application/json": ""
+                    }
+                  }
+                ]
+              },
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceTrack"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayMethodRegisterPost": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "HttpMethod": "POST",
+              "RequestParameters": {},
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceRegister"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "ApiKeyRequired": "<REDACTED>",
+              "AuthorizationType": "NONE",
+              "Integration": {
+                "IntegrationHttpMethod": "POST",
+                "Type": "AWS_PROXY",
+                "Uri": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":lambda:path/2015-03-31/functions/",
+                      {
+                        "Fn::GetAtt": [
+                          "RegisterLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "/invocations"
+                    ]
+                  ]
+                }
+              },
+              "MethodResponses": []
+            },
+            "DependsOn": [
+              "RegisterLambdaPermissionApiGateway"
+            ]
+          },
+          "ApiGatewayMethodTrackPost": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "HttpMethod": "POST",
+              "RequestParameters": {},
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceTrack"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "ApiKeyRequired": "<REDACTED>",
+              "AuthorizationType": "NONE",
+              "Integration": {
+                "IntegrationHttpMethod": "POST",
+                "Type": "AWS_PROXY",
+                "Uri": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":lambda:path/2015-03-31/functions/",
+                      {
+                        "Fn::GetAtt": [
+                          "TrackLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "/invocations"
+                    ]
+                  ]
+                }
+              },
+              "MethodResponses": []
+            },
+            "DependsOn": [
+              "TrackLambdaPermissionApiGateway"
+            ]
+          },
+          "ApiGatewayDeployment1742951562847": {
+            "Type": "AWS::ApiGateway::Deployment",
+            "Properties": {
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "StageName": "dev"
+            },
+            "DependsOn": [
+              "ApiGatewayMethodRegisterOptions",
+              "ApiGatewayMethodTrackOptions",
+              "ApiGatewayMethodRegisterPost",
+              "ApiGatewayMethodTrackPost"
+            ]
+          },
+          "RegisterLambdaPermissionApiGateway": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "RegisterLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "ApiGatewayRestApi"
+                    },
+                    "/*/*"
+                  ]
+                ]
+              }
+            }
+          },
+          "TrackLambdaPermissionApiGateway": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "TrackLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "ApiGatewayRestApi"
+                    },
+                    "/*/*"
+                  ]
+                ]
+              }
+            }
+          },
+          "registrationTable": {
+            "Type": "AWS::DynamoDB::Table",
+            "Properties": {
+              "TableName": "team-matching-system-dev",
+              "BillingMode": "PAY_PER_REQUEST",
+              "AttributeDefinitions": [
+                {
+                  "AttributeName": "email",
+                  "AttributeType": "S"
+                },
+                {
+                  "AttributeName": "referral_id",
+                  "AttributeType": "S"
+                }
+              ],
+              "KeySchema": [
+                {
+                  "AttributeName": "email",
+                  "KeyType": "HASH"
+                }
+              ],
+              "GlobalSecondaryIndexes": [
+                {
+                  "IndexName": "referralsIndex",
+                  "KeySchema": [
+                    {
+                      "AttributeName": "referral_id",
+                      "KeyType": "HASH"
+                    }
+                  ],
+                  "Projection": {
+                    "NonKeyAttributes": [
+                      "name"
+                    ],
+                    "ProjectionType": "INCLUDE"
+                  }
+                }
+              ]
+            },
+            "DeletionPolicy": "Retain"
+          }
+        },
+        "Outputs": {
+          "ServerlessDeploymentBucketName": {
+            "Value": "bitcamp-portal-backend-dev-layers-deploymentbucket",
+            "Export": {
+              "Name": "sls-team-matching-backend-dev-ServerlessDeploymentBucketName"
+            }
+          },
+          "RegisterLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "RegisterLambdaVersionmdMxk9L9mCYI2m7vZkqRRV37O1Icem8AKhE2mU"
+            },
+            "Export": {
+              "Name": "sls-team-matching-backend-dev-RegisterLambdaFunctionQualifiedArn"
+            }
+          },
+          "TrackLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "TrackLambdaVersionjWzDQoJHeNBD4IyTC4HbW10sn1HCiq2gm1oeD76aICQ"
+            },
+            "Export": {
+              "Name": "sls-team-matching-backend-dev-TrackLambdaFunctionQualifiedArn"
+            }
+          },
+          "ServiceEndpoint": {
+            "Description": "URL of the service endpoint",
+            "Value": {
+              "Fn::Join": [
+                "",
+                [
+                  "https://",
+                  {
+                    "Ref": "ApiGatewayRestApi"
+                  },
+                  ".execute-api.",
+                  {
+                    "Ref": "AWS::Region"
+                  },
+                  ".",
+                  {
+                    "Ref": "AWS::URLSuffix"
+                  },
+                  "/dev"
+                ]
+              ]
+            },
+            "Export": {
+              "Name": "sls-team-matching-backend-dev-ServiceEndpoint"
+            }
+          }
+        }
+      },
+      "vpc": {}
+    },
+    "dashboard": {
+      "isEnabledForService": true,
+      "requiredAuthentication": false,
+      "orgFeaturesInUse": {
+        "providers": true,
+        "monitoring": false
+      },
+      "orgObservabilityIntegrations": null,
+      "serviceAppId": "B6DV1yRpfdFp2dxzcg",
+      "serviceProvider": {
+        "accessKeyId": "<REDACTED>",
+        "secretAccessKey": "<REDACTED>",
+        "sessionToken": "<REDACTED>",
+        "$source": {
+          "CREDENTIALS_CODE": "<REDACTED>"
+        }
+      },
+      "instanceParameters": null
+    },
+    "error": {
+      "message": "An error occurred: registrationTable - Resource handler returned message: \"Resource of type 'AWS::DynamoDB::Table' with identifier 'team-matching-system-dev' already exists.\" (RequestToken: 02858167-6f05-fdfd-7080-72e7aae2f577, HandlerErrorCode: AlreadyExists).",
+      "stack": "ServerlessError2: An error occurred: registrationTable - Resource handler returned message: \"Resource of type 'AWS::DynamoDB::Table' with identifier 'team-matching-system-dev' already exists.\" (RequestToken: 02858167-6f05-fdfd-7080-72e7aae2f577, HandlerErrorCode: AlreadyExists).\n    at file:///Users/aryagijare/.serverless/releases/4.9.1/package/dist/sf-core.js:607:828\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async AwsDeploy.createFallback (file:///Users/aryagijare/.serverless/releases/4.9.1/package/dist/sf-core.js:607:23465)\n    at async aws:deploy:deploy:updateStack (file:///Users/aryagijare/.serverless/releases/4.9.1/package/dist/sf-core.js:618:7906)\n    at async PluginManager.runHooks (file:///Users/aryagijare/.serverless/releases/4.9.1/package/dist/sf-core.js:809:9546)\n    at async PluginManager.invoke (file:///Users/aryagijare/.serverless/releases/4.9.1/package/dist/sf-core.js:809:10315)\n    at async PluginManager.spawn (file:///Users/aryagijare/.serverless/releases/4.9.1/package/dist/sf-core.js:809:10674)\n    at async PluginManager.runHooks (file:///Users/aryagijare/.serverless/releases/4.9.1/package/dist/sf-core.js:809:9546)\n    at async PluginManager.invoke (file:///Users/aryagijare/.serverless/releases/4.9.1/package/dist/sf-core.js:809:10315)\n    at async PluginManager.run (file:///Users/aryagijare/.serverless/releases/4.9.1/package/dist/sf-core.js:809:11044)",
+      "code": "AWS_CLOUD_FORMATION_CREATE_STACK_INTERNAL_DYNAMO_D_B_TABLE_CREATE_FAILED"
+    },
+    "serviceRawFile": "org: bitcamp\napp: portal\nservice: team-matching-backend\n\nprovider:\n  name: aws\n  region: us-east-1\n  runtime: nodejs16.x\n  stage: ${opt:stage, 'dev'}\n  deploymentBucket:\n    name: bitcamp-portal-backend-${self:provider.stage}-layers-deploymentbucket\n  environment:\n    PLATFORM_BASE_URL: ${file(./config/${self:provider.stage}.json):PLATFORM_BASE_URL}\n    REGISTRATION_TABLE: ${file(./config/${self:provider.stage}.json):REGISTRATION_TABLE}\n\n  iam:\n    role:\n      statements:\n        - Effect: \"Allow\"\n          Action:\n            - dynamodb:Query\n            - dynamodb:Scan\n            - dynamodb:GetItem\n            - dynamodb:PutItem\n            - dynamodb:UpdateItem\n            - dynamodb:DeleteItem\n          Resource: \"arn:aws:dynamodb:us-east-1:*\"\n        - Effect: \"Allow\"\n          Action:\n            - secretsmanager:DescribeSecret\n            - secretsmanager:GetSecretValue\n          Resource: \"arn:aws:secretsmanager:us-east-1:*\"\n        - Effect: \"Allow\"\n          Action:\n            - ses:SendTemplatedEmail\n          Resource: \"arn:aws:ses:us-east-1:*\"\n        - Effect: Allow\n          Action:\n            - s3:PutObject\n            - s3:GetObject\n            - s3:ListBucket\n            - s3:ListBucketVersions\n          Resource:\n            - \"arn:aws:s3:::*\"\n\nfunctions:\n  register:\n    handler: handler.register\n    description: Adds a new registration to the database\n    events:\n      - http:\n          path: register\n          method: post\n          cors: true\n    memorySize: 256\n    timeout: 15\n    provisionedConcurrency: ${self:custom.provisionedConcurrency.${opt:stage}, self:custom.provisionedConcurrency.other}\n  \n  track:\n    handler: handler.track\n    description: Keeps track of various user actions\n    events:\n      - http:\n          path: track\n          method: post\n          cors: true\n    memorySize: 128\n  \n\nresources: # define DynamoDB tables within serverless\n  Resources:\n    registrationTable:\n      Type: AWS::DynamoDB::Table\n      Properties:\n        TableName: ${file(./config/${self:provider.stage}.json):REGISTRATION_TABLE}\n        BillingMode: PAY_PER_REQUEST\n        AttributeDefinitions:\n          - AttributeName: email\n            AttributeType: S\n          - AttributeName: referral_id\n            AttributeType: S\n        KeySchema:\n          - AttributeName: email\n            KeyType: HASH\n        GlobalSecondaryIndexes: # we want to be able to get users by referral_id\n          - IndexName: referralsIndex\n            KeySchema:\n              - AttributeName: referral_id\n                KeyType: HASH\n            Projection:\n              NonKeyAttributes:\n                - name\n              ProjectionType: INCLUDE\n      DeletionPolicy: Retain\n\npackage:\n  exclude: node_modules/aws/**\n\nplugins:\n  - serverless-sentry\n  # - serverless-layers\n\ncustom:\n  provisionedConcurrency:\n    prd: 1\n    dev: 0\n    other: 0\n  updateEnabled:\n    prd: true\n    other: false\n  sentry:\n    dsn: ${file(./config/${self:provider.stage}.json):SENTRY_DSN}\n  serverless-layers:\n    dependenciesPath: ./package.json\n",
+    "command": [
+      "deploy"
+    ],
+    "options": {
+      "stage": "dev"
+    },
+    "orgId": "6fee829a-2d8a-4197-bc4d-a95304b2a552",
+    "orgName": "bitcamp",
+    "userId": "HKr7Gm4Gz15svXTbBc",
+    "userName": "bitcamp",
+    "serviceProviderAwsAccountId": "123574527805",
+    "serviceProviderAwsCfStackId": null,
+    "serviceProviderAwsCfStackCreated": null,
+    "serviceProviderAwsCfStackUpdated": null,
+    "serviceProviderAwsCfStackStatus": null,
+    "serviceProviderAwsCfStackOutputs": null
+  }
+}

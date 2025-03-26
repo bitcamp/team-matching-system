@@ -1,0 +1,5 @@
+{
+    "SENTRY_DSN": "https://474121de6dfb4ea7973f677619e38b2d@o414418.ingest.sentry.io/5776787",
+    "PLATFORM_BASE_URL": "localhost:5173",
+    "REGISTRATION_TABLE": "team-matching-system-dev"
+}

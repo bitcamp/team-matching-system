@@ -1,0 +1,114 @@
+org: bitcamp
+app: portal
+service: team-matching-backend
+
+provider:
+  name: aws
+  region: us-east-1
+  runtime: nodejs16.x
+  stage: ${opt:stage, 'dev'}
+  deploymentBucket:
+    name: bitcamp-portal-backend-${self:provider.stage}-layers-deploymentbucket
+  environment:
+    PLATFORM_BASE_URL: ${file(./config/${self:provider.stage}.json):PLATFORM_BASE_URL}
+    REGISTRATION_TABLE: ${file(./config/${self:provider.stage}.json):REGISTRATION_TABLE}
+
+  iam:
+    role:
+      statements:
+        - Effect: "Allow"
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource: "arn:aws:dynamodb:us-east-1:*"
+        - Effect: "Allow"
+          Action:
+            - secretsmanager:DescribeSecret
+            - secretsmanager:GetSecretValue
+          Resource: "arn:aws:secretsmanager:us-east-1:*"
+        - Effect: "Allow"
+          Action:
+            - ses:SendTemplatedEmail
+          Resource: "arn:aws:ses:us-east-1:*"
+        - Effect: Allow
+          Action:
+            - s3:PutObject
+            - s3:GetObject
+            - s3:ListBucket
+            - s3:ListBucketVersions
+          Resource:
+            - "arn:aws:s3:::*"
+
+functions:
+  register:
+    handler: handler.register
+    description: Adds a new registration to the database
+    events:
+      - http:
+          path: register
+          method: post
+          cors: true
+    memorySize: 256
+    timeout: 15
+    provisionedConcurrency: ${self:custom.provisionedConcurrency.${opt:stage}, self:custom.provisionedConcurrency.other}
+  
+  track:
+    handler: handler.track
+    description: Keeps track of various user actions
+    events:
+      - http:
+          path: track
+          method: post
+          cors: true
+    memorySize: 128
+  
+
+resources: # define DynamoDB tables within serverless
+  Resources:
+    registrationTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${file(./config/${self:provider.stage}.json):REGISTRATION_TABLE}
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: email
+            AttributeType: S
+          - AttributeName: referral_id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: email
+            KeyType: HASH
+        GlobalSecondaryIndexes: # we want to be able to get users by referral_id
+          - IndexName: referralsIndex
+            KeySchema:
+              - AttributeName: referral_id
+                KeyType: HASH
+            Projection:
+              NonKeyAttributes:
+                - name
+              ProjectionType: INCLUDE
+      DeletionPolicy: Retain
+
+package:
+  exclude: node_modules/aws/**
+
+plugins:
+  - serverless-sentry
+  # - serverless-layers
+
+custom:
+  provisionedConcurrency:
+    prd: 1
+    dev: 0
+    other: 0
+  updateEnabled:
+    prd: true
+    other: false
+  sentry:
+    dsn: ${file(./config/${self:provider.stage}.json):SENTRY_DSN}
+  serverless-layers:
+    dependenciesPath: ./package.json
