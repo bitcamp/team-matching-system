@@ -7,6 +7,10 @@ import {
   BFormGroup,
   BRow,
   BCol,
+  BFormCheckboxGroup, 
+  BFormCheckbox,
+  BFormRadioGroup, 
+  BFormRadio,
 } from "bootstrap-vue-next";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue-next/dist/bootstrap-vue-next.css";
@@ -20,5 +24,9 @@ app.component("BFormInput", BFormInput);
 app.component("BFormGroup", BFormGroup);
 app.component("BRow", BRow);
 app.component("BCol", BCol);
+app.component("BFormCheckboxGroup", BFormCheckboxGroup);
+app.component("BFormCheckbox", BFormCheckbox);
+app.component("BFormRadioGroup", BFormRadioGroup);
+app.component("BFormRadio", BFormRadio);
 
 app.mount("#app");

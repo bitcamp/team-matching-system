@@ -1,0 +1,5 @@
+{
+    "SENTRY_DSN": "https://0e393a6ba49641debefd3774cb69ed2c@o414418.ingest.sentry.io/5303942",
+    "PLATFORM_BASE_URL": "register.bit.camp",
+    "TEAM_MATCHING_TABLE": "team-matching-system-prd"
+}

@@ -1,0 +1,70 @@
+org: bitcamp
+app: team-matching-backend
+service: team-matching-backend
+
+provider:
+  name: aws
+  region: us-east-1
+  runtime: nodejs16.x
+  stage: ${opt:stage, 'dev'}
+  environment:
+    # Example environment variable for the DynamoDB table name
+    TEAM_MATCHING_TABLE: ${file(./config/${self:provider.stage}.json):TEAM_MATCHING_TABLE}
+
+  iam:
+    role:
+      statements:
+        - Effect: "Allow"
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource:
+            # Give access to *only* your table if you like:
+            - "arn:aws:dynamodb:${self:provider.region}:*:table/${file(./config/${self:provider.stage}.json):TEAM_MATCHING_TABLE}"
+            - "arn:aws:dynamodb:${self:provider.region}:*:table/${file(./config/${self:provider.stage}.json):TEAM_MATCHING_TABLE}/*"
+
+functions:
+  register:
+    handler: index.handler
+    description: Create or update a record in the team-matching table
+    events:
+      - http:
+          path: register
+          method: post
+          cors: true
+    memorySize: 256
+    timeout: 15
+
+  # Add other functions here if needed
+  # e.g. matchTeams, listTeams, etc.
+
+# resources:
+#   Resources:
+#     TeamMatchingTable:
+#       Type: AWS::DynamoDB::Table
+#       Properties:
+#         TableName: ${file(./config/${self:provider.stage}.json):TEAM_MATCHING_TABLE}
+#         BillingMode: PAY_PER_REQUEST
+#         AttributeDefinitions:
+#           - AttributeName: email
+#             AttributeType: S
+#         KeySchema:
+#           - AttributeName: email
+#             KeyType: HASH
+#       DeletionPolicy: Retain
+
+package:
+  exclude: 
+    - node_modules/**
+
+plugins:
+  # Remove or add plugins as needed. For example, if you want Sentry:
+  - serverless-sentry
+
+custom:
+  sentry:
+    dsn: ${file(./config/${self:provider.stage}.json):SENTRY_DSN}
