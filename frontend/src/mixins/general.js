@@ -56,10 +56,15 @@ export default {
       return "dev";
     },
     getEnvVariable(variableName) {
-      if (Config.shared[variableName]) {
+      if (Config.shared && Config.shared[variableName]) {
         return Config.shared[variableName];
       }
-      return Config[this.getCurrentEnvironment()][variableName];
+      const envConfig = Config[this.getCurrentEnvironment()];
+      if (!envConfig || !envConfig[variableName]) {
+        console.warn(`Environment variable ${variableName} not found for ${this.getCurrentEnvironment()}. Using default.`);
+        return Config.dev[variableName]; // Fallback to dev
+      }
+      return envConfig[variableName];
     },
   },
 };

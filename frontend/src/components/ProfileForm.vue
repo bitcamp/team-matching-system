@@ -255,7 +255,6 @@
 <script setup>
 import { ref, reactive } from "vue";
 import axios from "axios";
-import { useRouter } from "vue-router";
 import generalMixin from "../mixins/general.js";
 
 const form = reactive({
@@ -279,9 +278,9 @@ const form = reactive({
 
 const registerUser = async () => {
   try {
-    const backendEndpoint =
-      generalMixin.methods.getEnvVariable("BACKEND_ENDPOINT");
-    const response = await axios.post(`${backendEndpoint}/register`, form);
+    const backendEndpoint = generalMixin.methods.getEnvVariable("BACKEND_ENDPOINT");
+    console.log("Posting to:", `${backendEndpoint}/${generalMixin.methods.getCurrentEnvironment()}/register`);
+    const response = await axios.post(`${backendEndpoint}/${generalMixin.methods.getCurrentEnvironment()}/register`, form);
     alert("Registration Successful!");
     console.log(response.data);
   } catch (error) {
