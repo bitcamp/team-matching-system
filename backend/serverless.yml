@@ -58,7 +58,7 @@ functions:
 #       DeletionPolicy: Retain
 
 package:
-  exclude: 
+  include: 
     - node_modules/**
 
 plugins:
