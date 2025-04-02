@@ -1,6 +1,10 @@
 <template>
   <div class="registration-page">
-    <h1>{{ props.mode === 'edit' ? 'Edit Your Profile!' : 'Create Your Profile!' }}</h1>
+    <h1>
+      {{
+        props.mode === "edit" ? "Edit Your Profile!" : "Create Your Profile!"
+      }}
+    </h1>
 
     <b-form class="registration-form" @submit.prevent="registerUser">
       <b-form-group v-if="mode === 'edit'">
@@ -9,9 +13,7 @@
         </template>
         <b-form-radio-group v-model="form.looking" name="looking">
           <b-form-radio value="looking">Looking for a team</b-form-radio>
-          <b-form-radio value="inteam"
-            >Currently in a team</b-form-radio
-          >
+          <b-form-radio value="inteam">Currently in a team</b-form-radio>
           <b-form-radio value="notlooking"
             >No longer looking for a team</b-form-radio
           >
@@ -27,7 +29,7 @@
             <b-form-input
               v-model="form.first_name"
               placeholder="Enter first name"
-              required  
+              required
             ></b-form-input>
           </b-form-group>
         </b-col>
@@ -206,7 +208,7 @@
         <b-form-radio-group v-model="form.serious" name="serious">
           <b-form-radio value="win">I want to win! (16-20 hours)</b-form-radio>
           <b-form-radio value="funsies"
-            >I’m just doing this for fun (9-13 hours)</b-form-radio
+            >I'm just doing this for fun (9-13 hours)</b-form-radio
           >
           <b-form-radio value="learning"
             >I want to learn, if I win that will be a plus (1-8
@@ -243,7 +245,7 @@
 
       <div class="submit-wrapper">
         <b-button type="submit" variant="primary" class="submit-button">
-          {{ mode === 'edit' ? 'Save' : 'Submit' }}
+          {{ mode === "edit" ? "Save" : "Submit" }}
         </b-button>
       </div>
     </b-form>
@@ -253,6 +255,8 @@
 <script setup>
 import { ref, reactive } from "vue";
 import axios from "axios";
+import { useRouter } from "vue-router";
+import generalMixin from "../mixins/general.js";
 
 const form = reactive({
   first_name: "",
@@ -275,10 +279,9 @@ const form = reactive({
 
 const registerUser = async () => {
   try {
-    const response = await axios.post(
-      "http://localhost:5001/register",
-      form.value
-    );
+    const backendEndpoint =
+      generalMixin.methods.getEnvVariable("BACKEND_ENDPOINT");
+    const response = await axios.post(`${backendEndpoint}/register`, form);
     alert("Registration Successful!");
     console.log(response.data);
   } catch (error) {
@@ -290,18 +293,10 @@ const registerUser = async () => {
 const props = defineProps({
   mode: {
     type: String,
-    default: 'register',
-  }
-})
+    default: "register",
+  },
+});
 </script>
-
-
-
-
-
-
-
-
 
 <style scoped>
 .registration-page {

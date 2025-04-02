@@ -15,43 +15,52 @@ const withSentryOptions = {
   captureMemory: true,
   captureTimeouts: true,
 };
-// POST /register - Adds a new registration to the database
 module.exports.register = withSentry(withSentryOptions, async (event) => {
   const body = JSON.parse(event.body);
   const ddb = new AWS.DynamoDB.DocumentClient();
-  // Checks if any field is missing
-  if (!body.email || !body.name || !body.phone || !body.school_year) {
+  
+  const requiredFields = [
+    'email',
+    'first_name',
+    'last_name',
+    'year',
+    'track',
+    'hackathon',
+    'languages',
+    'experience',
+    'skill_level',
+    'skills_wanted',
+    'projects',
+    'prizes',
+    'serious',
+    'collab',
+    'num_team_members',
+    'looking'
+  ];
+
+  const missingFields = requiredFields.filter(field => !body[field] || 
+    (Array.isArray(body[field]) && body[field].length === 0));
+
+  if (missingFields.length > 0) {
     return {
       statusCode: 500,
-      body: "/register is missing a field",
+      body: JSON.stringify({ 
+        error: "Missing required fields",
+        fields: missingFields 
+      }),
+      headers: HEADERS,
     };
   }
+
   const existingReg = await ddb.get({
     TableName: process.env.TEAM_MATCHING_TABLE,
     Key: {email: body.email.toLowerCase()}
-  }).promise()
-  // Generate referral ID
-//   var referralID;
-//   if (existingReg.Item != null) {
-//     referralID = existingReg.Item.referral_id
-//   } else {
-//     const referralBase = body.name.split(" ")[0].toLowerCase();
-//     do {
-//       referralID = referralBase + "-" + makeAddon(3);
-//       var referralQuery = {
-//         TableName: process.env.REGISTRATION_TABLE,
-//         IndexName: "referralsIndex",
-//         KeyConditionExpression: "referral_id = :v_refer",
-//         ExpressionAttributeValues: { ":v_refer": referralID },
-//       };
-//       var resp = await ddb.query(referralQuery).promise();
-//     } while (resp.Count != 0);
-//   }
+  }).promise();
+
   var params = {
     TableName: process.env.TEAM_MATCHING_TABLE,
     Item: {
       email: body.email.toLowerCase(),
-      phone: body.phone,
       first_name: body.first_name,
       last_name: body.last_name,
       year: body.year,
@@ -63,47 +72,15 @@ module.exports.register = withSentry(withSentryOptions, async (event) => {
       skills_wanted: body.skills_wanted,
       projects: body.projects,
       prizes: body.prizes,
-      serious: body.serious, 
-      collab: body.collab, 
+      serious: body.serious,
+      collab: body.collab,
       num_team_members: body.num_team_members,
       looking: body.looking
     },
   };
-//   if (existingReg.Item != null && existingReg.Item.referred_by !== "") {
-//     params.Item.referred_by = existingReg.Item.referred_by
-//   }
-//   if (existingReg.Item != null) {
-//     params.Item.referral_count = existingReg.Item.referral_count
-//   }
-//   if (body.referred_by) {
-//     try {
-//       const referred_by = normalizeReferral(body.referred_by);
-//       params.Item.referred_by = referred_by
-//       body.referred_by = referred_by
-//       await Promise.all([
-//         logStatistic(ddb, "referrals", 1),
-//         logReferral(ddb, body.referred_by, body.name),
-//       ]);
-//     } catch (error) {
-//       console.error("Failed to log referral!")
-//       console.error(error)
-//     }
-//   }
-//   const logWaitlistTrack = () => {
-//     if (body.waitlist_track_selected.length > 0) {
-//       logStatistic(ddb, "track-waitlist-" + body.waitlist_track_selected, 1)
-//     }
-//   }
-  await Promise.all([
-    // logStatistic(ddb, "track-" + body.track_selected, 1),
-    // logWaitlistTrack(),
-    // logStatistic(ddb, "registrations", 1),
-    // Call DynamoDB to add the item to the table
-    ddb.put(params).promise(),
-    // Send confirmation email
-    // sendConfirmationEmail(params.Item),
-  ]);
-  // Returns status code 200 and JSON string of 'result'
+
+  await ddb.put(params).promise();
+
   return {
     statusCode: 200,
     body: JSON.stringify(params.Item),
@@ -141,7 +118,7 @@ module.exports.register = withSentry(withSentryOptions, async (event) => {
 //     { value: "vocational", text: "Other Vocational / Trade Program or Apprenticeship" },
 //     { value: "postdoc", text: "Post Doctorate" },
 //     { value: "other", text: "Other" },
-//     { value: "not a student", text: "I’m not currently a student" },
+//     { value: "not a student", text: "I'm not currently a student" },
 //     { value: "prefer not to answer", text: "Prefer not to answer" },
 //   ];
 //   // School year text
