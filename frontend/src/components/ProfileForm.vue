@@ -1,6 +1,10 @@
 <template>
   <div class="registration-page">
-    <h1>{{ props.mode === 'edit' ? 'Edit Your Profile!' : 'Create Your Profile!' }}</h1>
+    <h1>
+      {{
+        props.mode === "edit" ? "Edit Your Profile!" : "Create Your Profile!"
+      }}
+    </h1>
 
     <b-form class="registration-form" @submit.prevent="registerUser">
       <b-form-group v-if="mode === 'edit'">
@@ -9,9 +13,7 @@
         </template>
         <b-form-radio-group v-model="form.looking" name="looking">
           <b-form-radio value="looking">Looking for a team</b-form-radio>
-          <b-form-radio value="inteam"
-            >Currently in a team</b-form-radio
-          >
+          <b-form-radio value="inteam">Currently in a team</b-form-radio>
           <b-form-radio value="notlooking"
             >No longer looking for a team</b-form-radio
           >
@@ -26,8 +28,10 @@
             </template>
             <b-form-input
               v-model="form.first_name"
+              :state="touched.first_name ? form.first_name !== '' : null"
+              @blur="touched.first_name = true"
               placeholder="Enter first name"
-              required  
+              required
             ></b-form-input>
           </b-form-group>
         </b-col>
@@ -39,6 +43,8 @@
             </template>
             <b-form-input
               v-model="form.last_name"
+              :state="touched.last_name ? form.last_name !== '' : null"
+              @blur="touched.last_name = true"
               placeholder="Enter last name"
               required
             ></b-form-input>
@@ -53,6 +59,8 @@
         <b-form-input
           type="number"
           v-model="form.year"
+          :state="touched.year ? form.year !== '' : null"
+          @blur="touched.year = true"
           placeholder="Enter year"
           required
         ></b-form-input>
@@ -65,6 +73,8 @@
         <b-form-input
           type="email"
           v-model="form.email"
+          :state="touched.email ? form.email !== '' : null"
+          @blur="touched.email = true"
           placeholder="Enter email"
           required
         ></b-form-input>
@@ -243,7 +253,7 @@
 
       <div class="submit-wrapper">
         <b-button type="submit" variant="primary" class="submit-button">
-          {{ mode === 'edit' ? 'Save' : 'Submit' }}
+          {{ mode === "edit" ? "Save" : "Submit" }}
         </b-button>
       </div>
     </b-form>
@@ -253,6 +263,13 @@
 <script setup>
 import { ref, reactive } from "vue";
 import axios from "axios";
+
+const touched = reactive({
+  first_name: false,
+  last_name: false,
+  year: false,
+  email: false,
+});
 
 const form = reactive({
   first_name: "",
@@ -270,7 +287,6 @@ const form = reactive({
   serious: "",
   collab: [],
   num_team_members: "",
-  looking: "",
 });
 
 const registerUser = async () => {
@@ -290,18 +306,10 @@ const registerUser = async () => {
 const props = defineProps({
   mode: {
     type: String,
-    default: 'register',
-  }
-})
+    default: "register",
+  },
+});
 </script>
-
-
-
-
-
-
-
-
 
 <style scoped>
 .registration-page {
