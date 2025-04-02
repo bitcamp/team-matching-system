@@ -106,7 +106,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "serverless-framework-deployments-us-east-1-89eeb5a8-31b0",
-          "S3Key": "serverless/team-matching-backend/dev/1743193829421-2025-03-28T20:30:29.421Z/team-matching-backend.zip"
+          "S3Key": "serverless/team-matching-backend/dev/1743554958969-2025-04-02T00:49:18.969Z/team-matching-backend.zip"
         },
         "Handler": "index.handler",
         "Runtime": "nodejs16.x",
@@ -132,14 +132,14 @@
         "RegisterLogGroup"
       ]
     },
-    "RegisterLambdaVersionZNtI6RAMYvAGNR0Coh3KucCsID0VukwWtkdYkc4": {
+    "RegisterLambdaVersionTciJI9eSDGKIhASTrJ1pwUI5SMxAI9QCncJpq56ko": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "RegisterLambdaFunction"
         },
-        "CodeSha256": "/gGF8n1NKwhZZQaz4V5I8vvCJA/zYmOdU6TCVYZnbgE=",
+        "CodeSha256": "4MtcqpV2HBJux6MC+2WV8+6dDZ2SCBlxVme5vBOQS6s=",
         "Description": "Create or update a record in the team-matching table"
       }
     },
@@ -261,7 +261,7 @@
         "RegisterLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1743193822597": {
+    "ApiGatewayDeployment1743554953349": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -322,7 +322,7 @@
     "RegisterLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "RegisterLambdaVersionZNtI6RAMYvAGNR0Coh3KucCsID0VukwWtkdYkc4"
+        "Ref": "RegisterLambdaVersionTciJI9eSDGKIhASTrJ1pwUI5SMxAI9QCncJpq56ko"
       },
       "Export": {
         "Name": "sls-team-matching-backend-dev-RegisterLambdaFunctionQualifiedArn"

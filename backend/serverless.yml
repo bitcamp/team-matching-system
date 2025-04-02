@@ -59,7 +59,7 @@ functions:
 
 package:
   exclude: 
-    - node_modules/aws/**
+    - node_modules/**
 
 plugins:
   # Remove or add plugins as needed. For example, if you want Sentry:

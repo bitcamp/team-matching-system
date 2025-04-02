@@ -1,70 +1,56 @@
-const express = require("express");
-const cors = require("cors");
-const AWS = require("aws-sdk");
-const serverless = require("serverless-http");
+const { DynamoDBClient, PutItemCommand } = require("@aws-sdk/client-dynamodb");
 
-const app = express();
-app.use(cors());
-app.use(express.json()); 
+const client = new DynamoDBClient({ region: "us-east-1" });
+const TABLE_NAME = process.env.TEAM_MATCHING_TABLE || "team-matching-system-dev";
 
-AWS.config.update({
-  region: "us-east-1", 
-});
-
-const dynamoDB = new AWS.DynamoDB.DocumentClient();
-const TABLE_NAME = "team-matching-system-dev"; // Change this to your DynamoDB table name
-
-// POST route to handle form submissions
-app.post("/register", async (req, res) => {
-  console.log("Received Data:", req.body); // Debugging
-  const formData = req.body;
+exports.handler = async (event) => {
+  const formData = JSON.parse(event.body);
+  console.log("Received Data:", formData);
 
   if (!formData.email) {
-    return res.status(400).json({ error: "Email is required!" });
-  }
-
-  // Check for missing fields
-  for (let key in formData) {
-    if (formData[key] === undefined) {
-      console.error(`Missing field: ${key}`);
-    }
+    return {
+      statusCode: 400,
+      headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" },
+      body: JSON.stringify({ error: "Email is required!" }),
+    };
   }
 
   const params = {
     TableName: TABLE_NAME,
     Item: {
-      email: formData.email, // Primary Key
-      first_name: formData.first_name || "N/A",
-      last_name: formData.last_name || "N/A",
-      year: formData.year || "N/A",
-      track: formData.track || "N/A",
-      languages: formData.languages || [],
-      experience: formData.experience || "N/A",
-      skills_wanted: formData.skills_wanted || [],
-      skill_level: formData.skill_level || "N/A",
-      projects: formData.projects || [],
-      prizes: formData.prizes || [],
-      serious: formData.serious || false,
-      collab: formData.collab || false,
-      num_team_members: formData.num_team_members || 0,
+      email: { S: formData.email },
+      first_name: { S: formData.first_name || "N/A" },
+      last_name: { S: formData.last_name || "N/A" },
+      year: { N: (formData.year || 0).toString() }, // Number
+      track: { S: formData.track || "N/A" },
+      hackathon: { S: formData.hackathon || "N/A" },
+      languages: { SS: Array.isArray(formData.languages) && formData.languages.length ? formData.languages : ["N/A"] },
+      experience: { S: formData.experience || "N/A" },
+      skill_level: { S: formData.skill_level || "N/A" },
+      skills_wanted: { SS: Array.isArray(formData.skills_wanted) && formData.skills_wanted.length ? formData.skills_wanted : ["N/A"] },
+      projects: { SS: Array.isArray(formData.projects) && formData.projects.length ? formData.projects : ["N/A"] },
+      prizes: { SS: Array.isArray(formData.prizes) && formData.prizes.length ? formData.prizes : ["N/A"] },
+      serious: { S: formData.serious || "N/A" }, // String (e.g., "win")
+      collab: { SS: Array.isArray(formData.collab) && formData.collab.length ? formData.collab : ["N/A"] }, // Array
+      num_team_members: { N: (formData.num_team_members || 0).toString() }, // Number
+      ...(formData.looking && { looking: { S: formData.looking } }), // Optional
     },
   };
 
   try {
-    console.log("Saving to DynamoDB:", params); // Debugging
-    await dynamoDB.put(params).promise();
-    res.status(200).json({ message: "Registration successful!" });
+    console.log("Saving to DynamoDB:", params);
+    await client.send(new PutItemCommand(params));
+    return {
+      statusCode: 200,
+      headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" },
+      body: JSON.stringify({ message: "Registration successful!" }),
+    };
   } catch (error) {
     console.error("DynamoDB Error:", error);
-    res.status(500).json({ error: "Error saving data to DynamoDB" });
+    return {
+      statusCode: 500,
+      headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" },
+      body: JSON.stringify({ error: "Error saving data to DynamoDB" }),
+    };
   }
-});
-
-
-// Start the server
-const PORT = 5001;
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
-
-module.exports.handler = serverless(app);
+};
