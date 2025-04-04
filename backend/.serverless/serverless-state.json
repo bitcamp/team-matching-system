@@ -130,7 +130,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-us-east-1-89eeb5a8-31b0",
-                "S3Key": "serverless/team-matching-backend/dev/1743362643057-2025-03-30T19:24:03.057Z/team-matching-backend.zip"
+                "S3Key": "serverless/team-matching-backend/dev/1743620581577-2025-04-02T19:03:01.577Z/team-matching-backend.zip"
               },
               "Handler": "index.handler",
               "Runtime": "nodejs16.x",
@@ -156,14 +156,22 @@
               "RegisterLogGroup"
             ]
           },
+<<<<<<< HEAD
+          "RegisterLambdaVersionjLiUSdK6AaWhUc5oV8xTOEoo47dYvi6aid09kqL4": {
+=======
           "RegisterLambdaVersionicmlSXXSSQnfQ671v2BeYO449oBczPO3GhQDryeA8": {
+>>>>>>> main
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "RegisterLambdaFunction"
               },
+<<<<<<< HEAD
+              "CodeSha256": "ggGM8gGRZBpD+RdfCU9KyigNnbe+P263AdzYfUrsX0o=",
+=======
               "CodeSha256": "NmckJSRLLDVcBV4wv/F5YvRER0BZeSqyMNPyPnqzCl0=",
+>>>>>>> main
               "Description": "Create or update a record in the team-matching table"
             }
           },
@@ -285,7 +293,11 @@
               "RegisterLambdaPermissionApiGateway"
             ]
           },
+<<<<<<< HEAD
+          "ApiGatewayDeployment1743620576447": {
+=======
           "ApiGatewayDeployment1743362636534": {
+>>>>>>> main
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -346,7 +358,11 @@
           "RegisterLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
+<<<<<<< HEAD
+              "Ref": "RegisterLambdaVersionjLiUSdK6AaWhUc5oV8xTOEoo47dYvi6aid09kqL4"
+=======
               "Ref": "RegisterLambdaVersionicmlSXXSSQnfQ671v2BeYO449oBczPO3GhQDryeA8"
+>>>>>>> main
             },
             "Export": {
               "Name": "sls-team-matching-backend-dev-RegisterLambdaFunctionQualifiedArn"
@@ -432,7 +448,11 @@
         "memory": 256,
         "runtime": "nodejs16.x",
         "vpc": {},
+<<<<<<< HEAD
+        "versionLogicalId": "RegisterLambdaVersionjLiUSdK6AaWhUc5oV8xTOEoo47dYvi6aid09kqL4"
+=======
         "versionLogicalId": "RegisterLambdaVersionicmlSXXSSQnfQ671v2BeYO449oBczPO3GhQDryeA8"
+>>>>>>> main
       }
     },
     "configValidationMode": "warn",
@@ -448,13 +468,21 @@
         "$ref": "$[\"service\"][\"functions\"]"
       },
       "package": {
+<<<<<<< HEAD
+        "include": [
+=======
         "exclude": [
+>>>>>>> main
           "node_modules/**"
         ],
         "artifactsS3KeyDirname": "serverless/team-matching-backend/dev/code-artifacts",
         "deploymentBucket": "serverless-framework-deployments-us-east-1-89eeb5a8-31b0",
         "artifact": "/Users/aryagijare/arya-data/team-matching-system/backend/.serverless/team-matching-backend.zip",
+<<<<<<< HEAD
+        "artifactDirectoryName": "serverless/team-matching-backend/dev/1743620581577-2025-04-02T19:03:01.577Z"
+=======
         "artifactDirectoryName": "serverless/team-matching-backend/dev/1743362643057-2025-03-30T19:24:03.057Z"
+>>>>>>> main
       },
       "plugins": {
         "$ref": "$[\"service\"][\"plugins\"]"
@@ -471,7 +499,11 @@
     "artifact": "/Users/aryagijare/arya-data/team-matching-system/backend/.serverless/team-matching-backend.zip"
   },
   "package": {
+<<<<<<< HEAD
+    "artifactDirectoryName": "serverless/team-matching-backend/dev/1743620581577-2025-04-02T19:03:01.577Z",
+=======
     "artifactDirectoryName": "serverless/team-matching-backend/dev/1743362643057-2025-03-30T19:24:03.057Z",
+>>>>>>> main
     "artifact": "team-matching-backend.zip"
   }
 }

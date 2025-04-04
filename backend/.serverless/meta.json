@@ -1,6 +1,6 @@
 {
   "/Users/aryagijare/arya-data/team-matching-system/backend/serverless.yml": {
-    "versionFramework": "4.9.1",
+    "versionFramework": "4.10.1",
     "servicePath": "/Users/aryagijare/arya-data/team-matching-system/backend/serverless.yml",
     "serviceConfigFileName": "serverless.yml",
     "service": {
@@ -145,7 +145,11 @@
               "Properties": {
                 "Code": {
                   "S3Bucket": "serverless-framework-deployments-us-east-1-89eeb5a8-31b0",
+<<<<<<< HEAD
+                  "S3Key": "serverless/team-matching-backend/dev/1743620581577-2025-04-02T19:03:01.577Z/team-matching-backend.zip"
+=======
                   "S3Key": "serverless/team-matching-backend/dev/1743362643057-2025-03-30T19:24:03.057Z/team-matching-backend.zip"
+>>>>>>> main
                 },
                 "Handler": "index.handler",
                 "Runtime": "nodejs16.x",
@@ -171,14 +175,22 @@
                 "RegisterLogGroup"
               ]
             },
+<<<<<<< HEAD
+            "RegisterLambdaVersionjLiUSdK6AaWhUc5oV8xTOEoo47dYvi6aid09kqL4": {
+=======
             "RegisterLambdaVersionicmlSXXSSQnfQ671v2BeYO449oBczPO3GhQDryeA8": {
+>>>>>>> main
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "RegisterLambdaFunction"
                 },
+<<<<<<< HEAD
+                "CodeSha256": "ggGM8gGRZBpD+RdfCU9KyigNnbe+P263AdzYfUrsX0o=",
+=======
                 "CodeSha256": "NmckJSRLLDVcBV4wv/F5YvRER0BZeSqyMNPyPnqzCl0=",
+>>>>>>> main
                 "Description": "Create or update a record in the team-matching table"
               }
             },
@@ -300,7 +312,11 @@
                 "RegisterLambdaPermissionApiGateway"
               ]
             },
+<<<<<<< HEAD
+            "ApiGatewayDeployment1743620576447": {
+=======
             "ApiGatewayDeployment1743362636534": {
+>>>>>>> main
               "Type": "AWS::ApiGateway::Deployment",
               "Properties": {
                 "RestApiId": {
@@ -361,7 +377,11 @@
             "RegisterLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
+<<<<<<< HEAD
+                "Ref": "RegisterLambdaVersionjLiUSdK6AaWhUc5oV8xTOEoo47dYvi6aid09kqL4"
+=======
                 "Ref": "RegisterLambdaVersionicmlSXXSSQnfQ671v2BeYO449oBczPO3GhQDryeA8"
+>>>>>>> main
               },
               "Export": {
                 "Name": "sls-team-matching-backend-dev-RegisterLambdaFunctionQualifiedArn"
@@ -438,17 +458,29 @@
           "memory": 256,
           "runtime": "nodejs16.x",
           "vpc": {},
+<<<<<<< HEAD
+          "versionLogicalId": "RegisterLambdaVersionjLiUSdK6AaWhUc5oV8xTOEoo47dYvi6aid09kqL4"
+        }
+      },
+      "package": {
+        "include": [
+=======
           "versionLogicalId": "RegisterLambdaVersionicmlSXXSSQnfQ671v2BeYO449oBczPO3GhQDryeA8"
         }
       },
       "package": {
         "exclude": [
+>>>>>>> main
           "node_modules/**"
         ],
         "artifactsS3KeyDirname": "serverless/team-matching-backend/dev/code-artifacts",
         "deploymentBucket": "serverless-framework-deployments-us-east-1-89eeb5a8-31b0",
         "artifact": "/Users/aryagijare/arya-data/team-matching-system/backend/.serverless/team-matching-backend.zip",
+<<<<<<< HEAD
+        "artifactDirectoryName": "serverless/team-matching-backend/dev/1743620581577-2025-04-02T19:03:01.577Z"
+=======
         "artifactDirectoryName": "serverless/team-matching-backend/dev/1743362643057-2025-03-30T19:24:03.057Z"
+>>>>>>> main
       },
       "plugins": [
         "serverless-sentry"
@@ -597,7 +629,11 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-us-east-1-89eeb5a8-31b0",
+<<<<<<< HEAD
+                "S3Key": "serverless/team-matching-backend/dev/1743620581577-2025-04-02T19:03:01.577Z/team-matching-backend.zip"
+=======
                 "S3Key": "serverless/team-matching-backend/dev/1743362643057-2025-03-30T19:24:03.057Z/team-matching-backend.zip"
+>>>>>>> main
               },
               "Handler": "index.handler",
               "Runtime": "nodejs16.x",
@@ -623,14 +659,22 @@
               "RegisterLogGroup"
             ]
           },
+<<<<<<< HEAD
+          "RegisterLambdaVersionjLiUSdK6AaWhUc5oV8xTOEoo47dYvi6aid09kqL4": {
+=======
           "RegisterLambdaVersionicmlSXXSSQnfQ671v2BeYO449oBczPO3GhQDryeA8": {
+>>>>>>> main
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "RegisterLambdaFunction"
               },
+<<<<<<< HEAD
+              "CodeSha256": "ggGM8gGRZBpD+RdfCU9KyigNnbe+P263AdzYfUrsX0o=",
+=======
               "CodeSha256": "NmckJSRLLDVcBV4wv/F5YvRER0BZeSqyMNPyPnqzCl0=",
+>>>>>>> main
               "Description": "Create or update a record in the team-matching table"
             }
           },
@@ -752,7 +796,11 @@
               "RegisterLambdaPermissionApiGateway"
             ]
           },
+<<<<<<< HEAD
+          "ApiGatewayDeployment1743620576447": {
+=======
           "ApiGatewayDeployment1743362636534": {
+>>>>>>> main
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -813,7 +861,11 @@
           "RegisterLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
+<<<<<<< HEAD
+              "Ref": "RegisterLambdaVersionjLiUSdK6AaWhUc5oV8xTOEoo47dYvi6aid09kqL4"
+=======
               "Ref": "RegisterLambdaVersionicmlSXXSSQnfQ671v2BeYO449oBczPO3GhQDryeA8"
+>>>>>>> main
             },
             "Export": {
               "Name": "sls-team-matching-backend-dev-RegisterLambdaFunctionQualifiedArn"
@@ -868,7 +920,11 @@
       },
       "instanceParameters": null
     },
+<<<<<<< HEAD
+    "serviceRawFile": "org: bitcamp\napp: team-matching-backend\nservice: team-matching-backend\n\nprovider:\n  name: aws\n  region: us-east-1\n  runtime: nodejs16.x\n  stage: ${opt:stage, 'dev'}\n  environment:\n    # Example environment variable for the DynamoDB table name\n    TEAM_MATCHING_TABLE: ${file(./config/${self:provider.stage}.json):TEAM_MATCHING_TABLE}\n\n  iam:\n    role:\n      statements:\n        - Effect: \"Allow\"\n          Action:\n            - dynamodb:Query\n            - dynamodb:Scan\n            - dynamodb:GetItem\n            - dynamodb:PutItem\n            - dynamodb:UpdateItem\n            - dynamodb:DeleteItem\n          Resource:\n            # Give access to *only* your table if you like:\n            - \"arn:aws:dynamodb:${self:provider.region}:*:table/${file(./config/${self:provider.stage}.json):TEAM_MATCHING_TABLE}\"\n            - \"arn:aws:dynamodb:${self:provider.region}:*:table/${file(./config/${self:provider.stage}.json):TEAM_MATCHING_TABLE}/*\"\n\nfunctions:\n  register:\n    handler: index.handler\n    description: Create or update a record in the team-matching table\n    events:\n      - http:\n          path: register\n          method: post\n          cors: true\n    memorySize: 256\n    timeout: 15\n\n  # Add other functions here if needed\n  # e.g. matchTeams, listTeams, etc.\n\n# resources:\n#   Resources:\n#     TeamMatchingTable:\n#       Type: AWS::DynamoDB::Table\n#       Properties:\n#         TableName: ${file(./config/${self:provider.stage}.json):TEAM_MATCHING_TABLE}\n#         BillingMode: PAY_PER_REQUEST\n#         AttributeDefinitions:\n#           - AttributeName: email\n#             AttributeType: S\n#         KeySchema:\n#           - AttributeName: email\n#             KeyType: HASH\n#       DeletionPolicy: Retain\n\npackage:\n  include: \n    - node_modules/**\n\nplugins:\n  # Remove or add plugins as needed. For example, if you want Sentry:\n  - serverless-sentry\n\ncustom:\n  sentry:\n    dsn: ${file(./config/${self:provider.stage}.json):SENTRY_DSN}\n",
+=======
     "serviceRawFile": "org: bitcamp\napp: team-matching-backend\nservice: team-matching-backend\n\nprovider:\n  name: aws\n  region: us-east-1\n  runtime: nodejs16.x\n  stage: ${opt:stage, 'dev'}\n  environment:\n    # Example environment variable for the DynamoDB table name\n    TEAM_MATCHING_TABLE: ${file(./config/${self:provider.stage}.json):TEAM_MATCHING_TABLE}\n\n  iam:\n    role:\n      statements:\n        - Effect: \"Allow\"\n          Action:\n            - dynamodb:Query\n            - dynamodb:Scan\n            - dynamodb:GetItem\n            - dynamodb:PutItem\n            - dynamodb:UpdateItem\n            - dynamodb:DeleteItem\n          Resource:\n            # Give access to *only* your table if you like:\n            - \"arn:aws:dynamodb:${self:provider.region}:*:table/${file(./config/${self:provider.stage}.json):TEAM_MATCHING_TABLE}\"\n            - \"arn:aws:dynamodb:${self:provider.region}:*:table/${file(./config/${self:provider.stage}.json):TEAM_MATCHING_TABLE}/*\"\n\nfunctions:\n  register:\n    handler: index.handler\n    description: Create or update a record in the team-matching table\n    events:\n      - http:\n          path: register\n          method: post\n          cors: true\n    memorySize: 256\n    timeout: 15\n\n  # Add other functions here if needed\n  # e.g. matchTeams, listTeams, etc.\n\n# resources:\n#   Resources:\n#     TeamMatchingTable:\n#       Type: AWS::DynamoDB::Table\n#       Properties:\n#         TableName: ${file(./config/${self:provider.stage}.json):TEAM_MATCHING_TABLE}\n#         BillingMode: PAY_PER_REQUEST\n#         AttributeDefinitions:\n#           - AttributeName: email\n#             AttributeType: S\n#         KeySchema:\n#           - AttributeName: email\n#             KeyType: HASH\n#       DeletionPolicy: Retain\n\npackage:\n  exclude: \n    - node_modules/**\n\nplugins:\n  # Remove or add plugins as needed. For example, if you want Sentry:\n  - serverless-sentry\n\ncustom:\n  sentry:\n    dsn: ${file(./config/${self:provider.stage}.json):SENTRY_DSN}\n",
+>>>>>>> main
     "command": [
       "deploy"
     ],
@@ -883,12 +939,21 @@
     "serviceProviderAwsCfStackName": "team-matching-backend-dev",
     "serviceProviderAwsCfStackId": "arn:aws:cloudformation:us-east-1:123574527805:stack/team-matching-backend-dev/daad87e0-0be4-11f0-82a0-0e6e57da8869",
     "serviceProviderAwsCfStackCreated": "2025-03-28T14:56:39.892Z",
+<<<<<<< HEAD
+    "serviceProviderAwsCfStackUpdated": "2025-04-02T18:45:41.652Z",
+    "serviceProviderAwsCfStackStatus": "UPDATE_COMPLETE",
+    "serviceProviderAwsCfStackOutputs": [
+      {
+        "OutputKey": "RegisterLambdaFunctionQualifiedArn",
+        "OutputValue": "arn:aws:lambda:us-east-1:123574527805:function:team-matching-backend-dev-register:27",
+=======
     "serviceProviderAwsCfStackUpdated": "2025-03-30T18:50:01.875Z",
     "serviceProviderAwsCfStackStatus": "UPDATE_ROLLBACK_COMPLETE",
     "serviceProviderAwsCfStackOutputs": [
       {
         "OutputKey": "GetExpoScheduleLambdaFunctionQualifiedArn",
         "OutputValue": "arn:aws:lambda:us-east-1:123574527805:function:team-matching-backend-dev-getExpoSchedule:2",
+>>>>>>> main
         "Description": "Current Lambda function version",
         "ExportName": "sls-team-matching-backend-dev-GetExpoScheduleLambdaFunctionQualifiedArn"
       },
@@ -1012,7 +1077,11 @@
           "Properties": {
             "Code": {
               "S3Bucket": "serverless-framework-deployments-us-east-1-89eeb5a8-31b0",
+<<<<<<< HEAD
+              "S3Key": "serverless/team-matching-backend/dev/1743620581577-2025-04-02T19:03:01.577Z/team-matching-backend.zip"
+=======
               "S3Key": "serverless/team-matching-backend/dev/1743362643057-2025-03-30T19:24:03.057Z/team-matching-backend.zip"
+>>>>>>> main
             },
             "Handler": "index.handler",
             "Runtime": "nodejs16.x",
@@ -1038,14 +1107,22 @@
             "RegisterLogGroup"
           ]
         },
+<<<<<<< HEAD
+        "RegisterLambdaVersionjLiUSdK6AaWhUc5oV8xTOEoo47dYvi6aid09kqL4": {
+=======
         "RegisterLambdaVersionicmlSXXSSQnfQ671v2BeYO449oBczPO3GhQDryeA8": {
+>>>>>>> main
           "Type": "AWS::Lambda::Version",
           "DeletionPolicy": "Retain",
           "Properties": {
             "FunctionName": {
               "Ref": "RegisterLambdaFunction"
             },
+<<<<<<< HEAD
+            "CodeSha256": "ggGM8gGRZBpD+RdfCU9KyigNnbe+P263AdzYfUrsX0o=",
+=======
             "CodeSha256": "NmckJSRLLDVcBV4wv/F5YvRER0BZeSqyMNPyPnqzCl0=",
+>>>>>>> main
             "Description": "Create or update a record in the team-matching table"
           }
         },
@@ -1167,7 +1244,11 @@
             "RegisterLambdaPermissionApiGateway"
           ]
         },
+<<<<<<< HEAD
+        "ApiGatewayDeployment1743620576447": {
+=======
         "ApiGatewayDeployment1743362636534": {
+>>>>>>> main
           "Type": "AWS::ApiGateway::Deployment",
           "Properties": {
             "RestApiId": {
@@ -1228,7 +1309,11 @@
         "RegisterLambdaFunctionQualifiedArn": {
           "Description": "Current Lambda function version",
           "Value": {
+<<<<<<< HEAD
+            "Ref": "RegisterLambdaVersionjLiUSdK6AaWhUc5oV8xTOEoo47dYvi6aid09kqL4"
+=======
             "Ref": "RegisterLambdaVersionicmlSXXSSQnfQ671v2BeYO449oBczPO3GhQDryeA8"
+>>>>>>> main
           },
           "Export": {
             "Name": "sls-team-matching-backend-dev-RegisterLambdaFunctionQualifiedArn"

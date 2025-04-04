@@ -216,7 +216,7 @@
         <b-form-radio-group v-model="form.serious" name="serious">
           <b-form-radio value="win">I want to win! (16-20 hours)</b-form-radio>
           <b-form-radio value="funsies"
-            >I’m just doing this for fun (9-13 hours)</b-form-radio
+            >I'm just doing this for fun (9-13 hours)</b-form-radio
           >
           <b-form-radio value="learning"
             >I want to learn, if I win that will be a plus (1-8
@@ -263,6 +263,7 @@
 <script setup>
 import { ref, reactive } from "vue";
 import axios from "axios";
+import generalMixin from "../mixins/general.js";
 
 const touched = reactive({
   first_name: false,
@@ -291,10 +292,9 @@ const form = reactive({
 
 const registerUser = async () => {
   try {
-    const response = await axios.post(
-      "http://localhost:5001/register",
-      form.value
-    );
+    const backendEndpoint = generalMixin.methods.getEnvVariable("BACKEND_ENDPOINT");
+    console.log("Posting to:", `${backendEndpoint}/${generalMixin.methods.getCurrentEnvironment()}/register`);
+    const response = await axios.post(`${backendEndpoint}/${generalMixin.methods.getCurrentEnvironment()}/register`, form);
     alert("Registration Successful!");
     console.log(response.data);
   } catch (error) {
