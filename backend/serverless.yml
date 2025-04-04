@@ -1,7 +1,6 @@
 org: bitcamp
 app: team-matching-backend
 service: team-matching-backend
-
 provider:
   name: aws
   region: us-east-1
@@ -10,7 +9,6 @@ provider:
   environment:
     # Example environment variable for the DynamoDB table name
     TEAM_MATCHING_TABLE: ${file(./config/${self:provider.stage}.json):TEAM_MATCHING_TABLE}
-
   iam:
     role:
       statements:
@@ -26,7 +24,6 @@ provider:
             # Give access to *only* your table if you like:
             - "arn:aws:dynamodb:${self:provider.region}:*:table/${file(./config/${self:provider.stage}.json):TEAM_MATCHING_TABLE}"
             - "arn:aws:dynamodb:${self:provider.region}:*:table/${file(./config/${self:provider.stage}.json):TEAM_MATCHING_TABLE}/*"
-
 functions:
   register:
     handler: index.handler
@@ -38,10 +35,19 @@ functions:
           cors: true
     memorySize: 256
     timeout: 15
-
+  matchTeams:
+    handler: matching.lambda_handler
+    runtime: python3.9
+    description: Run team matching algorithm
+    events:
+      - http:
+          path: match-teams
+          method: get
+          cors: true
+    memorySize: 256
+    timeout: 29
   # Add other functions here if needed
   # e.g. matchTeams, listTeams, etc.
-
 # resources:
 #   Resources:
 #     TeamMatchingTable:
@@ -56,15 +62,12 @@ functions:
 #           - AttributeName: email
 #             KeyType: HASH
 #       DeletionPolicy: Retain
-
 package:
-  include: 
+  include:
     - node_modules/**
-
 plugins:
   # Remove or add plugins as needed. For example, if you want Sentry:
   - serverless-sentry
-
 custom:
   sentry:
     dsn: ${file(./config/${self:provider.stage}.json):SENTRY_DSN}
