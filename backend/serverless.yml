@@ -24,6 +24,12 @@ provider:
             # Give access to *only* your table if you like:
             - "arn:aws:dynamodb:${self:provider.region}:*:table/${file(./config/${self:provider.stage}.json):TEAM_MATCHING_TABLE}"
             - "arn:aws:dynamodb:${self:provider.region}:*:table/${file(./config/${self:provider.stage}.json):TEAM_MATCHING_TABLE}/*"
+        - Effect: "Allow" 
+          Action:
+            - lambda:GetLayerVersion
+          Resource: 
+            - arn:aws:lambda:us-east-1:123574527805:layer:team-matching-dev:1
+
 functions:
   register:
     handler: index.handler
@@ -39,6 +45,8 @@ functions:
     handler: matching.lambda_handler
     runtime: python3.9
     description: Run team matching algorithm
+    layers:
+      - arn:aws:lambda:us-east-1:123574527805:layer:team-matching-dev:2
     events:
       - http:
           path: match-teams
@@ -65,15 +73,18 @@ functions:
 package:
   # include:
   #   - node_modules/**
+  individually: true
   exclude:
     - .git/**
     - .serverless/**
     - test/**
-    - node_modules/aws-sdk/** # Already included in Lambda environment
+    - node_modules/** # Already included in Lambda environment
     - "**/*.md"
+    - "**/*.zip"
+
 plugins:
-  # Remove or add plugins as needed. For example, if you want Sentry:
   - serverless-sentry
+
 custom:
   sentry:
     dsn: ${file(./config/${self:provider.stage}.json):SENTRY_DSN}
