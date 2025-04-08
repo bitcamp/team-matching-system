@@ -1,7 +1,7 @@
 {
-  "/Users/aryagijare/arya-data/team-matching-system/backend/serverless.yml": {
-    "versionFramework": "4.10.1",
-    "servicePath": "/Users/aryagijare/arya-data/team-matching-system/backend/serverless.yml",
+  "/Users/sanya/team-matching-system/backend/serverless.yml": {
+    "versionFramework": "4.12.0",
+    "servicePath": "/Users/sanya/team-matching-system/backend/serverless.yml",
     "serviceConfigFileName": "serverless.yml",
     "service": {
       "org": "bitcamp",
@@ -45,6 +45,18 @@
               "Type": "AWS::Logs::LogGroup",
               "Properties": {
                 "LogGroupName": "/aws/lambda/team-matching-backend-dev-register"
+              }
+            },
+            "DeleteLogGroup": {
+              "Type": "AWS::Logs::LogGroup",
+              "Properties": {
+                "LogGroupName": "/aws/lambda/team-matching-backend-dev-delete"
+              }
+            },
+            "MatchTeamsLogGroup": {
+              "Type": "AWS::Logs::LogGroup",
+              "Properties": {
+                "LogGroupName": "/aws/lambda/team-matching-backend-dev-matchTeams"
               }
             },
             "IamRoleLambdaExecution": {
@@ -145,11 +157,7 @@
               "Properties": {
                 "Code": {
                   "S3Bucket": "serverless-framework-deployments-us-east-1-89eeb5a8-31b0",
-<<<<<<< HEAD
-                  "S3Key": "serverless/team-matching-backend/dev/1743620581577-2025-04-02T19:03:01.577Z/team-matching-backend.zip"
-=======
-                  "S3Key": "serverless/team-matching-backend/dev/1743362643057-2025-03-30T19:24:03.057Z/team-matching-backend.zip"
->>>>>>> main
+                  "S3Key": "serverless/team-matching-backend/dev/1744086329185-2025-04-08T04:25:29.185Z/team-matching-backend.zip"
                 },
                 "Handler": "index.handler",
                 "Runtime": "nodejs16.x",
@@ -175,23 +183,99 @@
                 "RegisterLogGroup"
               ]
             },
-<<<<<<< HEAD
-            "RegisterLambdaVersionjLiUSdK6AaWhUc5oV8xTOEoo47dYvi6aid09kqL4": {
-=======
-            "RegisterLambdaVersionicmlSXXSSQnfQ671v2BeYO449oBczPO3GhQDryeA8": {
->>>>>>> main
+            "DeleteLambdaFunction": {
+              "Type": "AWS::Lambda::Function",
+              "Properties": {
+                "Code": {
+                  "S3Bucket": "serverless-framework-deployments-us-east-1-89eeb5a8-31b0",
+                  "S3Key": "serverless/team-matching-backend/dev/1744086329185-2025-04-08T04:25:29.185Z/team-matching-backend.zip"
+                },
+                "Handler": "index.handler",
+                "Runtime": "nodejs16.x",
+                "FunctionName": "team-matching-backend-dev-delete",
+                "MemorySize": 256,
+                "Timeout": 15,
+                "Description": "delete a record in the team-matching table",
+                "Environment": {
+                  "Variables": {
+                    "TEAM_MATCHING_TABLE": "team-matching-system-dev",
+                    "SENTRY_DSN": "https://474121de6dfb4ea7973f677619e38b2d@o414418.ingest.sentry.io/5776787",
+                    "SENTRY_ENVIRONMENT": "dev"
+                  }
+                },
+                "Role": {
+                  "Fn::GetAtt": [
+                    "IamRoleLambdaExecution",
+                    "Arn"
+                  ]
+                }
+              },
+              "DependsOn": [
+                "DeleteLogGroup"
+              ]
+            },
+            "MatchTeamsLambdaFunction": {
+              "Type": "AWS::Lambda::Function",
+              "Properties": {
+                "Code": {
+                  "S3Bucket": "serverless-framework-deployments-us-east-1-89eeb5a8-31b0",
+                  "S3Key": "serverless/team-matching-backend/dev/1744086329185-2025-04-08T04:25:29.185Z/team-matching-backend.zip"
+                },
+                "Handler": "matching.lambda_handler",
+                "Runtime": "python3.9",
+                "FunctionName": "team-matching-backend-dev-matchTeams",
+                "MemorySize": 256,
+                "Timeout": 29,
+                "Description": "Run team matching algorithm",
+                "Environment": {
+                  "Variables": {
+                    "TEAM_MATCHING_TABLE": "team-matching-system-dev",
+                    "SENTRY_DSN": "https://474121de6dfb4ea7973f677619e38b2d@o414418.ingest.sentry.io/5776787",
+                    "SENTRY_ENVIRONMENT": "dev"
+                  }
+                },
+                "Role": {
+                  "Fn::GetAtt": [
+                    "IamRoleLambdaExecution",
+                    "Arn"
+                  ]
+                }
+              },
+              "DependsOn": [
+                "MatchTeamsLogGroup"
+              ]
+            },
+            "RegisterLambdaVersionaXAjQUUe7laHUbMR5PZ6oq27u7UBHzaaJeEdRZOZHI": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "RegisterLambdaFunction"
                 },
-<<<<<<< HEAD
-                "CodeSha256": "ggGM8gGRZBpD+RdfCU9KyigNnbe+P263AdzYfUrsX0o=",
-=======
-                "CodeSha256": "NmckJSRLLDVcBV4wv/F5YvRER0BZeSqyMNPyPnqzCl0=",
->>>>>>> main
+                "CodeSha256": "jTQmnURWngoFOK1n/KLvRIMsi+J0YPZtSWGlvRmOcRM=",
                 "Description": "Create or update a record in the team-matching table"
+              }
+            },
+            "DeleteLambdaVersionCV2jIa8ixrU0B3N8od00RK1h0iqGOX1PBg9daZmeVw": {
+              "Type": "AWS::Lambda::Version",
+              "DeletionPolicy": "Retain",
+              "Properties": {
+                "FunctionName": {
+                  "Ref": "DeleteLambdaFunction"
+                },
+                "CodeSha256": "jTQmnURWngoFOK1n/KLvRIMsi+J0YPZtSWGlvRmOcRM=",
+                "Description": "delete a record in the team-matching table"
+              }
+            },
+            "MatchTeamsLambdaVersionLzsOc4ngNjIosCqvb2Y0jQD1C8skgz6LgIaXsUgo": {
+              "Type": "AWS::Lambda::Version",
+              "DeletionPolicy": "Retain",
+              "Properties": {
+                "FunctionName": {
+                  "Ref": "MatchTeamsLambdaFunction"
+                },
+                "CodeSha256": "jTQmnURWngoFOK1n/KLvRIMsi+J0YPZtSWGlvRmOcRM=",
+                "Description": "Run team matching algorithm"
               }
             },
             "ApiGatewayRestApi": {
@@ -216,6 +300,36 @@
                   ]
                 },
                 "PathPart": "register",
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                }
+              }
+            },
+            "ApiGatewayResourceDelete": {
+              "Type": "AWS::ApiGateway::Resource",
+              "Properties": {
+                "ParentId": {
+                  "Fn::GetAtt": [
+                    "ApiGatewayRestApi",
+                    "RootResourceId"
+                  ]
+                },
+                "PathPart": "delete",
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                }
+              }
+            },
+            "ApiGatewayResourceMatchDashteams": {
+              "Type": "AWS::ApiGateway::Resource",
+              "Properties": {
+                "ParentId": {
+                  "Fn::GetAtt": [
+                    "ApiGatewayRestApi",
+                    "RootResourceId"
+                  ]
+                },
+                "PathPart": "match-teams",
                 "RestApiId": {
                   "Ref": "ApiGatewayRestApi"
                 }
@@ -260,6 +374,96 @@
                 },
                 "ResourceId": {
                   "Ref": "ApiGatewayResourceRegister"
+                },
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                }
+              }
+            },
+            "ApiGatewayMethodDeleteOptions": {
+              "Type": "AWS::ApiGateway::Method",
+              "Properties": {
+                "AuthorizationType": "NONE",
+                "HttpMethod": "OPTIONS",
+                "MethodResponses": [
+                  {
+                    "StatusCode": "200",
+                    "ResponseParameters": {
+                      "method.response.header.Access-Control-Allow-Origin": true,
+                      "method.response.header.Access-Control-Allow-Headers": true,
+                      "method.response.header.Access-Control-Allow-Methods": true
+                    },
+                    "ResponseModels": {}
+                  }
+                ],
+                "RequestParameters": {},
+                "Integration": {
+                  "Type": "MOCK",
+                  "RequestTemplates": {
+                    "application/json": "{statusCode:200}"
+                  },
+                  "ContentHandling": "CONVERT_TO_TEXT",
+                  "IntegrationResponses": [
+                    {
+                      "StatusCode": "200",
+                      "ResponseParameters": {
+                        "method.response.header.Access-Control-Allow-Origin": "'*'",
+                        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,X-Amzn-Trace-Id'",
+                        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,DELETE'"
+                      },
+                      "ResponseTemplates": {
+                        "application/json": ""
+                      }
+                    }
+                  ]
+                },
+                "ResourceId": {
+                  "Ref": "ApiGatewayResourceDelete"
+                },
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                }
+              }
+            },
+            "ApiGatewayMethodMatchDashteamsOptions": {
+              "Type": "AWS::ApiGateway::Method",
+              "Properties": {
+                "AuthorizationType": "NONE",
+                "HttpMethod": "OPTIONS",
+                "MethodResponses": [
+                  {
+                    "StatusCode": "200",
+                    "ResponseParameters": {
+                      "method.response.header.Access-Control-Allow-Origin": true,
+                      "method.response.header.Access-Control-Allow-Headers": true,
+                      "method.response.header.Access-Control-Allow-Methods": true
+                    },
+                    "ResponseModels": {}
+                  }
+                ],
+                "RequestParameters": {},
+                "Integration": {
+                  "Type": "MOCK",
+                  "RequestTemplates": {
+                    "application/json": "{statusCode:200}"
+                  },
+                  "ContentHandling": "CONVERT_TO_TEXT",
+                  "IntegrationResponses": [
+                    {
+                      "StatusCode": "200",
+                      "ResponseParameters": {
+                        "method.response.header.Access-Control-Allow-Origin": "'*'",
+                        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,X-Amzn-Trace-Id'",
+                        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET'"
+                      },
+                      "ResponseTemplates": {
+                        "application/json": ""
+                      }
+                    }
+                  ]
+                },
+                "ResourceId": {
+                  "Ref": "ApiGatewayResourceMatchDashteams"
                 },
                 "RestApiId": {
                   "Ref": "ApiGatewayRestApi"
@@ -312,11 +516,99 @@
                 "RegisterLambdaPermissionApiGateway"
               ]
             },
-<<<<<<< HEAD
-            "ApiGatewayDeployment1743620576447": {
-=======
-            "ApiGatewayDeployment1743362636534": {
->>>>>>> main
+            "ApiGatewayMethodDeleteDelete": {
+              "Type": "AWS::ApiGateway::Method",
+              "Properties": {
+                "HttpMethod": "DELETE",
+                "RequestParameters": {},
+                "ResourceId": {
+                  "Ref": "ApiGatewayResourceDelete"
+                },
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                },
+                "ApiKeyRequired": "<REDACTED>",
+                "AuthorizationType": "NONE",
+                "Integration": {
+                  "IntegrationHttpMethod": "POST",
+                  "Type": "AWS_PROXY",
+                  "Uri": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "arn:",
+                        {
+                          "Ref": "AWS::Partition"
+                        },
+                        ":apigateway:",
+                        {
+                          "Ref": "AWS::Region"
+                        },
+                        ":lambda:path/2015-03-31/functions/",
+                        {
+                          "Fn::GetAtt": [
+                            "DeleteLambdaFunction",
+                            "Arn"
+                          ]
+                        },
+                        "/invocations"
+                      ]
+                    ]
+                  }
+                },
+                "MethodResponses": []
+              },
+              "DependsOn": [
+                "DeleteLambdaPermissionApiGateway"
+              ]
+            },
+            "ApiGatewayMethodMatchDashteamsGet": {
+              "Type": "AWS::ApiGateway::Method",
+              "Properties": {
+                "HttpMethod": "GET",
+                "RequestParameters": {},
+                "ResourceId": {
+                  "Ref": "ApiGatewayResourceMatchDashteams"
+                },
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                },
+                "ApiKeyRequired": "<REDACTED>",
+                "AuthorizationType": "NONE",
+                "Integration": {
+                  "IntegrationHttpMethod": "POST",
+                  "Type": "AWS_PROXY",
+                  "Uri": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "arn:",
+                        {
+                          "Ref": "AWS::Partition"
+                        },
+                        ":apigateway:",
+                        {
+                          "Ref": "AWS::Region"
+                        },
+                        ":lambda:path/2015-03-31/functions/",
+                        {
+                          "Fn::GetAtt": [
+                            "MatchTeamsLambdaFunction",
+                            "Arn"
+                          ]
+                        },
+                        "/invocations"
+                      ]
+                    ]
+                  }
+                },
+                "MethodResponses": []
+              },
+              "DependsOn": [
+                "MatchTeamsLambdaPermissionApiGateway"
+              ]
+            },
+            "ApiGatewayDeployment1744086320040": {
               "Type": "AWS::ApiGateway::Deployment",
               "Properties": {
                 "RestApiId": {
@@ -326,7 +618,11 @@
               },
               "DependsOn": [
                 "ApiGatewayMethodRegisterOptions",
-                "ApiGatewayMethodRegisterPost"
+                "ApiGatewayMethodDeleteOptions",
+                "ApiGatewayMethodMatchDashteamsOptions",
+                "ApiGatewayMethodRegisterPost",
+                "ApiGatewayMethodDeleteDelete",
+                "ApiGatewayMethodMatchDashteamsGet"
               ]
             },
             "RegisterLambdaPermissionApiGateway": {
@@ -335,6 +631,80 @@
                 "FunctionName": {
                   "Fn::GetAtt": [
                     "RegisterLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "Action": "lambda:InvokeFunction",
+                "Principal": "apigateway.amazonaws.com",
+                "SourceArn": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":execute-api:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":",
+                      {
+                        "Ref": "ApiGatewayRestApi"
+                      },
+                      "/*/*"
+                    ]
+                  ]
+                }
+              }
+            },
+            "DeleteLambdaPermissionApiGateway": {
+              "Type": "AWS::Lambda::Permission",
+              "Properties": {
+                "FunctionName": {
+                  "Fn::GetAtt": [
+                    "DeleteLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "Action": "lambda:InvokeFunction",
+                "Principal": "apigateway.amazonaws.com",
+                "SourceArn": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":execute-api:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":",
+                      {
+                        "Ref": "ApiGatewayRestApi"
+                      },
+                      "/*/*"
+                    ]
+                  ]
+                }
+              }
+            },
+            "MatchTeamsLambdaPermissionApiGateway": {
+              "Type": "AWS::Lambda::Permission",
+              "Properties": {
+                "FunctionName": {
+                  "Fn::GetAtt": [
+                    "MatchTeamsLambdaFunction",
                     "Arn"
                   ]
                 },
@@ -377,14 +747,28 @@
             "RegisterLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-<<<<<<< HEAD
-                "Ref": "RegisterLambdaVersionjLiUSdK6AaWhUc5oV8xTOEoo47dYvi6aid09kqL4"
-=======
-                "Ref": "RegisterLambdaVersionicmlSXXSSQnfQ671v2BeYO449oBczPO3GhQDryeA8"
->>>>>>> main
+                "Ref": "RegisterLambdaVersionaXAjQUUe7laHUbMR5PZ6oq27u7UBHzaaJeEdRZOZHI"
               },
               "Export": {
                 "Name": "sls-team-matching-backend-dev-RegisterLambdaFunctionQualifiedArn"
+              }
+            },
+            "DeleteLambdaFunctionQualifiedArn": {
+              "Description": "Current Lambda function version",
+              "Value": {
+                "Ref": "DeleteLambdaVersionCV2jIa8ixrU0B3N8od00RK1h0iqGOX1PBg9daZmeVw"
+              },
+              "Export": {
+                "Name": "sls-team-matching-backend-dev-DeleteLambdaFunctionQualifiedArn"
+              }
+            },
+            "MatchTeamsLambdaFunctionQualifiedArn": {
+              "Description": "Current Lambda function version",
+              "Value": {
+                "Ref": "MatchTeamsLambdaVersionLzsOc4ngNjIosCqvb2Y0jQD1C8skgz6LgIaXsUgo"
+              },
+              "Export": {
+                "Name": "sls-team-matching-backend-dev-MatchTeamsLambdaFunctionQualifiedArn"
               }
             },
             "ServiceEndpoint": {
@@ -458,29 +842,105 @@
           "memory": 256,
           "runtime": "nodejs16.x",
           "vpc": {},
-<<<<<<< HEAD
-          "versionLogicalId": "RegisterLambdaVersionjLiUSdK6AaWhUc5oV8xTOEoo47dYvi6aid09kqL4"
-        }
-      },
-      "package": {
-        "include": [
-=======
-          "versionLogicalId": "RegisterLambdaVersionicmlSXXSSQnfQ671v2BeYO449oBczPO3GhQDryeA8"
+          "versionLogicalId": "RegisterLambdaVersionaXAjQUUe7laHUbMR5PZ6oq27u7UBHzaaJeEdRZOZHI"
+        },
+        "delete": {
+          "handler": "index.handler",
+          "description": "delete a record in the team-matching table",
+          "events": [
+            {
+              "http": {
+                "path": "delete",
+                "method": "delete",
+                "cors": {
+                  "origin": "*",
+                  "methods": [
+                    "OPTIONS",
+                    "DELETE"
+                  ],
+                  "headers": [
+                    "Content-Type",
+                    "X-Amz-Date",
+                    "Authorization",
+                    "X-Api-Key",
+                    "X-Amz-Security-Token",
+                    "X-Amz-User-Agent",
+                    "X-Amzn-Trace-Id"
+                  ],
+                  "allowCredentials": "<REDACTED>"
+                },
+                "integration": "AWS_PROXY"
+              }
+            }
+          ],
+          "memorySize": 256,
+          "timeout": 15,
+          "name": "team-matching-backend-dev-delete",
+          "environment": {
+            "SENTRY_DSN": "https://474121de6dfb4ea7973f677619e38b2d@o414418.ingest.sentry.io/5776787",
+            "SENTRY_ENVIRONMENT": "dev"
+          },
+          "package": {},
+          "memory": 256,
+          "runtime": "nodejs16.x",
+          "vpc": {},
+          "versionLogicalId": "DeleteLambdaVersionCV2jIa8ixrU0B3N8od00RK1h0iqGOX1PBg9daZmeVw"
+        },
+        "matchTeams": {
+          "handler": "matching.lambda_handler",
+          "runtime": "python3.9",
+          "description": "Run team matching algorithm",
+          "events": [
+            {
+              "http": {
+                "path": "match-teams",
+                "method": "get",
+                "cors": {
+                  "origin": "*",
+                  "methods": [
+                    "OPTIONS",
+                    "GET"
+                  ],
+                  "headers": [
+                    "Content-Type",
+                    "X-Amz-Date",
+                    "Authorization",
+                    "X-Api-Key",
+                    "X-Amz-Security-Token",
+                    "X-Amz-User-Agent",
+                    "X-Amzn-Trace-Id"
+                  ],
+                  "allowCredentials": "<REDACTED>"
+                },
+                "integration": "AWS_PROXY"
+              }
+            }
+          ],
+          "memorySize": 256,
+          "timeout": 29,
+          "name": "team-matching-backend-dev-matchTeams",
+          "environment": {
+            "SENTRY_DSN": "https://474121de6dfb4ea7973f677619e38b2d@o414418.ingest.sentry.io/5776787",
+            "SENTRY_ENVIRONMENT": "dev"
+          },
+          "package": {},
+          "memory": 256,
+          "vpc": {},
+          "versionLogicalId": "MatchTeamsLambdaVersionLzsOc4ngNjIosCqvb2Y0jQD1C8skgz6LgIaXsUgo"
         }
       },
       "package": {
         "exclude": [
->>>>>>> main
-          "node_modules/**"
+          ".git/**",
+          ".serverless/**",
+          "test/**",
+          "node_modules/aws-sdk/**",
+          "**/*.md"
         ],
         "artifactsS3KeyDirname": "serverless/team-matching-backend/dev/code-artifacts",
         "deploymentBucket": "serverless-framework-deployments-us-east-1-89eeb5a8-31b0",
-        "artifact": "/Users/aryagijare/arya-data/team-matching-system/backend/.serverless/team-matching-backend.zip",
-<<<<<<< HEAD
-        "artifactDirectoryName": "serverless/team-matching-backend/dev/1743620581577-2025-04-02T19:03:01.577Z"
-=======
-        "artifactDirectoryName": "serverless/team-matching-backend/dev/1743362643057-2025-03-30T19:24:03.057Z"
->>>>>>> main
+        "artifact": "/Users/sanya/team-matching-system/backend/.serverless/team-matching-backend.zip",
+        "artifactDirectoryName": "serverless/team-matching-backend/dev/1744086329185-2025-04-08T04:25:29.185Z"
       },
       "plugins": [
         "serverless-sentry"
@@ -489,7 +949,8 @@
         "sentry": {
           "dsn": "https://474121de6dfb4ea7973f677619e38b2d@o414418.ingest.sentry.io/5776787"
         }
-      }
+      },
+      "serverless": null
     },
     "provider": {
       "name": "aws",
@@ -529,6 +990,18 @@
             "Type": "AWS::Logs::LogGroup",
             "Properties": {
               "LogGroupName": "/aws/lambda/team-matching-backend-dev-register"
+            }
+          },
+          "DeleteLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/team-matching-backend-dev-delete"
+            }
+          },
+          "MatchTeamsLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/team-matching-backend-dev-matchTeams"
             }
           },
           "IamRoleLambdaExecution": {
@@ -629,11 +1102,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-us-east-1-89eeb5a8-31b0",
-<<<<<<< HEAD
-                "S3Key": "serverless/team-matching-backend/dev/1743620581577-2025-04-02T19:03:01.577Z/team-matching-backend.zip"
-=======
-                "S3Key": "serverless/team-matching-backend/dev/1743362643057-2025-03-30T19:24:03.057Z/team-matching-backend.zip"
->>>>>>> main
+                "S3Key": "serverless/team-matching-backend/dev/1744086329185-2025-04-08T04:25:29.185Z/team-matching-backend.zip"
               },
               "Handler": "index.handler",
               "Runtime": "nodejs16.x",
@@ -659,23 +1128,99 @@
               "RegisterLogGroup"
             ]
           },
-<<<<<<< HEAD
-          "RegisterLambdaVersionjLiUSdK6AaWhUc5oV8xTOEoo47dYvi6aid09kqL4": {
-=======
-          "RegisterLambdaVersionicmlSXXSSQnfQ671v2BeYO449oBczPO3GhQDryeA8": {
->>>>>>> main
+          "DeleteLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": "serverless-framework-deployments-us-east-1-89eeb5a8-31b0",
+                "S3Key": "serverless/team-matching-backend/dev/1744086329185-2025-04-08T04:25:29.185Z/team-matching-backend.zip"
+              },
+              "Handler": "index.handler",
+              "Runtime": "nodejs16.x",
+              "FunctionName": "team-matching-backend-dev-delete",
+              "MemorySize": 256,
+              "Timeout": 15,
+              "Description": "delete a record in the team-matching table",
+              "Environment": {
+                "Variables": {
+                  "TEAM_MATCHING_TABLE": "team-matching-system-dev",
+                  "SENTRY_DSN": "https://474121de6dfb4ea7973f677619e38b2d@o414418.ingest.sentry.io/5776787",
+                  "SENTRY_ENVIRONMENT": "dev"
+                }
+              },
+              "Role": {
+                "Fn::GetAtt": [
+                  "IamRoleLambdaExecution",
+                  "Arn"
+                ]
+              }
+            },
+            "DependsOn": [
+              "DeleteLogGroup"
+            ]
+          },
+          "MatchTeamsLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": "serverless-framework-deployments-us-east-1-89eeb5a8-31b0",
+                "S3Key": "serverless/team-matching-backend/dev/1744086329185-2025-04-08T04:25:29.185Z/team-matching-backend.zip"
+              },
+              "Handler": "matching.lambda_handler",
+              "Runtime": "python3.9",
+              "FunctionName": "team-matching-backend-dev-matchTeams",
+              "MemorySize": 256,
+              "Timeout": 29,
+              "Description": "Run team matching algorithm",
+              "Environment": {
+                "Variables": {
+                  "TEAM_MATCHING_TABLE": "team-matching-system-dev",
+                  "SENTRY_DSN": "https://474121de6dfb4ea7973f677619e38b2d@o414418.ingest.sentry.io/5776787",
+                  "SENTRY_ENVIRONMENT": "dev"
+                }
+              },
+              "Role": {
+                "Fn::GetAtt": [
+                  "IamRoleLambdaExecution",
+                  "Arn"
+                ]
+              }
+            },
+            "DependsOn": [
+              "MatchTeamsLogGroup"
+            ]
+          },
+          "RegisterLambdaVersionaXAjQUUe7laHUbMR5PZ6oq27u7UBHzaaJeEdRZOZHI": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "RegisterLambdaFunction"
               },
-<<<<<<< HEAD
-              "CodeSha256": "ggGM8gGRZBpD+RdfCU9KyigNnbe+P263AdzYfUrsX0o=",
-=======
-              "CodeSha256": "NmckJSRLLDVcBV4wv/F5YvRER0BZeSqyMNPyPnqzCl0=",
->>>>>>> main
+              "CodeSha256": "jTQmnURWngoFOK1n/KLvRIMsi+J0YPZtSWGlvRmOcRM=",
               "Description": "Create or update a record in the team-matching table"
+            }
+          },
+          "DeleteLambdaVersionCV2jIa8ixrU0B3N8od00RK1h0iqGOX1PBg9daZmeVw": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "DeleteLambdaFunction"
+              },
+              "CodeSha256": "jTQmnURWngoFOK1n/KLvRIMsi+J0YPZtSWGlvRmOcRM=",
+              "Description": "delete a record in the team-matching table"
+            }
+          },
+          "MatchTeamsLambdaVersionLzsOc4ngNjIosCqvb2Y0jQD1C8skgz6LgIaXsUgo": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "MatchTeamsLambdaFunction"
+              },
+              "CodeSha256": "jTQmnURWngoFOK1n/KLvRIMsi+J0YPZtSWGlvRmOcRM=",
+              "Description": "Run team matching algorithm"
             }
           },
           "ApiGatewayRestApi": {
@@ -700,6 +1245,36 @@
                 ]
               },
               "PathPart": "register",
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayResourceDelete": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+              "ParentId": {
+                "Fn::GetAtt": [
+                  "ApiGatewayRestApi",
+                  "RootResourceId"
+                ]
+              },
+              "PathPart": "delete",
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayResourceMatchDashteams": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+              "ParentId": {
+                "Fn::GetAtt": [
+                  "ApiGatewayRestApi",
+                  "RootResourceId"
+                ]
+              },
+              "PathPart": "match-teams",
               "RestApiId": {
                 "Ref": "ApiGatewayRestApi"
               }
@@ -744,6 +1319,96 @@
               },
               "ResourceId": {
                 "Ref": "ApiGatewayResourceRegister"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayMethodDeleteOptions": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "AuthorizationType": "NONE",
+              "HttpMethod": "OPTIONS",
+              "MethodResponses": [
+                {
+                  "StatusCode": "200",
+                  "ResponseParameters": {
+                    "method.response.header.Access-Control-Allow-Origin": true,
+                    "method.response.header.Access-Control-Allow-Headers": true,
+                    "method.response.header.Access-Control-Allow-Methods": true
+                  },
+                  "ResponseModels": {}
+                }
+              ],
+              "RequestParameters": {},
+              "Integration": {
+                "Type": "MOCK",
+                "RequestTemplates": {
+                  "application/json": "{statusCode:200}"
+                },
+                "ContentHandling": "CONVERT_TO_TEXT",
+                "IntegrationResponses": [
+                  {
+                    "StatusCode": "200",
+                    "ResponseParameters": {
+                      "method.response.header.Access-Control-Allow-Origin": "'*'",
+                      "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,X-Amzn-Trace-Id'",
+                      "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,DELETE'"
+                    },
+                    "ResponseTemplates": {
+                      "application/json": ""
+                    }
+                  }
+                ]
+              },
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceDelete"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayMethodMatchDashteamsOptions": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "AuthorizationType": "NONE",
+              "HttpMethod": "OPTIONS",
+              "MethodResponses": [
+                {
+                  "StatusCode": "200",
+                  "ResponseParameters": {
+                    "method.response.header.Access-Control-Allow-Origin": true,
+                    "method.response.header.Access-Control-Allow-Headers": true,
+                    "method.response.header.Access-Control-Allow-Methods": true
+                  },
+                  "ResponseModels": {}
+                }
+              ],
+              "RequestParameters": {},
+              "Integration": {
+                "Type": "MOCK",
+                "RequestTemplates": {
+                  "application/json": "{statusCode:200}"
+                },
+                "ContentHandling": "CONVERT_TO_TEXT",
+                "IntegrationResponses": [
+                  {
+                    "StatusCode": "200",
+                    "ResponseParameters": {
+                      "method.response.header.Access-Control-Allow-Origin": "'*'",
+                      "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,X-Amzn-Trace-Id'",
+                      "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET'"
+                    },
+                    "ResponseTemplates": {
+                      "application/json": ""
+                    }
+                  }
+                ]
+              },
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceMatchDashteams"
               },
               "RestApiId": {
                 "Ref": "ApiGatewayRestApi"
@@ -796,11 +1461,99 @@
               "RegisterLambdaPermissionApiGateway"
             ]
           },
-<<<<<<< HEAD
-          "ApiGatewayDeployment1743620576447": {
-=======
-          "ApiGatewayDeployment1743362636534": {
->>>>>>> main
+          "ApiGatewayMethodDeleteDelete": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "HttpMethod": "DELETE",
+              "RequestParameters": {},
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceDelete"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "ApiKeyRequired": "<REDACTED>",
+              "AuthorizationType": "NONE",
+              "Integration": {
+                "IntegrationHttpMethod": "POST",
+                "Type": "AWS_PROXY",
+                "Uri": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":lambda:path/2015-03-31/functions/",
+                      {
+                        "Fn::GetAtt": [
+                          "DeleteLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "/invocations"
+                    ]
+                  ]
+                }
+              },
+              "MethodResponses": []
+            },
+            "DependsOn": [
+              "DeleteLambdaPermissionApiGateway"
+            ]
+          },
+          "ApiGatewayMethodMatchDashteamsGet": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "HttpMethod": "GET",
+              "RequestParameters": {},
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceMatchDashteams"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "ApiKeyRequired": "<REDACTED>",
+              "AuthorizationType": "NONE",
+              "Integration": {
+                "IntegrationHttpMethod": "POST",
+                "Type": "AWS_PROXY",
+                "Uri": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":lambda:path/2015-03-31/functions/",
+                      {
+                        "Fn::GetAtt": [
+                          "MatchTeamsLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "/invocations"
+                    ]
+                  ]
+                }
+              },
+              "MethodResponses": []
+            },
+            "DependsOn": [
+              "MatchTeamsLambdaPermissionApiGateway"
+            ]
+          },
+          "ApiGatewayDeployment1744086320040": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -810,7 +1563,11 @@
             },
             "DependsOn": [
               "ApiGatewayMethodRegisterOptions",
-              "ApiGatewayMethodRegisterPost"
+              "ApiGatewayMethodDeleteOptions",
+              "ApiGatewayMethodMatchDashteamsOptions",
+              "ApiGatewayMethodRegisterPost",
+              "ApiGatewayMethodDeleteDelete",
+              "ApiGatewayMethodMatchDashteamsGet"
             ]
           },
           "RegisterLambdaPermissionApiGateway": {
@@ -819,6 +1576,80 @@
               "FunctionName": {
                 "Fn::GetAtt": [
                   "RegisterLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "ApiGatewayRestApi"
+                    },
+                    "/*/*"
+                  ]
+                ]
+              }
+            }
+          },
+          "DeleteLambdaPermissionApiGateway": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "DeleteLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "ApiGatewayRestApi"
+                    },
+                    "/*/*"
+                  ]
+                ]
+              }
+            }
+          },
+          "MatchTeamsLambdaPermissionApiGateway": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "MatchTeamsLambdaFunction",
                   "Arn"
                 ]
               },
@@ -861,14 +1692,28 @@
           "RegisterLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-<<<<<<< HEAD
-              "Ref": "RegisterLambdaVersionjLiUSdK6AaWhUc5oV8xTOEoo47dYvi6aid09kqL4"
-=======
-              "Ref": "RegisterLambdaVersionicmlSXXSSQnfQ671v2BeYO449oBczPO3GhQDryeA8"
->>>>>>> main
+              "Ref": "RegisterLambdaVersionaXAjQUUe7laHUbMR5PZ6oq27u7UBHzaaJeEdRZOZHI"
             },
             "Export": {
               "Name": "sls-team-matching-backend-dev-RegisterLambdaFunctionQualifiedArn"
+            }
+          },
+          "DeleteLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "DeleteLambdaVersionCV2jIa8ixrU0B3N8od00RK1h0iqGOX1PBg9daZmeVw"
+            },
+            "Export": {
+              "Name": "sls-team-matching-backend-dev-DeleteLambdaFunctionQualifiedArn"
+            }
+          },
+          "MatchTeamsLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "MatchTeamsLambdaVersionLzsOc4ngNjIosCqvb2Y0jQD1C8skgz6LgIaXsUgo"
+            },
+            "Export": {
+              "Name": "sls-team-matching-backend-dev-MatchTeamsLambdaFunctionQualifiedArn"
             }
           },
           "ServiceEndpoint": {
@@ -920,11 +1765,7 @@
       },
       "instanceParameters": null
     },
-<<<<<<< HEAD
-    "serviceRawFile": "org: bitcamp\napp: team-matching-backend\nservice: team-matching-backend\n\nprovider:\n  name: aws\n  region: us-east-1\n  runtime: nodejs16.x\n  stage: ${opt:stage, 'dev'}\n  environment:\n    # Example environment variable for the DynamoDB table name\n    TEAM_MATCHING_TABLE: ${file(./config/${self:provider.stage}.json):TEAM_MATCHING_TABLE}\n\n  iam:\n    role:\n      statements:\n        - Effect: \"Allow\"\n          Action:\n            - dynamodb:Query\n            - dynamodb:Scan\n            - dynamodb:GetItem\n            - dynamodb:PutItem\n            - dynamodb:UpdateItem\n            - dynamodb:DeleteItem\n          Resource:\n            # Give access to *only* your table if you like:\n            - \"arn:aws:dynamodb:${self:provider.region}:*:table/${file(./config/${self:provider.stage}.json):TEAM_MATCHING_TABLE}\"\n            - \"arn:aws:dynamodb:${self:provider.region}:*:table/${file(./config/${self:provider.stage}.json):TEAM_MATCHING_TABLE}/*\"\n\nfunctions:\n  register:\n    handler: index.handler\n    description: Create or update a record in the team-matching table\n    events:\n      - http:\n          path: register\n          method: post\n          cors: true\n    memorySize: 256\n    timeout: 15\n\n  # Add other functions here if needed\n  # e.g. matchTeams, listTeams, etc.\n\n# resources:\n#   Resources:\n#     TeamMatchingTable:\n#       Type: AWS::DynamoDB::Table\n#       Properties:\n#         TableName: ${file(./config/${self:provider.stage}.json):TEAM_MATCHING_TABLE}\n#         BillingMode: PAY_PER_REQUEST\n#         AttributeDefinitions:\n#           - AttributeName: email\n#             AttributeType: S\n#         KeySchema:\n#           - AttributeName: email\n#             KeyType: HASH\n#       DeletionPolicy: Retain\n\npackage:\n  include: \n    - node_modules/**\n\nplugins:\n  # Remove or add plugins as needed. For example, if you want Sentry:\n  - serverless-sentry\n\ncustom:\n  sentry:\n    dsn: ${file(./config/${self:provider.stage}.json):SENTRY_DSN}\n",
-=======
-    "serviceRawFile": "org: bitcamp\napp: team-matching-backend\nservice: team-matching-backend\n\nprovider:\n  name: aws\n  region: us-east-1\n  runtime: nodejs16.x\n  stage: ${opt:stage, 'dev'}\n  environment:\n    # Example environment variable for the DynamoDB table name\n    TEAM_MATCHING_TABLE: ${file(./config/${self:provider.stage}.json):TEAM_MATCHING_TABLE}\n\n  iam:\n    role:\n      statements:\n        - Effect: \"Allow\"\n          Action:\n            - dynamodb:Query\n            - dynamodb:Scan\n            - dynamodb:GetItem\n            - dynamodb:PutItem\n            - dynamodb:UpdateItem\n            - dynamodb:DeleteItem\n          Resource:\n            # Give access to *only* your table if you like:\n            - \"arn:aws:dynamodb:${self:provider.region}:*:table/${file(./config/${self:provider.stage}.json):TEAM_MATCHING_TABLE}\"\n            - \"arn:aws:dynamodb:${self:provider.region}:*:table/${file(./config/${self:provider.stage}.json):TEAM_MATCHING_TABLE}/*\"\n\nfunctions:\n  register:\n    handler: index.handler\n    description: Create or update a record in the team-matching table\n    events:\n      - http:\n          path: register\n          method: post\n          cors: true\n    memorySize: 256\n    timeout: 15\n\n  # Add other functions here if needed\n  # e.g. matchTeams, listTeams, etc.\n\n# resources:\n#   Resources:\n#     TeamMatchingTable:\n#       Type: AWS::DynamoDB::Table\n#       Properties:\n#         TableName: ${file(./config/${self:provider.stage}.json):TEAM_MATCHING_TABLE}\n#         BillingMode: PAY_PER_REQUEST\n#         AttributeDefinitions:\n#           - AttributeName: email\n#             AttributeType: S\n#         KeySchema:\n#           - AttributeName: email\n#             KeyType: HASH\n#       DeletionPolicy: Retain\n\npackage:\n  exclude: \n    - node_modules/**\n\nplugins:\n  # Remove or add plugins as needed. For example, if you want Sentry:\n  - serverless-sentry\n\ncustom:\n  sentry:\n    dsn: ${file(./config/${self:provider.stage}.json):SENTRY_DSN}\n",
->>>>>>> main
+    "serviceRawFile": "serverless:\norg: bitcamp\napp: team-matching-backend\nservice: team-matching-backend\nprovider:\n  name: aws\n  region: us-east-1\n  runtime: nodejs16.x\n  stage: ${opt:stage, 'dev'}\n  environment:\n    # Example environment variable for the DynamoDB table name\n    TEAM_MATCHING_TABLE: ${file(./config/${self:provider.stage}.json):TEAM_MATCHING_TABLE}\n  iam:\n    role:\n      statements:\n        - Effect: \"Allow\"\n          Action:\n            - dynamodb:Query\n            - dynamodb:Scan\n            - dynamodb:GetItem\n            - dynamodb:PutItem\n            - dynamodb:UpdateItem\n            - dynamodb:DeleteItem\n          Resource:\n            # Give access to *only* your table if you like:\n            - \"arn:aws:dynamodb:${self:provider.region}:*:table/${file(./config/${self:provider.stage}.json):TEAM_MATCHING_TABLE}\"\n            - \"arn:aws:dynamodb:${self:provider.region}:*:table/${file(./config/${self:provider.stage}.json):TEAM_MATCHING_TABLE}/*\"\nfunctions:\n  register:\n    handler: index.handler\n    description: Create or update a record in the team-matching table\n    events:\n      - http:\n          path: register\n          method: post\n          cors: true\n    memorySize: 256\n    timeout: 15\n  delete:\n    handler: index.handler\n    description: delete a record in the team-matching table\n    events:\n      - http:\n          path: delete\n          method: delete\n          cors: true\n    memorySize: 256\n    timeout: 15\n  matchTeams:\n    handler: matching.lambda_handler\n    runtime: python3.9\n    description: Run team matching algorithm\n    events:\n      - http:\n          path: match-teams\n          method: get\n          cors: true\n    memorySize: 256\n    timeout: 29\n  # Add other functions here if needed\n  # e.g. matchTeams, listTeams, etc.\n# resources:\n#   Resources:\n#     TeamMatchingTable:\n#       Type: AWS::DynamoDB::Table\n#       Properties:\n#         TableName: ${file(./config/${self:provider.stage}.json):TEAM_MATCHING_TABLE}\n#         BillingMode: PAY_PER_REQUEST\n#         AttributeDefinitions:\n#           - AttributeName: email\n#             AttributeType: S\n#         KeySchema:\n#           - AttributeName: email\n#             KeyType: HASH\n#       DeletionPolicy: Retain\npackage:\n  # include:\n  #   - node_modules/**\n  exclude:\n    - .git/**\n    - .serverless/**\n    - test/**\n    - node_modules/aws-sdk/** # Already included in Lambda environment\n    - \"**/*.md\"\nplugins:\n  # Remove or add plugins as needed. For example, if you want Sentry:\n  - serverless-sentry\ncustom:\n  sentry:\n    dsn: ${file(./config/${self:provider.stage}.json):SENTRY_DSN}",
     "command": [
       "deploy"
     ],
@@ -937,35 +1778,38 @@
     "userName": "bitcamp",
     "serviceProviderAwsAccountId": "123574527805",
     "serviceProviderAwsCfStackName": "team-matching-backend-dev",
-    "serviceProviderAwsCfStackId": "arn:aws:cloudformation:us-east-1:123574527805:stack/team-matching-backend-dev/daad87e0-0be4-11f0-82a0-0e6e57da8869",
-    "serviceProviderAwsCfStackCreated": "2025-03-28T14:56:39.892Z",
-<<<<<<< HEAD
-    "serviceProviderAwsCfStackUpdated": "2025-04-02T18:45:41.652Z",
+    "serviceProviderAwsCfStackId": "arn:aws:cloudformation:us-east-1:123574527805:stack/team-matching-backend-dev/57b1ada0-141b-11f0-8fc7-0e3ce53ac30f",
+    "serviceProviderAwsCfStackCreated": "2025-04-08T01:46:51.774Z",
+    "serviceProviderAwsCfStackUpdated": "2025-04-08T04:12:53.554Z",
     "serviceProviderAwsCfStackStatus": "UPDATE_COMPLETE",
     "serviceProviderAwsCfStackOutputs": [
       {
-        "OutputKey": "RegisterLambdaFunctionQualifiedArn",
-        "OutputValue": "arn:aws:lambda:us-east-1:123574527805:function:team-matching-backend-dev-register:27",
-=======
-    "serviceProviderAwsCfStackUpdated": "2025-03-30T18:50:01.875Z",
-    "serviceProviderAwsCfStackStatus": "UPDATE_ROLLBACK_COMPLETE",
-    "serviceProviderAwsCfStackOutputs": [
-      {
-        "OutputKey": "GetExpoScheduleLambdaFunctionQualifiedArn",
-        "OutputValue": "arn:aws:lambda:us-east-1:123574527805:function:team-matching-backend-dev-getExpoSchedule:2",
->>>>>>> main
+        "OutputKey": "DeleteLambdaFunctionQualifiedArn",
+        "OutputValue": "arn:aws:lambda:us-east-1:123574527805:function:team-matching-backend-dev-delete:3",
         "Description": "Current Lambda function version",
-        "ExportName": "sls-team-matching-backend-dev-GetExpoScheduleLambdaFunctionQualifiedArn"
+        "ExportName": "sls-team-matching-backend-dev-DeleteLambdaFunctionQualifiedArn"
+      },
+      {
+        "OutputKey": "RegisterLambdaFunctionQualifiedArn",
+        "OutputValue": "arn:aws:lambda:us-east-1:123574527805:function:team-matching-backend-dev-register:54",
+        "Description": "Current Lambda function version",
+        "ExportName": "sls-team-matching-backend-dev-RegisterLambdaFunctionQualifiedArn"
+      },
+      {
+        "OutputKey": "MatchTeamsLambdaFunctionQualifiedArn",
+        "OutputValue": "arn:aws:lambda:us-east-1:123574527805:function:team-matching-backend-dev-matchTeams:20",
+        "Description": "Current Lambda function version",
+        "ExportName": "sls-team-matching-backend-dev-MatchTeamsLambdaFunctionQualifiedArn"
       },
       {
         "OutputKey": "ServiceEndpoint",
-        "OutputValue": "https://uuv7dviwhf.execute-api.us-east-1.amazonaws.com/dev",
+        "OutputValue": "https://akayuoljek.execute-api.us-east-1.amazonaws.com/dev",
         "Description": "URL of the service endpoint",
         "ExportName": "sls-team-matching-backend-dev-ServiceEndpoint"
       },
       {
         "OutputKey": "ServerlessDeploymentBucketName",
-        "OutputValue": "bitcamp-platform-mobile-dev-layers-deploymentbucket",
+        "OutputValue": "serverless-framework-deployments-us-east-1-89eeb5a8-31b0",
         "ExportName": "sls-team-matching-backend-dev-ServerlessDeploymentBucketName"
       }
     ],
@@ -977,6 +1821,18 @@
           "Type": "AWS::Logs::LogGroup",
           "Properties": {
             "LogGroupName": "/aws/lambda/team-matching-backend-dev-register"
+          }
+        },
+        "DeleteLogGroup": {
+          "Type": "AWS::Logs::LogGroup",
+          "Properties": {
+            "LogGroupName": "/aws/lambda/team-matching-backend-dev-delete"
+          }
+        },
+        "MatchTeamsLogGroup": {
+          "Type": "AWS::Logs::LogGroup",
+          "Properties": {
+            "LogGroupName": "/aws/lambda/team-matching-backend-dev-matchTeams"
           }
         },
         "IamRoleLambdaExecution": {
@@ -1077,11 +1933,7 @@
           "Properties": {
             "Code": {
               "S3Bucket": "serverless-framework-deployments-us-east-1-89eeb5a8-31b0",
-<<<<<<< HEAD
-              "S3Key": "serverless/team-matching-backend/dev/1743620581577-2025-04-02T19:03:01.577Z/team-matching-backend.zip"
-=======
-              "S3Key": "serverless/team-matching-backend/dev/1743362643057-2025-03-30T19:24:03.057Z/team-matching-backend.zip"
->>>>>>> main
+              "S3Key": "serverless/team-matching-backend/dev/1744086329185-2025-04-08T04:25:29.185Z/team-matching-backend.zip"
             },
             "Handler": "index.handler",
             "Runtime": "nodejs16.x",
@@ -1107,23 +1959,99 @@
             "RegisterLogGroup"
           ]
         },
-<<<<<<< HEAD
-        "RegisterLambdaVersionjLiUSdK6AaWhUc5oV8xTOEoo47dYvi6aid09kqL4": {
-=======
-        "RegisterLambdaVersionicmlSXXSSQnfQ671v2BeYO449oBczPO3GhQDryeA8": {
->>>>>>> main
+        "DeleteLambdaFunction": {
+          "Type": "AWS::Lambda::Function",
+          "Properties": {
+            "Code": {
+              "S3Bucket": "serverless-framework-deployments-us-east-1-89eeb5a8-31b0",
+              "S3Key": "serverless/team-matching-backend/dev/1744086329185-2025-04-08T04:25:29.185Z/team-matching-backend.zip"
+            },
+            "Handler": "index.handler",
+            "Runtime": "nodejs16.x",
+            "FunctionName": "team-matching-backend-dev-delete",
+            "MemorySize": 256,
+            "Timeout": 15,
+            "Description": "delete a record in the team-matching table",
+            "Environment": {
+              "Variables": {
+                "TEAM_MATCHING_TABLE": "team-matching-system-dev",
+                "SENTRY_DSN": "https://474121de6dfb4ea7973f677619e38b2d@o414418.ingest.sentry.io/5776787",
+                "SENTRY_ENVIRONMENT": "dev"
+              }
+            },
+            "Role": {
+              "Fn::GetAtt": [
+                "IamRoleLambdaExecution",
+                "Arn"
+              ]
+            }
+          },
+          "DependsOn": [
+            "DeleteLogGroup"
+          ]
+        },
+        "MatchTeamsLambdaFunction": {
+          "Type": "AWS::Lambda::Function",
+          "Properties": {
+            "Code": {
+              "S3Bucket": "serverless-framework-deployments-us-east-1-89eeb5a8-31b0",
+              "S3Key": "serverless/team-matching-backend/dev/1744086329185-2025-04-08T04:25:29.185Z/team-matching-backend.zip"
+            },
+            "Handler": "matching.lambda_handler",
+            "Runtime": "python3.9",
+            "FunctionName": "team-matching-backend-dev-matchTeams",
+            "MemorySize": 256,
+            "Timeout": 29,
+            "Description": "Run team matching algorithm",
+            "Environment": {
+              "Variables": {
+                "TEAM_MATCHING_TABLE": "team-matching-system-dev",
+                "SENTRY_DSN": "https://474121de6dfb4ea7973f677619e38b2d@o414418.ingest.sentry.io/5776787",
+                "SENTRY_ENVIRONMENT": "dev"
+              }
+            },
+            "Role": {
+              "Fn::GetAtt": [
+                "IamRoleLambdaExecution",
+                "Arn"
+              ]
+            }
+          },
+          "DependsOn": [
+            "MatchTeamsLogGroup"
+          ]
+        },
+        "RegisterLambdaVersionaXAjQUUe7laHUbMR5PZ6oq27u7UBHzaaJeEdRZOZHI": {
           "Type": "AWS::Lambda::Version",
           "DeletionPolicy": "Retain",
           "Properties": {
             "FunctionName": {
               "Ref": "RegisterLambdaFunction"
             },
-<<<<<<< HEAD
-            "CodeSha256": "ggGM8gGRZBpD+RdfCU9KyigNnbe+P263AdzYfUrsX0o=",
-=======
-            "CodeSha256": "NmckJSRLLDVcBV4wv/F5YvRER0BZeSqyMNPyPnqzCl0=",
->>>>>>> main
+            "CodeSha256": "jTQmnURWngoFOK1n/KLvRIMsi+J0YPZtSWGlvRmOcRM=",
             "Description": "Create or update a record in the team-matching table"
+          }
+        },
+        "DeleteLambdaVersionCV2jIa8ixrU0B3N8od00RK1h0iqGOX1PBg9daZmeVw": {
+          "Type": "AWS::Lambda::Version",
+          "DeletionPolicy": "Retain",
+          "Properties": {
+            "FunctionName": {
+              "Ref": "DeleteLambdaFunction"
+            },
+            "CodeSha256": "jTQmnURWngoFOK1n/KLvRIMsi+J0YPZtSWGlvRmOcRM=",
+            "Description": "delete a record in the team-matching table"
+          }
+        },
+        "MatchTeamsLambdaVersionLzsOc4ngNjIosCqvb2Y0jQD1C8skgz6LgIaXsUgo": {
+          "Type": "AWS::Lambda::Version",
+          "DeletionPolicy": "Retain",
+          "Properties": {
+            "FunctionName": {
+              "Ref": "MatchTeamsLambdaFunction"
+            },
+            "CodeSha256": "jTQmnURWngoFOK1n/KLvRIMsi+J0YPZtSWGlvRmOcRM=",
+            "Description": "Run team matching algorithm"
           }
         },
         "ApiGatewayRestApi": {
@@ -1148,6 +2076,36 @@
               ]
             },
             "PathPart": "register",
+            "RestApiId": {
+              "Ref": "ApiGatewayRestApi"
+            }
+          }
+        },
+        "ApiGatewayResourceDelete": {
+          "Type": "AWS::ApiGateway::Resource",
+          "Properties": {
+            "ParentId": {
+              "Fn::GetAtt": [
+                "ApiGatewayRestApi",
+                "RootResourceId"
+              ]
+            },
+            "PathPart": "delete",
+            "RestApiId": {
+              "Ref": "ApiGatewayRestApi"
+            }
+          }
+        },
+        "ApiGatewayResourceMatchDashteams": {
+          "Type": "AWS::ApiGateway::Resource",
+          "Properties": {
+            "ParentId": {
+              "Fn::GetAtt": [
+                "ApiGatewayRestApi",
+                "RootResourceId"
+              ]
+            },
+            "PathPart": "match-teams",
             "RestApiId": {
               "Ref": "ApiGatewayRestApi"
             }
@@ -1192,6 +2150,96 @@
             },
             "ResourceId": {
               "Ref": "ApiGatewayResourceRegister"
+            },
+            "RestApiId": {
+              "Ref": "ApiGatewayRestApi"
+            }
+          }
+        },
+        "ApiGatewayMethodDeleteOptions": {
+          "Type": "AWS::ApiGateway::Method",
+          "Properties": {
+            "AuthorizationType": "NONE",
+            "HttpMethod": "OPTIONS",
+            "MethodResponses": [
+              {
+                "StatusCode": "200",
+                "ResponseParameters": {
+                  "method.response.header.Access-Control-Allow-Origin": true,
+                  "method.response.header.Access-Control-Allow-Headers": true,
+                  "method.response.header.Access-Control-Allow-Methods": true
+                },
+                "ResponseModels": {}
+              }
+            ],
+            "RequestParameters": {},
+            "Integration": {
+              "Type": "MOCK",
+              "RequestTemplates": {
+                "application/json": "{statusCode:200}"
+              },
+              "ContentHandling": "CONVERT_TO_TEXT",
+              "IntegrationResponses": [
+                {
+                  "StatusCode": "200",
+                  "ResponseParameters": {
+                    "method.response.header.Access-Control-Allow-Origin": "'*'",
+                    "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,X-Amzn-Trace-Id'",
+                    "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,DELETE'"
+                  },
+                  "ResponseTemplates": {
+                    "application/json": ""
+                  }
+                }
+              ]
+            },
+            "ResourceId": {
+              "Ref": "ApiGatewayResourceDelete"
+            },
+            "RestApiId": {
+              "Ref": "ApiGatewayRestApi"
+            }
+          }
+        },
+        "ApiGatewayMethodMatchDashteamsOptions": {
+          "Type": "AWS::ApiGateway::Method",
+          "Properties": {
+            "AuthorizationType": "NONE",
+            "HttpMethod": "OPTIONS",
+            "MethodResponses": [
+              {
+                "StatusCode": "200",
+                "ResponseParameters": {
+                  "method.response.header.Access-Control-Allow-Origin": true,
+                  "method.response.header.Access-Control-Allow-Headers": true,
+                  "method.response.header.Access-Control-Allow-Methods": true
+                },
+                "ResponseModels": {}
+              }
+            ],
+            "RequestParameters": {},
+            "Integration": {
+              "Type": "MOCK",
+              "RequestTemplates": {
+                "application/json": "{statusCode:200}"
+              },
+              "ContentHandling": "CONVERT_TO_TEXT",
+              "IntegrationResponses": [
+                {
+                  "StatusCode": "200",
+                  "ResponseParameters": {
+                    "method.response.header.Access-Control-Allow-Origin": "'*'",
+                    "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,X-Amzn-Trace-Id'",
+                    "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET'"
+                  },
+                  "ResponseTemplates": {
+                    "application/json": ""
+                  }
+                }
+              ]
+            },
+            "ResourceId": {
+              "Ref": "ApiGatewayResourceMatchDashteams"
             },
             "RestApiId": {
               "Ref": "ApiGatewayRestApi"
@@ -1244,11 +2292,99 @@
             "RegisterLambdaPermissionApiGateway"
           ]
         },
-<<<<<<< HEAD
-        "ApiGatewayDeployment1743620576447": {
-=======
-        "ApiGatewayDeployment1743362636534": {
->>>>>>> main
+        "ApiGatewayMethodDeleteDelete": {
+          "Type": "AWS::ApiGateway::Method",
+          "Properties": {
+            "HttpMethod": "DELETE",
+            "RequestParameters": {},
+            "ResourceId": {
+              "Ref": "ApiGatewayResourceDelete"
+            },
+            "RestApiId": {
+              "Ref": "ApiGatewayRestApi"
+            },
+            "ApiKeyRequired": "<REDACTED>",
+            "AuthorizationType": "NONE",
+            "Integration": {
+              "IntegrationHttpMethod": "POST",
+              "Type": "AWS_PROXY",
+              "Uri": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":apigateway:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":lambda:path/2015-03-31/functions/",
+                    {
+                      "Fn::GetAtt": [
+                        "DeleteLambdaFunction",
+                        "Arn"
+                      ]
+                    },
+                    "/invocations"
+                  ]
+                ]
+              }
+            },
+            "MethodResponses": []
+          },
+          "DependsOn": [
+            "DeleteLambdaPermissionApiGateway"
+          ]
+        },
+        "ApiGatewayMethodMatchDashteamsGet": {
+          "Type": "AWS::ApiGateway::Method",
+          "Properties": {
+            "HttpMethod": "GET",
+            "RequestParameters": {},
+            "ResourceId": {
+              "Ref": "ApiGatewayResourceMatchDashteams"
+            },
+            "RestApiId": {
+              "Ref": "ApiGatewayRestApi"
+            },
+            "ApiKeyRequired": "<REDACTED>",
+            "AuthorizationType": "NONE",
+            "Integration": {
+              "IntegrationHttpMethod": "POST",
+              "Type": "AWS_PROXY",
+              "Uri": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":apigateway:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":lambda:path/2015-03-31/functions/",
+                    {
+                      "Fn::GetAtt": [
+                        "MatchTeamsLambdaFunction",
+                        "Arn"
+                      ]
+                    },
+                    "/invocations"
+                  ]
+                ]
+              }
+            },
+            "MethodResponses": []
+          },
+          "DependsOn": [
+            "MatchTeamsLambdaPermissionApiGateway"
+          ]
+        },
+        "ApiGatewayDeployment1744086320040": {
           "Type": "AWS::ApiGateway::Deployment",
           "Properties": {
             "RestApiId": {
@@ -1258,7 +2394,11 @@
           },
           "DependsOn": [
             "ApiGatewayMethodRegisterOptions",
-            "ApiGatewayMethodRegisterPost"
+            "ApiGatewayMethodDeleteOptions",
+            "ApiGatewayMethodMatchDashteamsOptions",
+            "ApiGatewayMethodRegisterPost",
+            "ApiGatewayMethodDeleteDelete",
+            "ApiGatewayMethodMatchDashteamsGet"
           ]
         },
         "RegisterLambdaPermissionApiGateway": {
@@ -1267,6 +2407,80 @@
             "FunctionName": {
               "Fn::GetAtt": [
                 "RegisterLambdaFunction",
+                "Arn"
+              ]
+            },
+            "Action": "lambda:InvokeFunction",
+            "Principal": "apigateway.amazonaws.com",
+            "SourceArn": {
+              "Fn::Join": [
+                "",
+                [
+                  "arn:",
+                  {
+                    "Ref": "AWS::Partition"
+                  },
+                  ":execute-api:",
+                  {
+                    "Ref": "AWS::Region"
+                  },
+                  ":",
+                  {
+                    "Ref": "AWS::AccountId"
+                  },
+                  ":",
+                  {
+                    "Ref": "ApiGatewayRestApi"
+                  },
+                  "/*/*"
+                ]
+              ]
+            }
+          }
+        },
+        "DeleteLambdaPermissionApiGateway": {
+          "Type": "AWS::Lambda::Permission",
+          "Properties": {
+            "FunctionName": {
+              "Fn::GetAtt": [
+                "DeleteLambdaFunction",
+                "Arn"
+              ]
+            },
+            "Action": "lambda:InvokeFunction",
+            "Principal": "apigateway.amazonaws.com",
+            "SourceArn": {
+              "Fn::Join": [
+                "",
+                [
+                  "arn:",
+                  {
+                    "Ref": "AWS::Partition"
+                  },
+                  ":execute-api:",
+                  {
+                    "Ref": "AWS::Region"
+                  },
+                  ":",
+                  {
+                    "Ref": "AWS::AccountId"
+                  },
+                  ":",
+                  {
+                    "Ref": "ApiGatewayRestApi"
+                  },
+                  "/*/*"
+                ]
+              ]
+            }
+          }
+        },
+        "MatchTeamsLambdaPermissionApiGateway": {
+          "Type": "AWS::Lambda::Permission",
+          "Properties": {
+            "FunctionName": {
+              "Fn::GetAtt": [
+                "MatchTeamsLambdaFunction",
                 "Arn"
               ]
             },
@@ -1309,14 +2523,28 @@
         "RegisterLambdaFunctionQualifiedArn": {
           "Description": "Current Lambda function version",
           "Value": {
-<<<<<<< HEAD
-            "Ref": "RegisterLambdaVersionjLiUSdK6AaWhUc5oV8xTOEoo47dYvi6aid09kqL4"
-=======
-            "Ref": "RegisterLambdaVersionicmlSXXSSQnfQ671v2BeYO449oBczPO3GhQDryeA8"
->>>>>>> main
+            "Ref": "RegisterLambdaVersionaXAjQUUe7laHUbMR5PZ6oq27u7UBHzaaJeEdRZOZHI"
           },
           "Export": {
             "Name": "sls-team-matching-backend-dev-RegisterLambdaFunctionQualifiedArn"
+          }
+        },
+        "DeleteLambdaFunctionQualifiedArn": {
+          "Description": "Current Lambda function version",
+          "Value": {
+            "Ref": "DeleteLambdaVersionCV2jIa8ixrU0B3N8od00RK1h0iqGOX1PBg9daZmeVw"
+          },
+          "Export": {
+            "Name": "sls-team-matching-backend-dev-DeleteLambdaFunctionQualifiedArn"
+          }
+        },
+        "MatchTeamsLambdaFunctionQualifiedArn": {
+          "Description": "Current Lambda function version",
+          "Value": {
+            "Ref": "MatchTeamsLambdaVersionLzsOc4ngNjIosCqvb2Y0jQD1C8skgz6LgIaXsUgo"
+          },
+          "Export": {
+            "Name": "sls-team-matching-backend-dev-MatchTeamsLambdaFunctionQualifiedArn"
           }
         },
         "ServiceEndpoint": {
