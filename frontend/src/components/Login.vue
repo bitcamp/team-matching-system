@@ -5,7 +5,7 @@
     <b-form class="registration-form" @submit.prevent="loginUser">
       <b-form-group>
         <template #label>
-          <span class="required-label">Username</span>
+          <span class="required-label">Email</span>
         </template>
         <b-form-input
           v-model="form.username_name"

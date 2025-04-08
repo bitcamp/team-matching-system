@@ -7,24 +7,21 @@
     </h1>
 
     <b-form class="registration-form" @submit.prevent="registerUser">
-      <b-form-group v-if="mode === 'edit'">
+      <!-- <b-form-group v-if="mode === 'edit'">
         <template #label>
           <span class="required-label">Are you still looking for a team?</span>
         </template>
         <b-form-radio-group v-model="form.looking" name="looking">
-          <b-form-radio value="looking">Looking for a team</b-form-radio>
-          <b-form-radio value="inteam">Currently in a team</b-form-radio>
-          <b-form-radio value="notlooking"
-            >No longer looking for a team</b-form-radio
-          >
+          <b-form-radio value="looking">Yes</b-form-radio>
+          <b-form-radio value="inteam">No</b-form-radio>
         </b-form-radio-group>
-      </b-form-group>
+      </b-form-group> -->
 
       <b-row>
         <b-col md="6">
           <b-form-group>
             <template #label>
-              <span class="required-label">First Name</span>
+              <span class="required-label" >First Name</span>
             </template>
             <b-form-input
               v-model="form.first_name"
@@ -257,16 +254,19 @@
         </b-button>
       </div>
     </b-form>
+    <b-button variant="danger" class="delete-button" @click="deleteProfile" v-if="mode === 'edit'">
+  Delete My Profile
+</b-button>
   </div>
 </template>
 
 <script setup>
 import { ref, reactive } from "vue";
-import { useRouter } from "vue-router"; // ✅ import router
+import { useRouter } from "vue-router";
 import axios from "axios";
 import generalMixin from "../mixins/general.js";
 
-const router = useRouter(); // ✅ get router instance
+const router = useRouter();
 
 const touched = reactive({
   first_name: false,
@@ -276,6 +276,7 @@ const touched = reactive({
 });
 
 const form = reactive({
+  id: "", // make sure to include `id` if your DB key is `id`
   first_name: "",
   last_name: "",
   year: "",
@@ -305,13 +306,36 @@ const registerUser = async () => {
     alert("Registration Successful!");
     console.log("Response:", response.data);
 
-    // ✅ Go to matching page
     router.push("/app");
   } catch (error) {
     alert("Error registering user");
     console.error("Registration failed:", error.response?.data || error.message || error);
   }
 };
+
+const deleteProfile = async () => {
+  const confirmDelete = confirm("Are you sure you want to delete your profile?");
+  if (!confirmDelete) return;
+
+  try {
+    const backendEndpoint = generalMixin.methods.getEnvVariable("BACKEND_ENDPOINT");
+    const env = generalMixin.methods.getCurrentEnvironment();
+    const url = `${backendEndpoint}/${env}/delete`;
+
+    await axios.delete(url, {
+      data: {
+        id: form.email, // ✅ use email as the primary key
+      },
+    });
+
+    alert("Profile deleted successfully.");
+    router.push("/login");
+  } catch (error) {
+    alert("Error deleting profile");
+    console.error("Deletion failed:", error.response?.data || error.message || error);
+  }
+};
+
 
 const props = defineProps({
   mode: {

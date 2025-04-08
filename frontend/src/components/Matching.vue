@@ -21,12 +21,12 @@ import TeamCard from "./TeamCard.vue";
 <template>
   <div class="matching-page">
     <!-- Profile Image Icon -->
-    <img
+    <!-- <img
       class="profile-icon"
       src="../assets/icon.svg"
       alt="Profile"
       @click="goToEdit"
-    />
+    /> -->
 
     <h1>Other Hackers!</h1>
     <TeamCard />
