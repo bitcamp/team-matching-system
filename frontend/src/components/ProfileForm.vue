@@ -262,8 +262,11 @@
 
 <script setup>
 import { ref, reactive } from "vue";
+import { useRouter } from "vue-router"; // ✅ import router
 import axios from "axios";
 import generalMixin from "../mixins/general.js";
+
+const router = useRouter(); // ✅ get router instance
 
 const touched = reactive({
   first_name: false,
@@ -293,13 +296,20 @@ const form = reactive({
 const registerUser = async () => {
   try {
     const backendEndpoint = generalMixin.methods.getEnvVariable("BACKEND_ENDPOINT");
-    console.log("Posting to:", `${backendEndpoint}/${generalMixin.methods.getCurrentEnvironment()}/register`);
-    const response = await axios.post(`${backendEndpoint}/${generalMixin.methods.getCurrentEnvironment()}/register`, form);
+    const env = generalMixin.methods.getCurrentEnvironment();
+    const url = `${backendEndpoint}/${env}/register`;
+
+    console.log("Posting to:", url);
+    const response = await axios.post(url, form);
+
     alert("Registration Successful!");
-    console.log(response.data);
+    console.log("Response:", response.data);
+
+    // ✅ Go to matching page
+    router.push("/app");
   } catch (error) {
     alert("Error registering user");
-    console.error(error);
+    console.error("Registration failed:", error.response?.data || error.message || error);
   }
 };
 
@@ -310,6 +320,7 @@ const props = defineProps({
   },
 });
 </script>
+
 
 <style scoped>
 .registration-page {
