@@ -207,7 +207,7 @@ def lambda_handler(event, context):
         "logs": team_logs
     }
     
-    import pprint
+    # import pprint
     # pprint.pprint(output)
     
     def safe_serialize(obj, seen=None):
