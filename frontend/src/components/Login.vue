@@ -2,7 +2,7 @@
   <div class="registration-page">
     <h1>Login</h1>
 
-    <b-form class="registration-form" @submit.prevent="loginUser">
+    <b-form class="registration-form" @submit.prevent="loginUser" ref="loginForm">
       <b-form-group>
         <template #label>
           <span class="required-label">Email</span>
@@ -38,10 +38,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
+const loginForm = ref<HTMLFormElement | null>(null);
+const rawFormEl = ref<HTMLFormElement | null>(null);
+
+onMounted(() => {
+  rawFormEl.value = loginForm.value?.$el ?? null;
+});
 
 const form = ref({
   username_name: "",
@@ -55,6 +61,7 @@ const loginUser = () => {
 
 const goToSignup = () => {
   router.push("/create-profile");
+  
 };
 </script>
 

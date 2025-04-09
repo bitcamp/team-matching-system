@@ -7,6 +7,31 @@
     </h1>
 
     <b-form class="registration-form" @submit.prevent="registerUser">
+      <b-form-group v-if="mode === 'register'">
+          <b-form-group>
+            <template #label>
+              <span class="required-label">New Username</span>
+            </template>
+            <b-form-input
+              v-model="form.username"
+              placeholder="Enter username"
+              required
+            ></b-form-input>
+          </b-form-group>
+
+          <b-form-group>
+            <template #label>
+              <span class="required-label">New Password</span>
+            </template>
+            <b-form-input
+              v-model="form.password"
+              placeholder="Enter password"
+              required
+            ></b-form-input>
+          </b-form-group>
+          <br><br>
+      </b-form-group>
+
       <!-- <b-form-group v-if="mode === 'edit'">
         <template #label>
           <span class="required-label">Are you still looking for a team?</span>
@@ -16,6 +41,7 @@
           <b-form-radio value="inteam">No</b-form-radio>
         </b-form-radio-group>
       </b-form-group> -->
+
 
       <b-row>
         <b-col md="6">
@@ -254,9 +280,14 @@
         </b-button>
       </div>
     </b-form>
-    <b-button variant="danger" class="delete-button" @click="deleteProfile" v-if="mode === 'edit'">
-  Delete My Profile
-</b-button>
+    <b-button
+      variant="danger"
+      class="delete-button"
+      @click="deleteProfile"
+      v-if="mode === 'edit'"
+    >
+      Delete My Profile
+    </b-button>
   </div>
 </template>
 
@@ -292,11 +323,14 @@ const form = reactive({
   serious: "",
   collab: [],
   num_team_members: "",
+  username: "",
+  password: ""
 });
 
 const registerUser = async () => {
   try {
-    const backendEndpoint = generalMixin.methods.getEnvVariable("BACKEND_ENDPOINT");
+    const backendEndpoint =
+      generalMixin.methods.getEnvVariable("BACKEND_ENDPOINT");
     const env = generalMixin.methods.getCurrentEnvironment();
     const url = `${backendEndpoint}/${env}/register`;
 
@@ -309,16 +343,22 @@ const registerUser = async () => {
     router.push("/app");
   } catch (error) {
     alert("Error registering user");
-    console.error("Registration failed:", error.response?.data || error.message || error);
+    console.error(
+      "Registration failed:",
+      error.response?.data || error.message || error
+    );
   }
 };
 
 const deleteProfile = async () => {
-  const confirmDelete = confirm("Are you sure you want to delete your profile?");
+  const confirmDelete = confirm(
+    "Are you sure you want to delete your profile?"
+  );
   if (!confirmDelete) return;
 
   try {
-    const backendEndpoint = generalMixin.methods.getEnvVariable("BACKEND_ENDPOINT");
+    const backendEndpoint =
+      generalMixin.methods.getEnvVariable("BACKEND_ENDPOINT");
     const env = generalMixin.methods.getCurrentEnvironment();
     const url = `${backendEndpoint}/${env}/delete`;
 
@@ -332,10 +372,12 @@ const deleteProfile = async () => {
     router.push("/login");
   } catch (error) {
     alert("Error deleting profile");
-    console.error("Deletion failed:", error.response?.data || error.message || error);
+    console.error(
+      "Deletion failed:",
+      error.response?.data || error.message || error
+    );
   }
 };
-
 
 const props = defineProps({
   mode: {
@@ -344,7 +386,6 @@ const props = defineProps({
   },
 });
 </script>
-
 
 <style scoped>
 .registration-page {
