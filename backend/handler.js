@@ -75,7 +75,8 @@ module.exports.register = withSentry(withSentryOptions, async (event) => {
       serious: body.serious,
       collab: body.collab,
       num_team_members: body.num_team_members,
-      looking: body.looking
+      username: body.username,
+      password: body.password
     },
   };
 

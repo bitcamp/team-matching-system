@@ -37,7 +37,8 @@ app.post("/register", async (req, res) => {
       serious: formData.serious || false,
       collab: formData.collab || false,
       num_team_members: formData.num_team_members || 0,
-      looking: formData.looking || "N/A",
+      username: formData.username || "N/A",
+      password: formData.password || "N/A"
     },
   };
 
