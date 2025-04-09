@@ -60,9 +60,8 @@ const loginUser = () => {
 };
 
 const goToSignup = () => {
-  if (rawFormEl.value?.reportValidity()) {
-    router.push("/create-profile");
-  }
+  router.push("/create-profile");
+  
 };
 </script>
 
