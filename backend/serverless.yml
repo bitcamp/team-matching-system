@@ -46,6 +46,13 @@ functions:
           cors: true
     memorySize: 256
     timeout: 15
+  login:
+    handler: index.handler
+    events:
+      - http:
+          path: login
+          method: post
+          cors: true
   matchTeams:
     handler: matching.lambda_handler
     runtime: python3.9

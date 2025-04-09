@@ -51,6 +51,45 @@ app.post("/register", async (req, res) => {
   }
 });
 
+// ✅ POST /login — validate credentials
+app.post("/login", async (req, res) => {
+  const { username, password } = req.body;
+
+  if (!username || !password) {
+    return res.status(400).json({ error: "Username and password required" });
+  }
+
+  const params = {
+    TableName: TABLE_NAME,
+    IndexName: "username-index",
+    KeyConditionExpression: "username = :u",
+    ExpressionAttributeValues: {
+      ":u": username,
+    },
+  };
+
+  try {
+    const result = await dynamoDB.query(params).promise();
+
+    if (result.Items.length === 0) {
+      return res.status(401).json({ error: "User not found" });
+    }
+
+    const user = result.Items[0];
+
+    if (user.password !== password) {
+      return res.status(401).json({ error: "Invalid password" });
+    }
+
+    res.status(200).json({ message: "Login successful", user });
+    console.log("success");
+  } catch (error) {
+    console.error("Login error:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+
 // ✅ DELETE /delete — remove profile by email
 app.delete("/delete", async (req, res) => {
   const { id } = req.body; // 👈 expects { id: 'user@example.com' }

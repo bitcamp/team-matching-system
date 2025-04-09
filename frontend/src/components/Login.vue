@@ -2,15 +2,16 @@
   <div class="registration-page">
     <h1>Login</h1>
 
-    <b-form class="registration-form" @submit.prevent="loginUser" ref="loginForm">
+    <b-form
+      class="registration-form"
+      @submit.prevent="loginUser"
+      ref="loginForm"
+    >
       <b-form-group>
         <template #label>
           <span class="required-label">Email</span>
         </template>
-        <b-form-input
-          v-model="form.username_name"
-          required
-        ></b-form-input>
+        <b-form-input v-model="form.username_name" required></b-form-input>
       </b-form-group>
 
       <b-form-group>
@@ -30,7 +31,7 @@
     </b-form>
 
     <div class="alternative">
-      <h5><span style="color: white;">or</span></h5>
+      <h5><span style="color: white">or</span></h5>
       <h5>Don't have an account?</h5>
       <b-button variant="primary" @click="goToSignup">Sign Up</b-button>
     </div>
@@ -40,6 +41,9 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
+import axios, { AxiosError } from "axios";
+// @ts-ignore
+import generalMixin from "../mixins/general.js";
 
 const router = useRouter();
 const loginForm = ref<HTMLFormElement | null>(null);
@@ -54,14 +58,36 @@ const form = ref({
   password: "",
 });
 
-const loginUser = () => {
-  console.log("Logging in with:", form.value);
-  // TODO: Add actual login logic here
+const loginUser = async () => {
+  try {
+    const backendEndpoint =
+      generalMixin.methods.getEnvVariable("BACKEND_ENDPOINT");
+    const env = generalMixin.methods.getCurrentEnvironment();
+    const url = `${backendEndpoint}/${env}/login`;
+
+    const response = await axios.post(url, {
+      username: form.value.username_name,
+      password: form.value.password,
+    });
+
+    alert("Login successful!");
+    router.push("/app");
+  } catch (err: unknown) {
+    const error = err as AxiosError;
+
+    if (error.response) {
+      const data = error.response.data as { error: string };
+      alert(data.error);
+    } else {
+      alert("Network error — please try again.");
+    }
+
+    console.error("Login error:", error);
+  }
 };
 
 const goToSignup = () => {
   router.push("/create-profile");
-  
 };
 </script>
 
