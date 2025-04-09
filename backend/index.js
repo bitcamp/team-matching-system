@@ -4,36 +4,26 @@ const AWS = require("aws-sdk");
 const serverless = require("serverless-http");
 
 const app = express();
-app.use(cors());
-app.use(express.json()); 
+app.use(cors()); // ✅ Enable CORS for all routes
+app.use(express.json()); // ✅ Parse JSON bodies
 
-AWS.config.update({
-  region: "us-east-1", 
-});
+AWS.config.update({ region: "us-east-1" });
 
 const dynamoDB = new AWS.DynamoDB.DocumentClient();
-const TABLE_NAME = "team-matching-system-dev"; // Change this to your DynamoDB table name
+const TABLE_NAME = "team-matching-system-dev"; // Replace with your actual table name
 
-// POST route to handle form submissions
+// ✅ POST /register — create or update a profile
 app.post("/register", async (req, res) => {
-  console.log("Received Data:", req.body); // Debugging
   const formData = req.body;
 
   if (!formData.email) {
     return res.status(400).json({ error: "Email is required!" });
   }
 
-  // Check for missing fields
-  for (let key in formData) {
-    if (formData[key] === undefined) {
-      console.error(`Missing field: ${key}`);
-    }
-  }
-
   const params = {
     TableName: TABLE_NAME,
     Item: {
-      email: formData.email, // Primary Key
+      email: formData.email,
       first_name: formData.first_name || "N/A",
       last_name: formData.last_name || "N/A",
       year: formData.year || "N/A",
@@ -47,11 +37,11 @@ app.post("/register", async (req, res) => {
       serious: formData.serious || false,
       collab: formData.collab || false,
       num_team_members: formData.num_team_members || 0,
+      looking: formData.looking || "N/A",
     },
   };
 
   try {
-    console.log("Saving to DynamoDB:", params); // Debugging
     await dynamoDB.put(params).promise();
     res.status(200).json({ message: "Registration successful!" });
   } catch (error) {
@@ -60,11 +50,31 @@ app.post("/register", async (req, res) => {
   }
 });
 
+// ✅ DELETE /delete — remove profile by email
+app.delete("/delete", async (req, res) => {
+  const { id } = req.body; // 👈 expects { id: 'user@example.com' }
 
-// Start the server
-const PORT = 5001;
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  if (!id) {
+    return res.status(400).json({ error: "Missing id in request body" });
+  }
+
+  const params = {
+    TableName: TABLE_NAME,
+    Key: {
+      email: id,
+    },
+  };
+
+  try {
+    await dynamoDB.delete(params).promise();
+    res.status(200).json({ message: "Profile deleted successfully." });
+  } catch (error) {
+    console.error("DynamoDB Delete Error:", error);
+    res.status(500).json({ error: "Failed to delete profile" });
+  }
 });
 
+// Optional: Add other routes here
+
+// ✅ Export the Lambda-compatible handler
 module.exports.handler = serverless(app);
