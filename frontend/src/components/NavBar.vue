@@ -17,19 +17,23 @@
 </style> -->
 
 <template>
-  <div class="navbar">
-    <img :src="Logo" alt="Bitcamp Logo" class="logo" />
-
-    <img
-      v-if="isMatchingPage"
-      :src="ProfileIcon"
-      alt="Profile"
-      class="profile-icon"
-      @click="goToEdit"
-    />
-  </div>
-</template>
-
+    <div class="navbar">
+      <img :src="Logo" alt="Bitcamp Logo" class="logo" />
+  
+      <div class="navbar-right">
+        <span class="instructions-link" @click="goToInstructions">Instructions</span>
+  
+        <img
+          v-if="isMatchingPage"
+          :src="ProfileIcon"
+          alt="Profile"
+          class="profile-icon"
+          @click="goToEdit"
+        />
+      </div>
+    </div>
+  </template>
+  
 <script setup>
 import { computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
@@ -44,9 +48,33 @@ const isMatchingPage = computed(() => route.path === "/app");
 const goToEdit = () => {
   router.push("/edit-profile");
 };
+
+const goToInstructions = () => {
+  router.push("/instructions");
+};
+
 </script>
 
 <style scoped>
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.instructions-link {
+  color: white;
+  cursor: pointer;
+  font-size: 18px;
+  font-family: Aleo, sans-serif;
+  transition: text-decoration 0.2s ease;
+  color: #FF6B00;
+}
+
+.instructions-link:hover {
+  text-decoration: underline;
+}
+
 .navbar {
   background-color: #7F6C5F;
   padding: 10px 20px;
@@ -55,22 +83,4 @@ const goToEdit = () => {
   justify-content: space-between;
   align-items: center;
   min-height: 70px;
-}
-
-.logo {
-  height: 80px;
-}
-
-.profile-icon {
-  width: 60px;
-  height: 60px;
-  object-fit: cover;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-
-.profile-icon:hover {
-  transform: scale(1.1);
-}
-</style>
+}</style>
