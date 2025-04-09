@@ -237,7 +237,7 @@
 
       <b-form-group>
         <template #label>
-          <span class="required-label"
+          <span class="props.mode === 'edit' ? 'unrequired' : 'required-label'"
             >How many team members do you already have?</span
           >
         </template>
