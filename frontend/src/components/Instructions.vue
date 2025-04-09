@@ -27,8 +27,8 @@
     border: 1px solid #ccc;
     padding: 1rem;
     position: absolute;
-    top: 60px;
-    right: 0px;
+    top: 100px;
+    right: 15px;
     width: 300px;
     z-index: 1000;
     border-radius: 8px;

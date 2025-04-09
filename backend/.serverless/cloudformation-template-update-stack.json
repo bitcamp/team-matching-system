@@ -124,7 +124,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "serverless-framework-deployments-us-east-1-89eeb5a8-31b0",
-          "S3Key": "serverless/team-matching-backend/dev/1744162951786-2025-04-09T01:42:31.786Z/team-matching-backend.zip"
+          "S3Key": "serverless/team-matching-backend/dev/1744167028173-2025-04-09T02:50:28.173Z/team-matching-backend.zip"
         },
         "Handler": "index.handler",
         "Runtime": "nodejs16.x",
@@ -155,7 +155,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "serverless-framework-deployments-us-east-1-89eeb5a8-31b0",
-          "S3Key": "serverless/team-matching-backend/dev/1744162951786-2025-04-09T01:42:31.786Z/team-matching-backend.zip"
+          "S3Key": "serverless/team-matching-backend/dev/1744167028173-2025-04-09T02:50:28.173Z/team-matching-backend.zip"
         },
         "Handler": "index.handler",
         "Runtime": "nodejs16.x",
@@ -186,7 +186,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "serverless-framework-deployments-us-east-1-89eeb5a8-31b0",
-          "S3Key": "serverless/team-matching-backend/dev/1744162951786-2025-04-09T01:42:31.786Z/team-matching-backend.zip"
+          "S3Key": "serverless/team-matching-backend/dev/1744167028173-2025-04-09T02:50:28.173Z/team-matching-backend.zip"
         },
         "Handler": "index.handler",
         "Runtime": "nodejs16.x",
@@ -216,7 +216,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "serverless-framework-deployments-us-east-1-89eeb5a8-31b0",
-          "S3Key": "serverless/team-matching-backend/dev/1744162951786-2025-04-09T01:42:31.786Z/team-matching-backend.zip"
+          "S3Key": "serverless/team-matching-backend/dev/1744167028173-2025-04-09T02:50:28.173Z/team-matching-backend.zip"
         },
         "Handler": "matching.lambda_handler",
         "Runtime": "python3.9",
@@ -242,46 +242,46 @@
         "MatchTeamsLogGroup"
       ]
     },
-    "RegisterLambdaVersionHe9OHXICHmCX4epBkGe694fi3bLMKnm6e2ernzUjU": {
+    "RegisterLambdaVersionOUcNDg6Tgff16H7fFxzu6u1NoxIoOd09catb3Assj68": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "RegisterLambdaFunction"
         },
-        "CodeSha256": "JKlod4ZTg5ln+Pb4PdpAoELgzu4mbZpi9guCCQa3SWI=",
+        "CodeSha256": "QPhtL1m9R/JOkpgUyG4piwK5zJjRFpAt8gnAaErzWes=",
         "Description": "Create or update a record in the team-matching table"
       }
     },
-    "DeleteLambdaVersionEOzJMy7bVUCICX7sc0PxMVBlP5dkoc60GXRkate628": {
+    "DeleteLambdaVersionh7TfDYnZNJN7fKOoMhgdkpN5JsT9T0okhA4kk6TpM": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "DeleteLambdaFunction"
         },
-        "CodeSha256": "JKlod4ZTg5ln+Pb4PdpAoELgzu4mbZpi9guCCQa3SWI=",
+        "CodeSha256": "QPhtL1m9R/JOkpgUyG4piwK5zJjRFpAt8gnAaErzWes=",
         "Description": "delete a record in the team-matching table"
       }
     },
-    "LoginLambdaVersion3gtV6Ek33jBjtBqMGVNLFLkmG2dZlCHUKLa8GZkBkNg": {
+    "LoginLambdaVersionXqc6KMtNE6eX5Qv8kKzgUye2daQYmmoNh23UKscldk": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "LoginLambdaFunction"
         },
-        "CodeSha256": "JKlod4ZTg5ln+Pb4PdpAoELgzu4mbZpi9guCCQa3SWI="
+        "CodeSha256": "QPhtL1m9R/JOkpgUyG4piwK5zJjRFpAt8gnAaErzWes="
       }
     },
-    "MatchTeamsLambdaVersionLAhMQXWReqEQLS2YYXeQzEyREAYPi7DRbqZeUtY": {
+    "MatchTeamsLambdaVersionbXBwsNTzVXjgHAo1nJyCXWKMzv1nEbVbYYjJYnMdUdY": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "MatchTeamsLambdaFunction"
         },
-        "CodeSha256": "JKlod4ZTg5ln+Pb4PdpAoELgzu4mbZpi9guCCQa3SWI=",
+        "CodeSha256": "QPhtL1m9R/JOkpgUyG4piwK5zJjRFpAt8gnAaErzWes=",
         "Description": "Run team matching algorithm"
       }
     },
@@ -721,7 +721,7 @@
         "MatchTeamsLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1744162946396": {
+    "ApiGatewayDeployment1744167019229": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -899,7 +899,7 @@
     "RegisterLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "RegisterLambdaVersionHe9OHXICHmCX4epBkGe694fi3bLMKnm6e2ernzUjU"
+        "Ref": "RegisterLambdaVersionOUcNDg6Tgff16H7fFxzu6u1NoxIoOd09catb3Assj68"
       },
       "Export": {
         "Name": "sls-team-matching-backend-dev-RegisterLambdaFunctionQualifiedArn"
@@ -908,7 +908,7 @@
     "DeleteLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "DeleteLambdaVersionEOzJMy7bVUCICX7sc0PxMVBlP5dkoc60GXRkate628"
+        "Ref": "DeleteLambdaVersionh7TfDYnZNJN7fKOoMhgdkpN5JsT9T0okhA4kk6TpM"
       },
       "Export": {
         "Name": "sls-team-matching-backend-dev-DeleteLambdaFunctionQualifiedArn"
@@ -917,7 +917,7 @@
     "LoginLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "LoginLambdaVersion3gtV6Ek33jBjtBqMGVNLFLkmG2dZlCHUKLa8GZkBkNg"
+        "Ref": "LoginLambdaVersionXqc6KMtNE6eX5Qv8kKzgUye2daQYmmoNh23UKscldk"
       },
       "Export": {
         "Name": "sls-team-matching-backend-dev-LoginLambdaFunctionQualifiedArn"
@@ -926,7 +926,7 @@
     "MatchTeamsLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "MatchTeamsLambdaVersionLAhMQXWReqEQLS2YYXeQzEyREAYPi7DRbqZeUtY"
+        "Ref": "MatchTeamsLambdaVersionbXBwsNTzVXjgHAo1nJyCXWKMzv1nEbVbYYjJYnMdUdY"
       },
       "Export": {
         "Name": "sls-team-matching-backend-dev-MatchTeamsLambdaFunctionQualifiedArn"

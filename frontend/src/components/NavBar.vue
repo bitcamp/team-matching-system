@@ -1,47 +1,31 @@
-<!-- <template>
-    <div>
-        <img :src="Logo" alt="Bitcamp Logo">
+<template>
+  <div class="navbar">
+    <img :src="Logo" alt="Bitcamp Logo" class="logo" />
+
+    <div class="navbar-right">
+      <span
+        class="instructions-link"
+        @mouseenter="showInstructions = true"
+        @mouseleave="showInstructions = false"
+      >
+        ⓘ
+      </span>
+      <Instructions v-if="showInstructions" class="popup" />
+
+      <div v-if="isMatchingPage" class="profile-container" @click="goToEdit">
+        <img :src="ProfileIcon" alt="Profile" class="profile-icon" />
+        <span class="profile-label">Profile</span>
+      </div>
     </div>
+  </div>
 </template>
 
 <script setup>
-    import Logo from "../assets/Logo.svg";
-</script>
-
-<style scoped>
-    div {
-        background-color:#7F6C5F;
-        padding:10px;
-        margin-bottom: 50px;
-    }
-</style> -->
-
-<template>
-    <div class="navbar">
-      <img :src="Logo" alt="Bitcamp Logo" class="logo" />
-  
-      <div class="navbar-right">
-        <span class="instructions-link" @mouseenter="showInstructions = true" @mouseleave = "showInstructions = false">ⓘ</span>
-        <Instructions v-if="showInstructions" class="popup" />
-
-        <img
-          v-if="isMatchingPage"
-          :src="ProfileIcon"
-          alt="Profile"
-          class="profile-icon"
-          @click="goToEdit"
-        />
-      </div>
-    </div>
-  </template>
-  
-<script setup>
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import Logo from "../assets/Logo.svg";
-import ProfileIcon from "../assets/icon.svg"; // ✅ make sure this file exists
-import Instructions from './Instructions.vue';
-import { ref } from 'vue';
+import ProfileIcon from "../assets/icon.svg";
+import Instructions from "./Instructions.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -53,10 +37,19 @@ const goToEdit = () => {
 };
 
 const showInstructions = ref(false);
-
 </script>
 
 <style scoped>
+.navbar {
+  background-color: #7f6c5f;
+  padding: 10px 20px;
+  margin-bottom: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 70px;
+}
+
 .navbar-right {
   display: flex;
   align-items: center;
@@ -72,15 +65,26 @@ const showInstructions = ref(false);
 }
 
 .instructions-link:hover {
-  color:#FF6B00
+  color: #ff6b00;
 }
 
-.navbar {
-  background-color: #7F6C5F;
-  padding: 10px 20px;
-  margin-bottom: 50px;
+.profile-container {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  min-height: 70px;
-}</style>
+  cursor: pointer;
+  color: white;
+  font-family: Aleo, sans-serif;
+  min-width: 50px;
+}
+
+.profile-icon {
+  width: 60px;
+  height: 60px;
+}
+
+.profile-label {
+  font-size: 14px;
+  margin-top: 4px;
+}
+</style>
