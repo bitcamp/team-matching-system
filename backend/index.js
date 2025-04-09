@@ -12,7 +12,7 @@ AWS.config.update({
 });
 
 const dynamoDB = new AWS.DynamoDB.DocumentClient();
-const TABLE_NAME = "team-matching-system-dev"; // Change this to your DynamoDB table name
+const TABLE_NAME = "team-matching-system-dev-new"; 
 
 // POST route to handle form submissions
 app.post("/register", async (req, res) => {
@@ -59,7 +59,6 @@ app.post("/register", async (req, res) => {
     res.status(500).json({ error: "Error saving data to DynamoDB" });
   }
 });
-
 
 // Start the server
 const PORT = 5001;
