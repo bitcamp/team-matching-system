@@ -57,6 +57,7 @@ const form = ref({
 const loginUser = () => {
   console.log("Logging in with:", form.value);
   // TODO: Add actual login logic here
+  router.push("/app");
 };
 
 const goToSignup = () => {
