@@ -17,24 +17,31 @@
 </style> -->
 
 <template>
-  <div class="navbar">
-    <img :src="Logo" alt="Bitcamp Logo" class="logo" />
+    <div class="navbar">
+      <img :src="Logo" alt="Bitcamp Logo" class="logo" />
+  
+      <div class="navbar-right">
+        <span class="instructions-link" @mouseenter="showInstructions = true" @mouseleave = "showInstructions = false">ⓘ</span>
+        <Instructions v-if="showInstructions" class="popup" />
 
-    <img
-      v-if="isMatchingPage"
-      :src="ProfileIcon"
-      alt="Profile"
-      class="profile-icon"
-      @click="goToEdit"
-    />
-  </div>
-</template>
-
+        <img
+          v-if="isMatchingPage"
+          :src="ProfileIcon"
+          alt="Profile"
+          class="profile-icon"
+          @click="goToEdit"
+        />
+      </div>
+    </div>
+  </template>
+  
 <script setup>
 import { computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import Logo from "../assets/Logo.svg";
 import ProfileIcon from "../assets/icon.svg"; // ✅ make sure this file exists
+import Instructions from './Instructions.vue';
+import { ref } from 'vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -44,9 +51,30 @@ const isMatchingPage = computed(() => route.path === "/app");
 const goToEdit = () => {
   router.push("/edit-profile");
 };
+
+const showInstructions = ref(false);
+
 </script>
 
 <style scoped>
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.instructions-link {
+  cursor: pointer;
+  font-size: 24px;
+  font-family: Aleo, sans-serif;
+  transition: text-decoration 0.2s ease;
+  color: white;
+}
+
+.instructions-link:hover {
+  color:#FF6B00
+}
+
 .navbar {
   background-color: #7F6C5F;
   padding: 10px 20px;
@@ -55,22 +83,4 @@ const goToEdit = () => {
   justify-content: space-between;
   align-items: center;
   min-height: 70px;
-}
-
-.logo {
-  height: 80px;
-}
-
-.profile-icon {
-  width: 60px;
-  height: 60px;
-  object-fit: cover;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-
-.profile-icon:hover {
-  transform: scale(1.1);
-}
-</style>
+}</style>
