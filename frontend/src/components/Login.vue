@@ -9,7 +9,7 @@
     >
       <b-form-group>
         <template #label>
-          <span class="required-label">Email</span>
+          <span class="required-label">Username</span>
         </template>
         <b-form-input v-model="form.username_name" required></b-form-input>
       </b-form-group>
