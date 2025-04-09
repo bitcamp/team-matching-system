@@ -224,9 +224,16 @@
           >
         </template>
         <b-form-checkbox-group v-model="form.prizes" stacked>
-          <b-form-checkbox value="prize_a">Prize A</b-form-checkbox>
-          <b-form-checkbox value="prize_b">Prize B</b-form-checkbox>
-          <b-form-checkbox value="prize_c">Prize C</b-form-checkbox>
+          <b-form-checkbox value="hardware">Best Hardware Hack</b-form-checkbox>
+          <b-form-checkbox value="bitcamp">Best Bitcamp Hack</b-form-checkbox>
+          <b-form-checkbox value="first_time">Best First Time Hack</b-form-checkbox>
+          <b-form-checkbox value="ui/ux">Best UI/UX Hack</b-form-checkbox>
+          <b-form-checkbox value="moonshot">Best Moonshot Hack</b-form-checkbox>
+          <b-form-checkbox value="razzle_dazzle">Best Razzle Dazzle Hack</b-form-checkbox>
+          <b-form-checkbox value="social_good">Best Social Good Hack</b-form-checkbox>
+          <b-form-checkbox value="gamification">Best Gamification Hack</b-form-checkbox>
+          <b-form-checkbox value="peoples_choice">People's Choice Hack</b-form-checkbox>
+          <b-form-checkbox value="sustainability">Best Sustainability Hack</b-form-checkbox>
           <b-form-checkbox value="no_pref">No Preference</b-form-checkbox>
         </b-form-checkbox-group>
       </b-form-group>
