@@ -25,6 +25,7 @@
             </template>
             <b-form-input
               v-model="form.password"
+              type = "password"
               placeholder="Enter password"
               required
             ></b-form-input>
@@ -32,7 +33,7 @@
           <br><br>
       </b-form-group>
 
-      <!-- <b-form-group v-if="mode === 'edit'">
+      <b-form-group v-if="mode === 'edit'">
         <template #label>
           <span class="required-label">Are you still looking for a team?</span>
         </template>
@@ -40,7 +41,7 @@
           <b-form-radio value="looking">Yes</b-form-radio>
           <b-form-radio value="inteam">No</b-form-radio>
         </b-form-radio-group>
-      </b-form-group> -->
+      </b-form-group>
 
 
       <b-row>
