@@ -11,7 +11,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 #   serverless invoke local --function matchTeams
 # step 1: read in from dynamodb
 dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
-table = dynamodb.Table('team-matching-system-dev')
+table = dynamodb.Table('team-matching-system-dev-new')
 def fetch_teams():
     try:
         response = table.scan()

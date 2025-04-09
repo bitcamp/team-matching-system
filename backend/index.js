@@ -10,7 +10,7 @@ app.use(express.json()); // ✅ Parse JSON bodies
 AWS.config.update({ region: "us-east-1" });
 
 const dynamoDB = new AWS.DynamoDB.DocumentClient();
-const TABLE_NAME = "team-matching-system-dev"; // Replace with your actual table name
+const TABLE_NAME = "team-matching-system-dev-new"; // Replace with your actual table name
 
 // ✅ POST /register — create or update a profile
 app.post("/register", async (req, res) => {
