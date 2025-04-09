@@ -21,14 +21,14 @@
         <b-col md="6">
           <b-form-group>
             <template #label>
-              <span class="required-label" >First Name</span>
+              <span :class="props.mode === 'edit' ? 'unrequired' : 'required-label'">First Name</span>
             </template>
             <b-form-input
               v-model="form.first_name"
-              :state="touched.first_name ? form.first_name !== '' : null"
+
               @blur="touched.first_name = true"
               placeholder="Enter first name"
-              required
+              :required = "props.mode !== 'edit'"
             ></b-form-input>
           </b-form-group>
         </b-col>
@@ -36,14 +36,14 @@
         <b-col md="6">
           <b-form-group>
             <template #label>
-              <span class="required-label">Last Name</span>
+              <span :class="props.mode === 'edit' ? 'unrequired' : 'required-label'">Last Name</span>
             </template>
             <b-form-input
               v-model="form.last_name"
-              :state="touched.last_name ? form.last_name !== '' : null"
+   
               @blur="touched.last_name = true"
               placeholder="Enter last name"
-              required
+              :required = "props.mode !== 'edit'"
             ></b-form-input>
           </b-form-group>
         </b-col>
@@ -51,15 +51,15 @@
 
       <b-form-group>
         <template #label>
-          <span class="required-label">Year at Bitcamp</span>
+          <span :class="props.mode === 'edit' ? 'unrequired' : 'required-label'">Year at Bitcamp</span>
         </template>
         <b-form-input
           type="number"
           v-model="form.year"
-          :state="touched.year ? form.year !== '' : null"
+    
           @blur="touched.year = true"
           placeholder="Enter year"
-          required
+          :required = "props.mode !== 'edit'"
         ></b-form-input>
       </b-form-group>
 
@@ -78,7 +78,7 @@
       </b-form-group>
       <b-form-group>
         <template #label>
-          <span class="required-label">What track are you in?</span>
+          <span :class="props.mode === 'edit' ? 'unrequired' : 'required-label'">What track are you in?</span>
         </template>
         <b-form-radio-group v-model="form.track" name="track" stacked>
           <b-form-radio value="general">General</b-form-radio>
@@ -110,7 +110,7 @@
 
       <b-form-group>
         <template #label>
-          <span class="required-label"
+          <span :class="props.mode === 'edit' ? 'unrequired' : 'required-label'"
             >What programming languages and frameworks are you comfortable
             with?</span
           >
@@ -128,7 +128,7 @@
 
       <b-form-group>
         <template #label>
-          <span class="required-label">What is your experience level?</span>
+          <span :class="props.mode === 'edit' ? 'unrequired' : 'required-label'">What is your experience level?</span>
         </template>
         <b-form-radio-group v-model="form.experience" name="experience" stacked>
           <b-form-radio value="beginner"
@@ -143,7 +143,7 @@
 
       <b-form-group>
         <template #label>
-          <span class="required-label"
+          <span :class="props.mode === 'edit' ? 'unrequired' : 'required-label'"
             >Do you prefer working with someone with a similar skill
             level?</span
           >
@@ -157,7 +157,7 @@
 
       <b-form-group>
         <template #label>
-          <span class="required-label"
+          <span :class="props.mode === 'edit' ? 'unrequired' : 'required-label'"
             >What kind of technologies do you want your teammates to have
             knowledge of?</span
           >
@@ -177,7 +177,7 @@
       <div class="section-divider"></div>
       <b-form-group>
         <template #label>
-          <span class="required-label"
+          <span :class="props.mode === 'edit' ? 'unrequired' : 'required-label'"
             >What kind of projects are you interested in (i.e. web, mobile, AI,
             etc.)?</span
           >
@@ -191,7 +191,7 @@
 
       <b-form-group>
         <template #label>
-          <span class="required-label"
+          <span :class="props.mode === 'edit' ? 'unrequired' : 'required-label'"
             >What Bitcamp prizes are you interested in catering your project
             towards?</span
           >
@@ -208,7 +208,7 @@
       <div class="section-divider"></div>
       <b-form-group>
         <template #label>
-          <span class="required-label">How serious are you?</span>
+          <span :class="props.mode === 'edit' ? 'unrequired' : 'required-label'">How serious are you?</span>
         </template>
         <b-form-radio-group v-model="form.serious" name="serious">
           <b-form-radio value="win">I want to win! (16-20 hours)</b-form-radio>
@@ -224,7 +224,7 @@
 
       <b-form-group>
         <template #label>
-          <span class="required-label"
+          <span :class="props.mode === 'edit' ? 'unrequired' : 'required-label'"
             >Which way would you prefer collaborating with your team?</span
           >
         </template>
@@ -367,6 +367,13 @@ const props = defineProps({
   color: red;
   margin-right: 4px;
   font-weight: bold;
+}
+
+.unrequired{
+  font-size: var(--bitcamp-fontsize-body);
+  font-family: var(--bitcamp-font-title);
+  margin-right: 4px;
+
 }
 .b-form-input {
   width: 100%;
