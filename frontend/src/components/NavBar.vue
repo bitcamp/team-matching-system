@@ -21,8 +21,9 @@
       <img :src="Logo" alt="Bitcamp Logo" class="logo" />
   
       <div class="navbar-right">
-        <span class="instructions-link" @click="goToInstructions">Instructions</span>
-  
+        <span class="instructions-link" @mouseenter="showInstructions = true" @mouseleave = "showInstructions = false">ⓘ</span>
+        <Instructions v-if="showInstructions" class="popup" />
+
         <img
           v-if="isMatchingPage"
           :src="ProfileIcon"
@@ -39,6 +40,8 @@ import { computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import Logo from "../assets/Logo.svg";
 import ProfileIcon from "../assets/icon.svg"; // ✅ make sure this file exists
+import Instructions from './Instructions.vue';
+import { ref } from 'vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -49,9 +52,7 @@ const goToEdit = () => {
   router.push("/edit-profile");
 };
 
-const goToInstructions = () => {
-  router.push("/instructions");
-};
+const showInstructions = ref(false);
 
 </script>
 
@@ -63,16 +64,15 @@ const goToInstructions = () => {
 }
 
 .instructions-link {
-  color: white;
   cursor: pointer;
-  font-size: 18px;
+  font-size: 24px;
   font-family: Aleo, sans-serif;
   transition: text-decoration 0.2s ease;
-  color: #FF6B00;
+  color: white;
 }
 
 .instructions-link:hover {
-  text-decoration: underline;
+  color:#FF6B00
 }
 
 .navbar {
