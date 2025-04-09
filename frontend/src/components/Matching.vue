@@ -35,6 +35,12 @@ import TeamCard from "./TeamCard.vue";
     <TeamCard />
     <TeamCard />
     <TeamCard />
+    <TeamCard />
+    <TeamCard />
+    <TeamCard />
+    <TeamCard />
+    <TeamCard />
+    <TeamCard />
   </div>
 </template>
 
