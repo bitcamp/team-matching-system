@@ -44,8 +44,10 @@ import { useRouter } from "vue-router";
 import axios, { AxiosError } from "axios";
 // @ts-ignore
 import generalMixin from "../mixins/general.js";
+import { useUserStore } from "../stores/user.js";
 
 const router = useRouter();
+const userStore = useUserStore();
 const loginForm = ref<HTMLFormElement | null>(null);
 const rawFormEl = ref<HTMLFormElement | null>(null);
 
@@ -60,18 +62,33 @@ const form = ref({
 
 const loginUser = async () => {
   try {
-    const backendEndpoint =
-      generalMixin.methods.getEnvVariable("BACKEND_ENDPOINT");
+    const backendEndpoint = generalMixin.methods.getEnvVariable("BACKEND_ENDPOINT");
     const env = generalMixin.methods.getCurrentEnvironment();
     const url = `${backendEndpoint}/${env}/login`;
 
+    // Send the username and password to the backend
     const response = await axios.post(url, {
       username: form.value.username_name,
       password: form.value.password,
     });
 
+    console.log("Backend response:", response.data);
+    // IMPORTANT: We expect the backend to return the user's email:
+    // e.g. response.data = { username: "agijare", email: "agijare@123" }
+    const userEmail = response.data.email;
+
+    // If the backend did NOT return an email, throw an error:
+    if (!userEmail) {
+      throw new Error("Backend did not return an email. Cannot route to matches.");
+    }
+
+    // Store the email in Pinia
+    userStore.setUserEmail(userEmail);
+
     alert("Login successful!");
-    router.push("/app");
+
+    // Redirect to /matches/:email
+    router.push({ name: "Matches", params: { email: userEmail } });
   } catch (err: unknown) {
     const error = err as AxiosError;
 

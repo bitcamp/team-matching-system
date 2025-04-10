@@ -76,12 +76,18 @@ app.post("/login", async (req, res) => {
     }
 
     const user = result.Items[0];
+    console.log("User from DB:", user);
 
     if (user.password !== password) {
       return res.status(401).json({ error: "Invalid password" });
     }
 
-    res.status(200).json({ message: "Login successful", user });
+    // Return only what you need in the response
+    res.status(200).json({
+      message: "Login successful",
+      username: user.username,
+      email: user.email,
+    });
     console.log("success");
   } catch (error) {
     console.error("Login error:", error);
