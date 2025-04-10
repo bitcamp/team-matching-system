@@ -304,8 +304,10 @@ import { ref, reactive } from "vue";
 import { useRouter } from "vue-router";
 import axios from "axios";
 import generalMixin from "../mixins/general.js";
+import { useUserStore } from "../stores/user.js"; // Add this import
 
 const router = useRouter();
+const userStore = useUserStore(); // Add this to use the store
 
 const touched = reactive({
   first_name: false,
@@ -315,7 +317,7 @@ const touched = reactive({
 });
 
 const form = reactive({
-  id: "", // make sure to include `id` if your DB key is `id`
+  id: "",
   first_name: "",
   last_name: "",
   year: "",
@@ -337,18 +339,28 @@ const form = reactive({
 
 const registerUser = async () => {
   try {
-    const backendEndpoint =
-      generalMixin.methods.getEnvVariable("BACKEND_ENDPOINT");
+    const backendEndpoint = generalMixin.methods.getEnvVariable("BACKEND_ENDPOINT");
     const env = generalMixin.methods.getCurrentEnvironment();
     const url = `${backendEndpoint}/${env}/register`;
 
     console.log("Posting to:", url);
     const response = await axios.post(url, form);
 
+    // Assuming the backend returns the email in the response
+    const userEmail = response.data.email || form.email; // Fallback to form.email if not returned
+
+    if (!userEmail) {
+      throw new Error("No email returned from backend or form");
+    }
+
+    // Store the email in Pinia
+    userStore.setUserEmail(userEmail);
+
     alert("Registration Successful!");
     console.log("Response:", response.data);
 
-    router.push("/app");
+    // Redirect to matches page with email parameter
+    router.push({ name: "Matches", params: { email: userEmail } });
   } catch (error) {
     alert("Error registering user");
     console.error(
@@ -365,14 +377,13 @@ const deleteProfile = async () => {
   if (!confirmDelete) return;
 
   try {
-    const backendEndpoint =
-      generalMixin.methods.getEnvVariable("BACKEND_ENDPOINT");
+    const backendEndpoint = generalMixin.methods.getEnvVariable("BACKEND_ENDPOINT");
     const env = generalMixin.methods.getCurrentEnvironment();
     const url = `${backendEndpoint}/${env}/delete`;
 
     await axios.delete(url, {
       data: {
-        id: form.email, // ✅ use email as the primary key
+        id: form.email,
       },
     });
 

@@ -147,6 +147,39 @@
         }
       },
       {
+        "name": "thiru seth",
+        "email": "thiru@sticky",
+        "score": 0.81,
+        "info": {
+          "name": "thiru seth",
+          "email": "thiru@sticky",
+          "primary_track": "ml",
+          "skills": [
+            "python",
+            "react/vue",
+            "javascript"
+          ],
+          "skills_wanted": [
+            "javascript",
+            "react/vue",
+            "python"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "mobile_app"
+          ],
+          "prizes": [
+            "bitcamp",
+            "first_time"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
+        }
+      },
+      {
         "name": "Arya Gijare",
         "email": "agijare@123",
         "score": 0.81,
@@ -281,6 +314,318 @@
           ],
           "commitment": "I want to win",
           "team_size": "two"
+        }
+      }
+    ],
+    "thiru@sticky": [
+      {
+        "name": "Arya Gijare",
+        "email": "agijare@123",
+        "score": 1.7415476066494082,
+        "info": {
+          "name": "Arya Gijare",
+          "email": "agijare@123",
+          "primary_track": "general",
+          "skills": [
+            "javascript",
+            "react/vue"
+          ],
+          "skills_wanted": [
+            "react/vue",
+            "python",
+            "flask"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "mobile_app"
+          ],
+          "prizes": [
+            "razzle_dazzle",
+            "gamification"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "three"
+        }
+      },
+      {
+        "name": "nick nick",
+        "email": "nick@nick.com",
+        "score": 1.5741451884327382,
+        "info": {
+          "name": "nick nick",
+          "email": "nick@nick.com",
+          "primary_track": "quantum",
+          "skills": [
+            "react/vue"
+          ],
+          "skills_wanted": [
+            "javascript"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "mobile_app"
+          ],
+          "prizes": [
+            "razzle_dazzle",
+            "social_good"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
+        }
+      },
+      {
+        "name": "Devon Lai",
+        "email": "dsafoasdf@gmail.com",
+        "score": 1.5741451884327382,
+        "info": {
+          "name": "Devon Lai",
+          "email": "dsafoasdf@gmail.com",
+          "primary_track": "quantum",
+          "skills": [
+            "react/vue"
+          ],
+          "skills_wanted": [
+            "react/vue"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "mobile_app"
+          ],
+          "prizes": [
+            "prize_b"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
+        }
+      },
+      {
+        "name": "Harini T",
+        "email": "h@gmail.com",
+        "score": 1.5741451884327382,
+        "info": {
+          "name": "Harini T",
+          "email": "h@gmail.com",
+          "primary_track": "cybersecurity",
+          "skills": [
+            "react/vue"
+          ],
+          "skills_wanted": [
+            "javascript"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "mobile_app"
+          ],
+          "prizes": [
+            "prize_b"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
+        }
+      },
+      {
+        "name": "nick2 nick",
+        "email": "nick2@123",
+        "score": 1.4841451884327381,
+        "info": {
+          "name": "nick2 nick",
+          "email": "nick2@123",
+          "primary_track": "ml",
+          "skills": [
+            "python"
+          ],
+          "skills_wanted": [
+            "javascript"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "ai/ml"
+          ],
+          "prizes": [
+            "gamification"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
+        }
+      },
+      {
+        "name": "saloni shah",
+        "email": "sshah@shah",
+        "score": 1.3503322445518613,
+        "info": {
+          "name": "saloni shah",
+          "email": "sshah@shah",
+          "primary_track": "cybersecurity",
+          "skills": [
+            "html/css",
+            "python"
+          ],
+          "skills_wanted": [
+            "javascript",
+            "react/vue"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "web_dev",
+            "mobile_app"
+          ],
+          "prizes": [
+            "gamification",
+            "social_good",
+            "razzle_dazzle"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
+        }
+      },
+      {
+        "name": "arya g",
+        "email": "abcd@1234",
+        "score": 1.214145188432738,
+        "info": {
+          "name": "arya g",
+          "email": "abcd@1234",
+          "primary_track": "quantum",
+          "skills": [
+            "react/vue"
+          ],
+          "skills_wanted": [
+            "html/css"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "web_dev"
+          ],
+          "prizes": [
+            "no_pref"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
+        }
+      },
+      {
+        "name": "Sanya Gupta",
+        "email": "sanyagupta40@gmail.com",
+        "score": 1.1700000000000002,
+        "info": {
+          "name": "Sanya Gupta",
+          "email": "sanyagupta40@gmail.com",
+          "primary_track": "cybersecurity",
+          "skills": [
+            "java"
+          ],
+          "skills_wanted": [
+            "html/css"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "mobile_app"
+          ],
+          "prizes": [
+            "prize_b"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
+        }
+      },
+      {
+        "name": "arya g",
+        "email": "bradket@123",
+        "score": 0.81,
+        "info": {
+          "name": "arya g",
+          "email": "bradket@123",
+          "primary_track": "cybersecurity",
+          "skills": [
+            "html/css"
+          ],
+          "skills_wanted": [
+            "html/css"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "web_dev"
+          ],
+          "prizes": [
+            "prize_c"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
+        }
+      },
+      {
+        "name": "hgf erw",
+        "email": "ivorytea.leaf@gmail.com",
+        "score": 0.81,
+        "info": {
+          "name": "hgf erw",
+          "email": "ivorytea.leaf@gmail.com",
+          "primary_track": "quantum",
+          "skills": [
+            "html/css"
+          ],
+          "skills_wanted": [
+            "html/css"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "web_dev"
+          ],
+          "prizes": [
+            "prize_b"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
+        }
+      },
+      {
+        "name": "N/A N/A",
+        "email": "joanneynlee@gmail.com",
+        "score": 0.81,
+        "info": {
+          "name": "N/A N/A",
+          "email": "joanneynlee@gmail.com",
+          "primary_track": "N/A",
+          "skills": [],
+          "skills_wanted": [],
+          "avg_skill_level": 3,
+          "projects": [],
+          "prizes": [],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": 0
         }
       }
     ],
@@ -488,6 +833,39 @@
         }
       },
       {
+        "name": "thiru seth",
+        "email": "thiru@sticky",
+        "score": 0.81,
+        "info": {
+          "name": "thiru seth",
+          "email": "thiru@sticky",
+          "primary_track": "ml",
+          "skills": [
+            "python",
+            "react/vue",
+            "javascript"
+          ],
+          "skills_wanted": [
+            "javascript",
+            "react/vue",
+            "python"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "mobile_app"
+          ],
+          "prizes": [
+            "bitcamp",
+            "first_time"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
+        }
+      },
+      {
         "name": "Arya Gijare",
         "email": "agijare@123",
         "score": 0.81,
@@ -590,6 +968,39 @@
           "prizes": [
             "razzle_dazzle",
             "social_good"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
+        }
+      },
+      {
+        "name": "thiru seth",
+        "email": "thiru@sticky",
+        "score": 1.636666666666667,
+        "info": {
+          "name": "thiru seth",
+          "email": "thiru@sticky",
+          "primary_track": "ml",
+          "skills": [
+            "python",
+            "react/vue",
+            "javascript"
+          ],
+          "skills_wanted": [
+            "javascript",
+            "react/vue",
+            "python"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "mobile_app"
+          ],
+          "prizes": [
+            "bitcamp",
+            "first_time"
           ],
           "working_preferences": [
             "In-person"
@@ -996,6 +1407,39 @@
         }
       },
       {
+        "name": "thiru seth",
+        "email": "thiru@sticky",
+        "score": 0.81,
+        "info": {
+          "name": "thiru seth",
+          "email": "thiru@sticky",
+          "primary_track": "ml",
+          "skills": [
+            "python",
+            "react/vue",
+            "javascript"
+          ],
+          "skills_wanted": [
+            "javascript",
+            "react/vue",
+            "python"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "mobile_app"
+          ],
+          "prizes": [
+            "bitcamp",
+            "first_time"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
+        }
+      },
+      {
         "name": "Arya Gijare",
         "email": "agijare@123",
         "score": 0.81,
@@ -1153,6 +1597,39 @@
           ],
           "prizes": [
             "prize_c"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
+        }
+      },
+      {
+        "name": "thiru seth",
+        "email": "thiru@sticky",
+        "score": 0.81,
+        "info": {
+          "name": "thiru seth",
+          "email": "thiru@sticky",
+          "primary_track": "ml",
+          "skills": [
+            "python",
+            "react/vue",
+            "javascript"
+          ],
+          "skills_wanted": [
+            "javascript",
+            "react/vue",
+            "python"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "mobile_app"
+          ],
+          "prizes": [
+            "bitcamp",
+            "first_time"
           ],
           "working_preferences": [
             "In-person"
@@ -1455,6 +1932,39 @@
           ],
           "commitment": "I want to win",
           "team_size": "three"
+        }
+      },
+      {
+        "name": "thiru seth",
+        "email": "thiru@sticky",
+        "score": 1.4841451884327381,
+        "info": {
+          "name": "thiru seth",
+          "email": "thiru@sticky",
+          "primary_track": "ml",
+          "skills": [
+            "python",
+            "react/vue",
+            "javascript"
+          ],
+          "skills_wanted": [
+            "javascript",
+            "react/vue",
+            "python"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "mobile_app"
+          ],
+          "prizes": [
+            "bitcamp",
+            "first_time"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
         }
       },
       {
@@ -1799,6 +2309,39 @@
         }
       },
       {
+        "name": "thiru seth",
+        "email": "thiru@sticky",
+        "score": 1.6361060478765652,
+        "info": {
+          "name": "thiru seth",
+          "email": "thiru@sticky",
+          "primary_track": "ml",
+          "skills": [
+            "python",
+            "react/vue",
+            "javascript"
+          ],
+          "skills_wanted": [
+            "javascript",
+            "react/vue",
+            "python"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "mobile_app"
+          ],
+          "prizes": [
+            "bitcamp",
+            "first_time"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
+        }
+      },
+      {
         "name": "arya g",
         "email": "abcd@1234",
         "score": 1.5595331880577403,
@@ -2018,6 +2561,39 @@
           ],
           "commitment": "I want to win",
           "team_size": "three"
+        }
+      },
+      {
+        "name": "thiru seth",
+        "email": "thiru@sticky",
+        "score": 1.5741451884327382,
+        "info": {
+          "name": "thiru seth",
+          "email": "thiru@sticky",
+          "primary_track": "ml",
+          "skills": [
+            "python",
+            "react/vue",
+            "javascript"
+          ],
+          "skills_wanted": [
+            "javascript",
+            "react/vue",
+            "python"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "mobile_app"
+          ],
+          "prizes": [
+            "bitcamp",
+            "first_time"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
         }
       },
       {
@@ -2389,6 +2965,39 @@
         }
       },
       {
+        "name": "thiru seth",
+        "email": "thiru@sticky",
+        "score": 1.5741451884327382,
+        "info": {
+          "name": "thiru seth",
+          "email": "thiru@sticky",
+          "primary_track": "ml",
+          "skills": [
+            "python",
+            "react/vue",
+            "javascript"
+          ],
+          "skills_wanted": [
+            "javascript",
+            "react/vue",
+            "python"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "mobile_app"
+          ],
+          "prizes": [
+            "bitcamp",
+            "first_time"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
+        }
+      },
+      {
         "name": "Sanya Gupta",
         "email": "sanyagupta40@gmail.com",
         "score": 1.47,
@@ -2701,6 +3310,39 @@
         }
       },
       {
+        "name": "thiru seth",
+        "email": "thiru@sticky",
+        "score": 1.1700000000000002,
+        "info": {
+          "name": "thiru seth",
+          "email": "thiru@sticky",
+          "primary_track": "ml",
+          "skills": [
+            "python",
+            "react/vue",
+            "javascript"
+          ],
+          "skills_wanted": [
+            "javascript",
+            "react/vue",
+            "python"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "mobile_app"
+          ],
+          "prizes": [
+            "bitcamp",
+            "first_time"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
+        }
+      },
+      {
         "name": "Arya Gijare",
         "email": "agijare@123",
         "score": 1.1700000000000002,
@@ -2897,6 +3539,39 @@
           ],
           "commitment": "I want to win",
           "team_size": "three"
+        }
+      },
+      {
+        "name": "thiru seth",
+        "email": "thiru@sticky",
+        "score": 1.5741451884327382,
+        "info": {
+          "name": "thiru seth",
+          "email": "thiru@sticky",
+          "primary_track": "ml",
+          "skills": [
+            "python",
+            "react/vue",
+            "javascript"
+          ],
+          "skills_wanted": [
+            "javascript",
+            "react/vue",
+            "python"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "mobile_app"
+          ],
+          "prizes": [
+            "bitcamp",
+            "first_time"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
         }
       },
       {
@@ -3132,11 +3807,28 @@
         "arya g",
         "Sanya Gupta",
         "Harini T",
+        "thiru seth",
         "Arya Gijare",
         "N/A N/A",
         "nick2 nick",
         "nick nick",
         "Devon Lai"
+      ]
+    },
+    {
+      "team": "thiru seth",
+      "matches": [
+        "Arya Gijare",
+        "nick nick",
+        "Devon Lai",
+        "Harini T",
+        "nick2 nick",
+        "saloni shah",
+        "arya g",
+        "Sanya Gupta",
+        "arya g",
+        "hgf erw",
+        "N/A N/A"
       ]
     },
     {
@@ -3149,6 +3841,7 @@
         "Sanya Gupta",
         "Harini T",
         "nick nick",
+        "thiru seth",
         "Arya Gijare",
         "N/A N/A",
         "nick2 nick"
@@ -3158,6 +3851,7 @@
       "team": "Arya Gijare",
       "matches": [
         "nick nick",
+        "thiru seth",
         "saloni shah",
         "Devon Lai",
         "Harini T",
@@ -3177,6 +3871,7 @@
         "saloni shah",
         "nick nick",
         "Devon Lai",
+        "thiru seth",
         "Arya Gijare",
         "N/A N/A",
         "nick2 nick",
@@ -3188,6 +3883,7 @@
       "team": "N/A N/A",
       "matches": [
         "arya g",
+        "thiru seth",
         "hgf erw",
         "Arya Gijare",
         "arya g",
@@ -3203,6 +3899,7 @@
       "team": "nick2 nick",
       "matches": [
         "Arya Gijare",
+        "thiru seth",
         "saloni shah",
         "arya g",
         "hgf erw",
@@ -3220,6 +3917,7 @@
         "Arya Gijare",
         "Harini T",
         "nick nick",
+        "thiru seth",
         "arya g",
         "Devon Lai",
         "arya g",
@@ -3233,6 +3931,7 @@
       "team": "nick nick",
       "matches": [
         "Arya Gijare",
+        "thiru seth",
         "Devon Lai",
         "saloni shah",
         "Sanya Gupta",
@@ -3251,6 +3950,7 @@
         "nick nick",
         "arya g",
         "Arya Gijare",
+        "thiru seth",
         "Sanya Gupta",
         "hgf erw",
         "saloni shah",
@@ -3267,6 +3967,7 @@
         "arya g",
         "Harini T",
         "Devon Lai",
+        "thiru seth",
         "Arya Gijare",
         "nick nick",
         "arya g",
@@ -3279,6 +3980,7 @@
       "matches": [
         "Sanya Gupta",
         "Arya Gijare",
+        "thiru seth",
         "Devon Lai",
         "saloni shah",
         "nick nick",
