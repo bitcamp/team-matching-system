@@ -7,7 +7,7 @@
     <p>Skill level: {{ match.info.avg_skill_level }}</p>
     <p>Looking for {{ match.info.team_size }} teammates!</p>
     <p>Looking for: {{ match.info.skills_wanted.join(', ') }}</p>
-    <!-- <p>Match Score: {{ match.score.toFixed(2) }}</p> -->
+    <p>Compatibility Score: {{ match.score.toFixed(2) }}</p>
   </div>
 </template>
 

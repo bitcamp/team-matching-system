@@ -199,6 +199,63 @@
         }
       },
       {
+        "name": "nick2 nick",
+        "email": "nick2@123",
+        "score": 0.81,
+        "info": {
+          "name": "nick2 nick",
+          "email": "nick2@123",
+          "primary_track": "ml",
+          "skills": [
+            "python"
+          ],
+          "skills_wanted": [
+            "javascript"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "ai/ml"
+          ],
+          "prizes": [
+            "gamification"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
+        }
+      },
+      {
+        "name": "nick nick",
+        "email": "nick@nick.com",
+        "score": 0.81,
+        "info": {
+          "name": "nick nick",
+          "email": "nick@nick.com",
+          "primary_track": "quantum",
+          "skills": [
+            "react/vue"
+          ],
+          "skills_wanted": [
+            "javascript"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "mobile_app"
+          ],
+          "prizes": [
+            "razzle_dazzle",
+            "social_good"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
+        }
+      },
+      {
         "name": "Devon Lai",
         "email": "dsafoasdf@gmail.com",
         "score": 0.81,
@@ -402,6 +459,35 @@
         }
       },
       {
+        "name": "nick nick",
+        "email": "nick@nick.com",
+        "score": 1.08,
+        "info": {
+          "name": "nick nick",
+          "email": "nick@nick.com",
+          "primary_track": "quantum",
+          "skills": [
+            "react/vue"
+          ],
+          "skills_wanted": [
+            "javascript"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "mobile_app"
+          ],
+          "prizes": [
+            "razzle_dazzle",
+            "social_good"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
+        }
+      },
+      {
         "name": "Arya Gijare",
         "email": "agijare@123",
         "score": 0.81,
@@ -452,9 +538,66 @@
           "commitment": "I want to win",
           "team_size": 0
         }
+      },
+      {
+        "name": "nick2 nick",
+        "email": "nick2@123",
+        "score": 0.81,
+        "info": {
+          "name": "nick2 nick",
+          "email": "nick2@123",
+          "primary_track": "ml",
+          "skills": [
+            "python"
+          ],
+          "skills_wanted": [
+            "javascript"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "ai/ml"
+          ],
+          "prizes": [
+            "gamification"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
+        }
       }
     ],
     "agijare@123": [
+      {
+        "name": "nick nick",
+        "email": "nick@nick.com",
+        "score": 1.7241451884327381,
+        "info": {
+          "name": "nick nick",
+          "email": "nick@nick.com",
+          "primary_track": "quantum",
+          "skills": [
+            "react/vue"
+          ],
+          "skills_wanted": [
+            "javascript"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "mobile_app"
+          ],
+          "prizes": [
+            "razzle_dazzle",
+            "social_good"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
+        }
+      },
       {
         "name": "saloni shah",
         "email": "sshah@shah",
@@ -536,6 +679,34 @@
           ],
           "prizes": [
             "prize_b"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
+        }
+      },
+      {
+        "name": "nick2 nick",
+        "email": "nick2@123",
+        "score": 1.4262772227887022,
+        "info": {
+          "name": "nick2 nick",
+          "email": "nick2@123",
+          "primary_track": "ml",
+          "skills": [
+            "python"
+          ],
+          "skills_wanted": [
+            "javascript"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "ai/ml"
+          ],
+          "prizes": [
+            "gamification"
           ],
           "working_preferences": [
             "In-person"
@@ -768,6 +939,35 @@
         }
       },
       {
+        "name": "nick nick",
+        "email": "nick@nick.com",
+        "score": 1.08,
+        "info": {
+          "name": "nick nick",
+          "email": "nick@nick.com",
+          "primary_track": "quantum",
+          "skills": [
+            "react/vue"
+          ],
+          "skills_wanted": [
+            "javascript"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "mobile_app"
+          ],
+          "prizes": [
+            "razzle_dazzle",
+            "social_good"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
+        }
+      },
+      {
         "name": "Devon Lai",
         "email": "dsafoasdf@gmail.com",
         "score": 1.08,
@@ -845,6 +1045,34 @@
           ],
           "commitment": "I want to win",
           "team_size": 0
+        }
+      },
+      {
+        "name": "nick2 nick",
+        "email": "nick2@123",
+        "score": 0.81,
+        "info": {
+          "name": "nick2 nick",
+          "email": "nick2@123",
+          "primary_track": "ml",
+          "skills": [
+            "python"
+          ],
+          "skills_wanted": [
+            "javascript"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "ai/ml"
+          ],
+          "prizes": [
+            "gamification"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
         }
       },
       {
@@ -1022,6 +1250,34 @@
         }
       },
       {
+        "name": "nick2 nick",
+        "email": "nick2@123",
+        "score": 0.81,
+        "info": {
+          "name": "nick2 nick",
+          "email": "nick2@123",
+          "primary_track": "ml",
+          "skills": [
+            "python"
+          ],
+          "skills_wanted": [
+            "javascript"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "ai/ml"
+          ],
+          "prizes": [
+            "gamification"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
+        }
+      },
+      {
         "name": "saloni shah",
         "email": "sshah@shah",
         "score": 0.81,
@@ -1046,6 +1302,319 @@
             "gamification",
             "social_good",
             "razzle_dazzle"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
+        }
+      },
+      {
+        "name": "nick nick",
+        "email": "nick@nick.com",
+        "score": 0.81,
+        "info": {
+          "name": "nick nick",
+          "email": "nick@nick.com",
+          "primary_track": "quantum",
+          "skills": [
+            "react/vue"
+          ],
+          "skills_wanted": [
+            "javascript"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "mobile_app"
+          ],
+          "prizes": [
+            "razzle_dazzle",
+            "social_good"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
+        }
+      },
+      {
+        "name": "Devon Lai",
+        "email": "dsafoasdf@gmail.com",
+        "score": 0.81,
+        "info": {
+          "name": "Devon Lai",
+          "email": "dsafoasdf@gmail.com",
+          "primary_track": "quantum",
+          "skills": [
+            "react/vue"
+          ],
+          "skills_wanted": [
+            "react/vue"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "mobile_app"
+          ],
+          "prizes": [
+            "prize_b"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
+        }
+      },
+      {
+        "name": "Sanya Gupta",
+        "email": "sanyagupta40@gmail.com",
+        "score": 0.81,
+        "info": {
+          "name": "Sanya Gupta",
+          "email": "sanyagupta40@gmail.com",
+          "primary_track": "cybersecurity",
+          "skills": [
+            "java"
+          ],
+          "skills_wanted": [
+            "html/css"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "mobile_app"
+          ],
+          "prizes": [
+            "prize_b"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
+        }
+      },
+      {
+        "name": "Harini T",
+        "email": "h@gmail.com",
+        "score": 0.81,
+        "info": {
+          "name": "Harini T",
+          "email": "h@gmail.com",
+          "primary_track": "cybersecurity",
+          "skills": [
+            "react/vue"
+          ],
+          "skills_wanted": [
+            "javascript"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "mobile_app"
+          ],
+          "prizes": [
+            "prize_b"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
+        }
+      }
+    ],
+    "nick2@123": [
+      {
+        "name": "Arya Gijare",
+        "email": "agijare@123",
+        "score": 1.5171067811865473,
+        "info": {
+          "name": "Arya Gijare",
+          "email": "agijare@123",
+          "primary_track": "general",
+          "skills": [
+            "javascript",
+            "react/vue"
+          ],
+          "skills_wanted": [
+            "react/vue",
+            "python",
+            "flask"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "mobile_app"
+          ],
+          "prizes": [
+            "razzle_dazzle",
+            "gamification"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "three"
+        }
+      },
+      {
+        "name": "saloni shah",
+        "email": "sshah@shah",
+        "score": 0.9832050807568877,
+        "info": {
+          "name": "saloni shah",
+          "email": "sshah@shah",
+          "primary_track": "cybersecurity",
+          "skills": [
+            "html/css",
+            "python"
+          ],
+          "skills_wanted": [
+            "javascript",
+            "react/vue"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "web_dev",
+            "mobile_app"
+          ],
+          "prizes": [
+            "gamification",
+            "social_good",
+            "razzle_dazzle"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
+        }
+      },
+      {
+        "name": "arya g",
+        "email": "bradket@123",
+        "score": 0.81,
+        "info": {
+          "name": "arya g",
+          "email": "bradket@123",
+          "primary_track": "cybersecurity",
+          "skills": [
+            "html/css"
+          ],
+          "skills_wanted": [
+            "html/css"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "web_dev"
+          ],
+          "prizes": [
+            "prize_c"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
+        }
+      },
+      {
+        "name": "hgf erw",
+        "email": "ivorytea.leaf@gmail.com",
+        "score": 0.81,
+        "info": {
+          "name": "hgf erw",
+          "email": "ivorytea.leaf@gmail.com",
+          "primary_track": "quantum",
+          "skills": [
+            "html/css"
+          ],
+          "skills_wanted": [
+            "html/css"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "web_dev"
+          ],
+          "prizes": [
+            "prize_b"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
+        }
+      },
+      {
+        "name": "arya g",
+        "email": "abcd@1234",
+        "score": 0.81,
+        "info": {
+          "name": "arya g",
+          "email": "abcd@1234",
+          "primary_track": "quantum",
+          "skills": [
+            "react/vue"
+          ],
+          "skills_wanted": [
+            "html/css"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "web_dev"
+          ],
+          "prizes": [
+            "no_pref"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
+        }
+      },
+      {
+        "name": "N/A N/A",
+        "email": "joanneynlee@gmail.com",
+        "score": 0.81,
+        "info": {
+          "name": "N/A N/A",
+          "email": "joanneynlee@gmail.com",
+          "primary_track": "N/A",
+          "skills": [],
+          "skills_wanted": [],
+          "avg_skill_level": 3,
+          "projects": [],
+          "prizes": [],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": 0
+        }
+      },
+      {
+        "name": "nick nick",
+        "email": "nick@nick.com",
+        "score": 0.81,
+        "info": {
+          "name": "nick nick",
+          "email": "nick@nick.com",
+          "primary_track": "quantum",
+          "skills": [
+            "react/vue"
+          ],
+          "skills_wanted": [
+            "javascript"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "mobile_app"
+          ],
+          "prizes": [
+            "razzle_dazzle",
+            "social_good"
           ],
           "working_preferences": [
             "In-person"
@@ -1201,6 +1770,35 @@
         }
       },
       {
+        "name": "nick nick",
+        "email": "nick@nick.com",
+        "score": 1.8044821623360578,
+        "info": {
+          "name": "nick nick",
+          "email": "nick@nick.com",
+          "primary_track": "quantum",
+          "skills": [
+            "react/vue"
+          ],
+          "skills_wanted": [
+            "javascript"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "mobile_app"
+          ],
+          "prizes": [
+            "razzle_dazzle",
+            "social_good"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
+        }
+      },
+      {
         "name": "arya g",
         "email": "abcd@1234",
         "score": 1.5595331880577403,
@@ -1341,6 +1939,34 @@
         }
       },
       {
+        "name": "nick2 nick",
+        "email": "nick2@123",
+        "score": 0.9832050807568877,
+        "info": {
+          "name": "nick2 nick",
+          "email": "nick2@123",
+          "primary_track": "ml",
+          "skills": [
+            "python"
+          ],
+          "skills_wanted": [
+            "javascript"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "ai/ml"
+          ],
+          "prizes": [
+            "gamification"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
+        }
+      },
+      {
         "name": "N/A N/A",
         "email": "joanneynlee@gmail.com",
         "score": 0.81,
@@ -1358,6 +1984,289 @@
           ],
           "commitment": "I want to win",
           "team_size": 0
+        }
+      }
+    ],
+    "nick@nick.com": [
+      {
+        "name": "Arya Gijare",
+        "email": "agijare@123",
+        "score": 1.8149747468305832,
+        "info": {
+          "name": "Arya Gijare",
+          "email": "agijare@123",
+          "primary_track": "general",
+          "skills": [
+            "javascript",
+            "react/vue"
+          ],
+          "skills_wanted": [
+            "react/vue",
+            "python",
+            "flask"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "mobile_app"
+          ],
+          "prizes": [
+            "razzle_dazzle",
+            "gamification"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "three"
+        }
+      },
+      {
+        "name": "Devon Lai",
+        "email": "dsafoasdf@gmail.com",
+        "score": 1.44,
+        "info": {
+          "name": "Devon Lai",
+          "email": "dsafoasdf@gmail.com",
+          "primary_track": "quantum",
+          "skills": [
+            "react/vue"
+          ],
+          "skills_wanted": [
+            "react/vue"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "mobile_app"
+          ],
+          "prizes": [
+            "prize_b"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
+        }
+      },
+      {
+        "name": "saloni shah",
+        "email": "sshah@shah",
+        "score": 1.3095074155054747,
+        "info": {
+          "name": "saloni shah",
+          "email": "sshah@shah",
+          "primary_track": "cybersecurity",
+          "skills": [
+            "html/css",
+            "python"
+          ],
+          "skills_wanted": [
+            "javascript",
+            "react/vue"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "web_dev",
+            "mobile_app"
+          ],
+          "prizes": [
+            "gamification",
+            "social_good",
+            "razzle_dazzle"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
+        }
+      },
+      {
+        "name": "Sanya Gupta",
+        "email": "sanyagupta40@gmail.com",
+        "score": 1.1700000000000002,
+        "info": {
+          "name": "Sanya Gupta",
+          "email": "sanyagupta40@gmail.com",
+          "primary_track": "cybersecurity",
+          "skills": [
+            "java"
+          ],
+          "skills_wanted": [
+            "html/css"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "mobile_app"
+          ],
+          "prizes": [
+            "prize_b"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
+        }
+      },
+      {
+        "name": "Harini T",
+        "email": "h@gmail.com",
+        "score": 1.1700000000000002,
+        "info": {
+          "name": "Harini T",
+          "email": "h@gmail.com",
+          "primary_track": "cybersecurity",
+          "skills": [
+            "react/vue"
+          ],
+          "skills_wanted": [
+            "javascript"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "mobile_app"
+          ],
+          "prizes": [
+            "prize_b"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
+        }
+      },
+      {
+        "name": "hgf erw",
+        "email": "ivorytea.leaf@gmail.com",
+        "score": 1.08,
+        "info": {
+          "name": "hgf erw",
+          "email": "ivorytea.leaf@gmail.com",
+          "primary_track": "quantum",
+          "skills": [
+            "html/css"
+          ],
+          "skills_wanted": [
+            "html/css"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "web_dev"
+          ],
+          "prizes": [
+            "prize_b"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
+        }
+      },
+      {
+        "name": "arya g",
+        "email": "abcd@1234",
+        "score": 1.08,
+        "info": {
+          "name": "arya g",
+          "email": "abcd@1234",
+          "primary_track": "quantum",
+          "skills": [
+            "react/vue"
+          ],
+          "skills_wanted": [
+            "html/css"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "web_dev"
+          ],
+          "prizes": [
+            "no_pref"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
+        }
+      },
+      {
+        "name": "arya g",
+        "email": "bradket@123",
+        "score": 0.81,
+        "info": {
+          "name": "arya g",
+          "email": "bradket@123",
+          "primary_track": "cybersecurity",
+          "skills": [
+            "html/css"
+          ],
+          "skills_wanted": [
+            "html/css"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "web_dev"
+          ],
+          "prizes": [
+            "prize_c"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
+        }
+      },
+      {
+        "name": "N/A N/A",
+        "email": "joanneynlee@gmail.com",
+        "score": 0.81,
+        "info": {
+          "name": "N/A N/A",
+          "email": "joanneynlee@gmail.com",
+          "primary_track": "N/A",
+          "skills": [],
+          "skills_wanted": [],
+          "avg_skill_level": 3,
+          "projects": [],
+          "prizes": [],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": 0
+        }
+      },
+      {
+        "name": "nick2 nick",
+        "email": "nick2@123",
+        "score": 0.81,
+        "info": {
+          "name": "nick2 nick",
+          "email": "nick2@123",
+          "primary_track": "ml",
+          "skills": [
+            "python"
+          ],
+          "skills_wanted": [
+            "javascript"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "ai/ml"
+          ],
+          "prizes": [
+            "gamification"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
         }
       }
     ],
@@ -1382,6 +2291,35 @@
           ],
           "prizes": [
             "prize_b"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
+        }
+      },
+      {
+        "name": "nick nick",
+        "email": "nick@nick.com",
+        "score": 2.1399999999999997,
+        "info": {
+          "name": "nick nick",
+          "email": "nick@nick.com",
+          "primary_track": "quantum",
+          "skills": [
+            "react/vue"
+          ],
+          "skills_wanted": [
+            "javascript"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "mobile_app"
+          ],
+          "prizes": [
+            "razzle_dazzle",
+            "social_good"
           ],
           "working_preferences": [
             "In-person"
@@ -1586,6 +2524,34 @@
           "commitment": "I want to win",
           "team_size": 0
         }
+      },
+      {
+        "name": "nick2 nick",
+        "email": "nick2@123",
+        "score": 0.81,
+        "info": {
+          "name": "nick2 nick",
+          "email": "nick2@123",
+          "primary_track": "ml",
+          "skills": [
+            "python"
+          ],
+          "skills_wanted": [
+            "javascript"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "ai/ml"
+          ],
+          "prizes": [
+            "gamification"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
+        }
       }
     ],
     "sanyagupta40@gmail.com": [
@@ -1767,6 +2733,35 @@
         }
       },
       {
+        "name": "nick nick",
+        "email": "nick@nick.com",
+        "score": 1.1700000000000002,
+        "info": {
+          "name": "nick nick",
+          "email": "nick@nick.com",
+          "primary_track": "quantum",
+          "skills": [
+            "react/vue"
+          ],
+          "skills_wanted": [
+            "javascript"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "mobile_app"
+          ],
+          "prizes": [
+            "razzle_dazzle",
+            "social_good"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
+        }
+      },
+      {
         "name": "arya g",
         "email": "abcd@1234",
         "score": 0.81,
@@ -1812,6 +2807,34 @@
           ],
           "commitment": "I want to win",
           "team_size": 0
+        }
+      },
+      {
+        "name": "nick2 nick",
+        "email": "nick2@123",
+        "score": 0.81,
+        "info": {
+          "name": "nick2 nick",
+          "email": "nick2@123",
+          "primary_track": "ml",
+          "skills": [
+            "python"
+          ],
+          "skills_wanted": [
+            "javascript"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "ai/ml"
+          ],
+          "prizes": [
+            "gamification"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
         }
       }
     ],
@@ -1938,6 +2961,35 @@
         }
       },
       {
+        "name": "nick nick",
+        "email": "nick@nick.com",
+        "score": 1.1700000000000002,
+        "info": {
+          "name": "nick nick",
+          "email": "nick@nick.com",
+          "primary_track": "quantum",
+          "skills": [
+            "react/vue"
+          ],
+          "skills_wanted": [
+            "javascript"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "mobile_app"
+          ],
+          "prizes": [
+            "razzle_dazzle",
+            "social_good"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
+        }
+      },
+      {
         "name": "hgf erw",
         "email": "ivorytea.leaf@gmail.com",
         "score": 1.11,
@@ -2040,6 +3092,34 @@
           "commitment": "I want to win",
           "team_size": 0
         }
+      },
+      {
+        "name": "nick2 nick",
+        "email": "nick2@123",
+        "score": 0.81,
+        "info": {
+          "name": "nick2 nick",
+          "email": "nick2@123",
+          "primary_track": "ml",
+          "skills": [
+            "python"
+          ],
+          "skills_wanted": [
+            "javascript"
+          ],
+          "avg_skill_level": 3,
+          "projects": [
+            "ai/ml"
+          ],
+          "prizes": [
+            "gamification"
+          ],
+          "working_preferences": [
+            "In-person"
+          ],
+          "commitment": "I want to win",
+          "team_size": "two"
+        }
       }
     ]
   },
@@ -2054,6 +3134,8 @@
         "Harini T",
         "Arya Gijare",
         "N/A N/A",
+        "nick2 nick",
+        "nick nick",
         "Devon Lai"
       ]
     },
@@ -2066,16 +3148,20 @@
         "Devon Lai",
         "Sanya Gupta",
         "Harini T",
+        "nick nick",
         "Arya Gijare",
-        "N/A N/A"
+        "N/A N/A",
+        "nick2 nick"
       ]
     },
     {
       "team": "Arya Gijare",
       "matches": [
+        "nick nick",
         "saloni shah",
         "Devon Lai",
         "Harini T",
+        "nick2 nick",
         "arya g",
         "Sanya Gupta",
         "arya g",
@@ -2089,9 +3175,11 @@
         "hgf erw",
         "arya g",
         "saloni shah",
+        "nick nick",
         "Devon Lai",
         "Arya Gijare",
         "N/A N/A",
+        "nick2 nick",
         "Sanya Gupta",
         "Harini T"
       ]
@@ -2103,7 +3191,24 @@
         "hgf erw",
         "Arya Gijare",
         "arya g",
+        "nick2 nick",
         "saloni shah",
+        "nick nick",
+        "Devon Lai",
+        "Sanya Gupta",
+        "Harini T"
+      ]
+    },
+    {
+      "team": "nick2 nick",
+      "matches": [
+        "Arya Gijare",
+        "saloni shah",
+        "arya g",
+        "hgf erw",
+        "arya g",
+        "N/A N/A",
+        "nick nick",
         "Devon Lai",
         "Sanya Gupta",
         "Harini T"
@@ -2114,25 +3219,44 @@
       "matches": [
         "Arya Gijare",
         "Harini T",
+        "nick nick",
         "arya g",
         "Devon Lai",
         "arya g",
         "Sanya Gupta",
         "hgf erw",
+        "nick2 nick",
         "N/A N/A"
+      ]
+    },
+    {
+      "team": "nick nick",
+      "matches": [
+        "Arya Gijare",
+        "Devon Lai",
+        "saloni shah",
+        "Sanya Gupta",
+        "Harini T",
+        "hgf erw",
+        "arya g",
+        "arya g",
+        "N/A N/A",
+        "nick2 nick"
       ]
     },
     {
       "team": "Devon Lai",
       "matches": [
         "Harini T",
+        "nick nick",
         "arya g",
         "Arya Gijare",
         "Sanya Gupta",
         "hgf erw",
         "saloni shah",
         "arya g",
-        "N/A N/A"
+        "N/A N/A",
+        "nick2 nick"
       ]
     },
     {
@@ -2144,8 +3268,10 @@
         "Harini T",
         "Devon Lai",
         "Arya Gijare",
+        "nick nick",
         "arya g",
-        "N/A N/A"
+        "N/A N/A",
+        "nick2 nick"
       ]
     },
     {
@@ -2155,10 +3281,12 @@
         "Arya Gijare",
         "Devon Lai",
         "saloni shah",
+        "nick nick",
         "hgf erw",
         "arya g",
         "arya g",
-        "N/A N/A"
+        "N/A N/A",
+        "nick2 nick"
       ]
     }
   ]
