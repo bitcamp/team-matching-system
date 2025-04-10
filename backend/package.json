@@ -6,6 +6,8 @@
     "serverless-http": "^3.2.0"
   },
   "devDependencies": {
+    "serverless-prune-plugin": "^2.1.0",
+    "serverless-python-requirements": "^6.1.2",
     "serverless-sentry": "^2.5.3"
   }
 }

@@ -64,22 +64,6 @@ functions:
           cors: true
     memorySize: 256
     timeout: 29
-  # Add other functions here if needed
-  # e.g. matchTeams, listTeams, etc.
-# resources:
-#   Resources:
-#     TeamMatchingTable:
-#       Type: AWS::DynamoDB::Table
-#       Properties:
-#         TableName: ${file(./config/${self:provider.stage}.json):TEAM_MATCHING_TABLE}
-#         BillingMode: PAY_PER_REQUEST
-#         AttributeDefinitions:
-#           - AttributeName: email
-#             AttributeType: S
-#         KeySchema:
-#           - AttributeName: email
-#             KeyType: HASH
-#       DeletionPolicy: Retain
 package:
   # include:
   #   - node_modules/**
@@ -92,6 +76,10 @@ package:
 plugins:
   # Remove or add plugins as needed. For example, if you want Sentry:
   - serverless-sentry
+  - serverless-prune-plugin
 custom:
   sentry:
     dsn: ${file(./config/${self:provider.stage}.json):SENTRY_DSN}
+  prune:
+    automatic: true
+    number: 3
