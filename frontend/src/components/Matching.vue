@@ -12,33 +12,44 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
+import { useUserStore } from '../stores/user';
 import TeamCard from './TeamCard.vue';
 
 const matches = ref([]);
 const loading = ref(true);
 const error = ref(null);
 
-// run algo every time
-// run something like this http://localhost:5173/matches/ivorytea.leaf@gmail.com to make it work
+const route = useRoute();
+const router = useRouter();
+const userStore = useUserStore();
+
 const fetchMatches = async () => {
   try {
-    const route = useRoute();
-    const userEmail = route.params.email; // make this dynamic so that you don't have to put in the route everywhere
+    // Use the userStore email if logged in; otherwise, use the route param
+    const userEmail = userStore.email || route.params.email;
 
     if (!userEmail) {
-      throw new Error('User email not provided');
+      throw new Error(
+        'User email not provided. Please log in or provide an email in the URL.'
+      );
     }
 
-    // Fetch from public folder
+    // If store.email is defined and does not match the route param, redirect
+    if (userStore.email && route.params.email !== userStore.email) {
+      router.replace({ name: 'Matches', params: { email: userStore.email } });
+      return; // Avoid making the unnecessary request
+    }
+
     const response = await axios.get('/matches.json');
-    const allMatches = response.data.matches;
+    const allMatches = response.data.matches || {};
     const userMatches = allMatches[userEmail] || [];
 
     console.log('Fetching matches for:', userEmail);
     console.log('Matches for user:', userMatches);
     matches.value = userMatches;
+
   } catch (err) {
     console.error('Error fetching matches:', err);
     error.value = `Failed to load matches: ${err.message}`;

@@ -1,13 +1,13 @@
 <template>
   <div class="card-body">
     <h4>{{ match.name }}</h4>
-    <p>{{ match.email }}</p>
+    <p>Contact At: {{ match.email }}</p>
     <p>Skills: {{ match.info.skills.join(', ') }}</p>
     <p>Track: {{ match.info.primary_track }}</p>
     <p>Skill level: {{ match.info.avg_skill_level }}</p>
     <p>Looking for {{ match.info.team_size }} teammates!</p>
     <p>Looking for: {{ match.info.skills_wanted.join(', ') }}</p>
-    <p>Match Score: {{ match.score.toFixed(2) }}</p>
+    <!-- <p>Match Score: {{ match.score.toFixed(2) }}</p> -->
   </div>
 </template>
 
