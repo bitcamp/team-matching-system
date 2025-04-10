@@ -2,17 +2,13 @@ import json
 import numpy as np
 import boto3
 from botocore.exceptions import ClientError
-from decimal import Decimal  # Import Decimal explicitly
-from sklearn.preprocessing import OneHotEncoder
+from decimal import Decimal
 from sklearn.metrics.pairwise import cosine_similarity
-# how to run this:
-#   python3 -m venv venv
-#   source venv/bin/activate
-#   pip install boto3 numpy scikit-learn
-#   serverless invoke local --function matchTeams
-# step 1: read in from dynamodb
+
+# Fetch data from DynamoDB
 dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
 table = dynamodb.Table('team-matching-system-dev-new')
+
 def fetch_teams():
     try:
         response = table.scan()
@@ -26,7 +22,6 @@ def fetch_teams():
             first_name = item.get('first_name', '').strip()
             last_name = item.get('last_name', '').strip()
             display_name = f"{first_name} {last_name}".strip() or email
-            # convert Decimal to int/float, ensure lists/sets are consistent
             team_size = item.get('num_team_members', 0)
             if isinstance(team_size, Decimal):
                 team_size = int(team_size)
@@ -62,32 +57,31 @@ def fetch_teams():
     except ClientError as e:
         print(f"Error fetching data from DynamoDB: {e}")
         return {}
-# initializing teams
-teams = fetch_teams()
-# step 2: encoding all categories
+
+# Encoding helpers
 def convert_skill_level(skill_level):
     skill_map = {'Beginner': 1, 'Intermediate': 3, 'Advanced': 5, 'N/A': 3}
     return skill_map.get(skill_level, 3)
-# builds a multi-hot vector for each team’s skill set or wanted skill set
+
 def encode_skills(skills_list, all_possible_skills):
     skill_vectors = []
     for skills in skills_list:
         skill_vector = [1 if skill in skills else 0 for skill in all_possible_skills]
         skill_vectors.append(skill_vector)
     return np.array(skill_vectors)
-# builds a multi-hot (binary) vector for each team based on its categories
+
 def encode_categorical(categories_list):
-    # gather unique categories across all teams
     all_cats = sorted(set(x for sublist in categories_list for x in sublist))
     matrix = []
     for cat_list in categories_list:
         row = [1 if cat in cat_list else 0 for cat in all_cats]
         matrix.append(row)
     return np.array(matrix)
-# step 3: doing the actual cosine similarity stuff
+
 def get_similarity_matrix(features):
     return cosine_similarity(features)
-# weighted combination of match similarity (weights adjusted based on needs)
+
+# Match scoring
 def get_combined_match_score(i, j, skills_weight=0.7, general_similarity_weight=0.6):
     skill_match_score = skills_match_sim[i][j]
     general_similarity = (
@@ -98,17 +92,15 @@ def get_combined_match_score(i, j, skills_weight=0.7, general_similarity_weight=
         working_pref_sim[i][j] * 0.4 +
         commitment_sim[i][j] * 0.5
     )
-    final_score = skill_match_score * skills_weight + general_similarity * general_similarity_weight
-    return final_score
-# step 4: getting matches
-# returns top matches for the team
+    return skill_match_score * skills_weight + general_similarity * general_similarity_weight
+
+# Get top matches
 def get_top_matches(team_index, top_n=None):
     if top_n is None:
         top_n = len(teams) - 1
     team_email = team_ids[team_index]
     team_size = teams[team_email]["team_size"]
     match_scores = []
-    # determine size-compatibility
     if team_size == 1:
         compatible_indices = [i for i in range(len(teams)) if teams[team_ids[i]]["team_size"] in [1, 2, 3]]
     elif team_size == 2:
@@ -124,34 +116,41 @@ def get_top_matches(team_index, top_n=None):
             team_info = {
                 "name": teams[match_email]["name"],
                 "email": match_email,
-                "score": float(score),
+                "score": float(score),  # Ensure float for JSON
                 "info": dict(teams[match_email])
             }
             match_scores.append(team_info)
-    sorted_matches = sorted(match_scores, key=lambda x: x["score"], reverse=True)
-    return sorted_matches[:top_n]
-# step 5: lambda handler
-def lambda_handler(event, context):
-    global teams, team_ids
-    global primary_track_sim, avg_skill_sim, project_sim
-    global prize_sim, working_pref_sim, skills_match_sim, commitment_sim
-    # fetch fresh data
+    return sorted(match_scores, key=lambda x: x["score"], reverse=True)[:top_n]
+
+# Custom serialization function for JSON
+def json_serializable(obj):
+    if isinstance(obj, set):
+        return list(obj)  # Convert sets to lists
+    if isinstance(obj, (np.float32, np.float64)):
+        return float(obj)  # Convert NumPy floats to Python floats
+    if isinstance(obj, Decimal):
+        return int(obj) if obj % 1 == 0 else float(obj)  # Convert Decimal to int or float
+    raise TypeError(f"Object of type {type(obj).__name__} is not JSON serializable")
+
+# Generate matches and save to JSON
+def generate_matches():
+    global teams, team_ids, primary_track_sim, avg_skill_sim, project_sim, prize_sim, working_pref_sim, skills_match_sim, commitment_sim
+    
     teams = fetch_teams()
     if not teams:
-        return {
-            'statusCode': 500,
-            'body': json.dumps({'error': 'No teams found in database'})
-        }
-    # convert skill levels to numeric
+        print("No teams found in database")
+        return
+
     for team in teams.values():
         team["avg_skill_level"] = convert_skill_level(team["avg_skill_level"])
     team_ids = list(teams.keys())
-    # gather data for all teams
+
     all_possible_skills = set()
     for t_data in teams.values():
         all_possible_skills.update(t_data["skills"])
         all_possible_skills.update(t_data["skills_wanted"])
     all_possible_skills = list(all_possible_skills)
+    
     primary_tracks = [teams[email]["primary_track"] for email in team_ids]
     skills = [teams[email]["skills"] for email in team_ids]
     skills_wanted = [teams[email]["skills_wanted"] for email in team_ids]
@@ -160,91 +159,41 @@ def lambda_handler(event, context):
     working_preferences = [teams[email]["working_preferences"] for email in team_ids]
     commitments = [teams[email]["commitment"] for email in team_ids]
     avg_skill_levels = [teams[email]["avg_skill_level"] for email in team_ids]
-    # encode them to numeric vectors
-    # skills
+
     encoded_skills = encode_skills(skills, all_possible_skills)
-    # skills wanted
     encoded_skills_wanted = encode_skills(skills_wanted, all_possible_skills)
-    # projects
     encoded_projects = encode_categorical(projects)
-    # prizes
     encoded_prizes = encode_categorical(prizes)
-    # prefs
     encoded_working_preferences = encode_categorical(working_preferences)
-    # one-hot or just exact match for primary track
+
     primary_track_sim = np.array([
-        [1 if primary_tracks[i] == primary_tracks[j] else 0
-         for j in range(len(team_ids))]
+        [1 if primary_tracks[i] == primary_tracks[j] else 0 for j in range(len(team_ids))]
         for i in range(len(team_ids))
     ])
-    # convert skill levels into a 2D array for cosine similarity
     avg_skill_sim = cosine_similarity(np.array(avg_skill_levels).reshape(-1, 1))
-    # multi-hot similarities
     project_sim = get_similarity_matrix(encoded_projects)
     prize_sim = get_similarity_matrix(encoded_prizes)
     working_pref_sim = get_similarity_matrix(encoded_working_preferences)
-    # skill matching
     skills_match_sim = cosine_similarity(encoded_skills_wanted, encoded_skills)
-    # commitment levels mapped to numeric
-    commitment_levels = {
-        "I want to win": 3,
-        "I'm doing this to learn": 2,
-        "I'm doing this for fun": 1
-    }
-    commitment_values = np.array([
-        commitment_levels[teams[email]["commitment"]] for email in team_ids
-    ]).reshape(-1, 1)
+
+    commitment_levels = {"I want to win": 3, "I'm doing this to learn": 2, "I'm doing this for fun": 1}
+    commitment_values = np.array([commitment_levels[teams[email]["commitment"]] for email in team_ids]).reshape(-1, 1)
     commitment_sim = cosine_similarity(commitment_values)
-    # build final output
+
     all_matches = {}
     team_logs = []
     for i in range(len(team_ids)):
         matches = get_top_matches(i)
-        display_name = teams[team_ids[i]]["name"]
-        cleaned_matches = []
-        for match in matches:
-            cleaned_match = {
-                "name": match["name"],
-                "email": match["email"],
-                "score": float(match["score"]),
-                "info": dict(match["info"])
-            }
-            cleaned_matches.append(cleaned_match)
-        all_matches[display_name] = cleaned_matches
-        log_entry = {"team": display_name, "matches": [m["name"] for m in matches]}
-        team_logs.append(log_entry)
-    output = {
-        "matches": all_matches,
-        "logs": team_logs
-    }
-    # serialize any objects that might cause JSON dumps to fail
-    def safe_serialize(obj, seen=None):
-        if seen is None:
-            seen = set()
-        obj_id = id(obj)
-        if obj_id in seen:
-            return "Circular reference detected"
-        seen.add(obj_id)
-        if isinstance(obj, (np.float32, np.float64)):
-            return float(obj)
-        elif isinstance(obj, Decimal):
-            return int(obj) if obj % 1 == 0 else float(obj)
-        elif isinstance(obj, set):
-            return list(obj)
-        elif isinstance(obj, dict):
-            return {k: safe_serialize(v, seen) for k, v in obj.items()}
-        elif isinstance(obj, list):
-            return [safe_serialize(i, seen) for i in obj]
-        return obj
-    try:
-        response_body = json.dumps(output, default=safe_serialize, indent=2)
-        print(response_body)
-    except ValueError as e:
-        print(f"Serialization error: {e}")
-        raise
-    return {
-      'statusCode': 200,
-      'body': response_body
-    }
+        team_email = team_ids[i]  # Use email as key
+        cleaned_matches = [{"name": m["name"], "email": m["email"], "score": m["score"], "info": m["info"]} for m in matches]
+        all_matches[team_email] = cleaned_matches  # Key is now email
+        team_logs.append({"team": teams[team_email]["name"], "matches": [m["name"] for m in matches]})
+
+    output = {"matches": all_matches, "logs": team_logs}
+
+    with open('matches.json', 'w') as f:
+        json.dump(output, f, indent=2, default=json_serializable)
+    print("Matches saved to matches.json")
+
 if __name__ == "__main__":
-    lambda_handler({}, None)
+    generate_matches()
