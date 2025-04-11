@@ -271,8 +271,8 @@
 
       <b-form-group>
         <template #label>
-          <span class="props.mode === 'edit' ? 'unrequired' : 'required-label'"
-            >How many team members do you already have?</span
+          <span :class="props.mode === 'edit' ? 'unrequired' : 'required-label'"
+            >How many team members do you already have? (Select 1 if you are the only one in the team)</span
           >
         </template>
         <b-form-radio-group v-model="form.num_team_members" name="team-members">
