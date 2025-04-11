@@ -370,11 +370,49 @@ const registerUser = async () => {
   }
 };
 
+// const deleteProfile = async () => {
+//   const confirmDelete = confirm(
+//     "Are you sure you want to delete your profile?"
+//   );
+//   if (!confirmDelete) return;
+
+//   try {
+//     const backendEndpoint = generalMixin.methods.getEnvVariable("BACKEND_ENDPOINT");
+//     const env = generalMixin.methods.getCurrentEnvironment();
+//     const url = `${backendEndpoint}/${env}/delete`;
+
+//     await axios.delete(url, {
+//       data: {
+//         id: form.email,
+//       },
+//     });
+
+//     alert("Profile deleted successfully.");
+//     router.push("/login");
+//   } catch (error) {
+//     alert("Error deleting profile");
+//     console.error(
+//       "Deletion failed:",
+//       error.response?.data || error.message || error
+//     );
+//   }
+// };
 const deleteProfile = async () => {
   const confirmDelete = confirm(
     "Are you sure you want to delete your profile?"
   );
   if (!confirmDelete) return;
+
+  const loggedInEmail = userStore.email?.trim().toLowerCase();
+  const enteredEmail = form.email?.trim().toLowerCase();
+
+  console.log("Logged in:", loggedInEmail, "| Entered:", enteredEmail);
+
+  if (enteredEmail !== loggedInEmail) {
+    alert("You can only delete your own profile.");
+    return;
+  }
+
 
   try {
     const backendEndpoint = generalMixin.methods.getEnvVariable("BACKEND_ENDPOINT");
@@ -397,6 +435,7 @@ const deleteProfile = async () => {
     );
   }
 };
+
 
 const props = defineProps({
   mode: {
