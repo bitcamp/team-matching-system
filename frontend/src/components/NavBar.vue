@@ -12,10 +12,18 @@
       </span>
       <Instructions v-if="showInstructions" class="popup" />
 
-      <div v-if="isMatchingPage" class="profile-container" @click="goToEdit">
+      <div v-if="showProfile" class="profile-container" @click="goToEdit">
         <img :src="ProfileIcon" alt="Profile" class="profile-icon" />
         <span class="profile-label">Profile</span>
       </div>
+
+      <button
+        v-if="showLogout"
+        @click="logout"
+        class="logout-button"
+      >
+        Logout
+      </button>
     </div>
   </div>
 </template>
@@ -30,10 +38,18 @@ import Instructions from "./Instructions.vue";
 const route = useRoute();
 const router = useRouter();
 
-const isMatchingPage = computed(() => route.path.startsWith("/matches"));
+const showProfile = computed(() => route.path.startsWith("/matches"));
+const showLogout = computed(() =>
+  route.path.startsWith("/matches") || route.path === "/edit-profile"
+);
 
 const goToEdit = () => {
   router.push("/edit-profile");
+};
+
+const logout = () => {
+  localStorage.clear();
+  router.push("/login");
 };
 
 const showInstructions = ref(false);
@@ -86,5 +102,19 @@ const showInstructions = ref(false);
 .profile-label {
   font-size: 14px;
   margin-top: 4px;
+}
+
+.logout-button {
+  background-color: #ff6b00;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: Aleo, sans-serif;
+}
+
+.logout-button:hover {
+  background-color: #e55d00;
 }
 </style>
