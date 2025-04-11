@@ -5,7 +5,7 @@ export const useUserStore = defineStore('user', {
     email
   }),
   actions: {
-    setUserEmail(email) {
+    setUserEmail(email: any) {
       this.email = email;
     },
     clearUser() {
