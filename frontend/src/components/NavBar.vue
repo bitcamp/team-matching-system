@@ -30,7 +30,7 @@ import Instructions from "./Instructions.vue";
 const route = useRoute();
 const router = useRouter();
 
-const isMatchingPage = computed(() => route.path === "/app");
+const isMatchingPage = computed(() => route.path.startsWith("/matches"));
 
 const goToEdit = () => {
   router.push("/edit-profile");
