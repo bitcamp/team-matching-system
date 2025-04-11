@@ -1,12 +1,9 @@
-// src/stores/user.js
-import { defineStore } from 'pinia';
-
 export const useUserStore = defineStore('user', {
   state: () => ({
-    email: null, // Store the logged-in user's email
+    email: null as string | null,
   }),
   actions: {
-    setUserEmail(email) {
+    setUserEmail(email: string) {
       this.email = email;
     },
     clearUser() {
