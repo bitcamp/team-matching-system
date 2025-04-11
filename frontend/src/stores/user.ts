@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 
 export const useUserStore = defineStore('user', {
   state: () => ({
-    email
+    email: null as string | null,
   }),
   actions: {
     setUserEmail(email: any) {
