@@ -2,11 +2,7 @@
   <div class="registration-page">
     <h1>Login</h1>
 
-    <b-form
-      class="registration-form"
-      @submit.prevent="loginUser"
-      ref="loginForm"
-    >
+    <b-form class="registration-form" @submit.prevent="loginUser" ref="loginForm">
       <b-form-group>
         <template #label>
           <span class="required-label">Username</span>
@@ -18,11 +14,7 @@
         <template #label>
           <span class="required-label">Password</span>
         </template>
-        <b-form-input
-          v-model="form.password"
-          type="password"
-          required
-        ></b-form-input>
+        <b-form-input v-model="form.password" type="password" required></b-form-input>
       </b-form-group>
 
       <div class="login-button-wrapper">
@@ -62,7 +54,7 @@ const form = ref({
 
 const loginUser = async () => {
   try {
-    const backendEndpoint = generalMixin.methods.getEnvVariable("BACKEND_ENDPOINT");
+    const backendEndpoint = generalMixin.methods.getEnvVariable("VITE_BACKEND_ENDPOINT");
     const env = generalMixin.methods.getCurrentEnvironment();
     const url = `${backendEndpoint}/${env}/login`;
 

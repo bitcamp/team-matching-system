@@ -8,29 +8,20 @@
 
     <b-form class="registration-form" @submit.prevent="registerUser">
       <b-form-group v-if="mode === 'register'">
-          <b-form-group>
-            <template #label>
-              <span class="required-label">New Username</span>
-            </template>
-            <b-form-input
-              v-model="form.username"
-              placeholder="Enter username"
-              required
-            ></b-form-input>
-          </b-form-group>
+        <b-form-group>
+          <template #label>
+            <span class="required-label">New Username</span>
+          </template>
+          <b-form-input v-model="form.username" placeholder="Enter username" required></b-form-input>
+        </b-form-group>
 
-          <b-form-group>
-            <template #label>
-              <span class="required-label">New Password</span>
-            </template>
-            <b-form-input
-              v-model="form.password"
-              type = "password"
-              placeholder="Enter password"
-              required
-            ></b-form-input>
-          </b-form-group>
-          <br><br>
+        <b-form-group>
+          <template #label>
+            <span class="required-label">New Password</span>
+          </template>
+          <b-form-input v-model="form.password" type="password" placeholder="Enter password" required></b-form-input>
+        </b-form-group>
+        <br><br>
       </b-form-group>
 
       <!-- <b-form-group v-if="mode === 'edit'">
@@ -50,13 +41,8 @@
             <template #label>
               <span :class="props.mode === 'edit' ? 'unrequired' : 'required-label'">First Name</span>
             </template>
-            <b-form-input
-              v-model="form.first_name"
-
-              @blur="touched.first_name = true"
-              placeholder="Enter first name"
-              :required = "props.mode !== 'edit'"
-            ></b-form-input>
+            <b-form-input v-model="form.first_name" @blur="touched.first_name = true" placeholder="Enter first name"
+              :required="props.mode !== 'edit'"></b-form-input>
           </b-form-group>
         </b-col>
 
@@ -65,13 +51,8 @@
             <template #label>
               <span :class="props.mode === 'edit' ? 'unrequired' : 'required-label'">Last Name</span>
             </template>
-            <b-form-input
-              v-model="form.last_name"
-   
-              @blur="touched.last_name = true"
-              placeholder="Enter last name"
-              :required = "props.mode !== 'edit'"
-            ></b-form-input>
+            <b-form-input v-model="form.last_name" @blur="touched.last_name = true" placeholder="Enter last name"
+              :required="props.mode !== 'edit'"></b-form-input>
           </b-form-group>
         </b-col>
       </b-row>
@@ -80,28 +61,16 @@
         <template #label>
           <span :class="props.mode === 'edit' ? 'unrequired' : 'required-label'">Year at Bitcamp</span>
         </template>
-        <b-form-input
-          type="number"
-          v-model="form.year"
-    
-          @blur="touched.year = true"
-          placeholder="Enter year"
-          :required = "props.mode !== 'edit'"
-        ></b-form-input>
+        <b-form-input type="number" v-model="form.year" @blur="touched.year = true" placeholder="Enter year"
+          :required="props.mode !== 'edit'"></b-form-input>
       </b-form-group>
 
       <b-form-group>
         <template #label>
           <span class="required-label">Contact Email</span>
         </template>
-        <b-form-input
-          type="email"
-          v-model="form.email"
-          :state="touched.email ? form.email !== '' : null"
-          @blur="touched.email = true"
-          placeholder="Enter email"
-          required
-        ></b-form-input>
+        <b-form-input type="email" v-model="form.email" :state="touched.email ? form.email !== '' : null"
+          @blur="touched.email = true" placeholder="Enter email" required></b-form-input>
       </b-form-group>
       <b-form-group>
         <template #label>
@@ -118,18 +87,9 @@
 
       <h4 class="header">Skills & Experience</h4>
       <div class="section-divider"></div>
-      <b-form-group
-        label="Have you participated in a hackathon before?"
-        label-cols="5"
-        label-class="required-label"
-        label-for="hackathon"
-      >
-        <b-form-radio-group
-          id="hackathon"
-          v-model="form.hackathon"
-          name="hackathon"
-          class="d-flex gap-3"
-        >
+      <b-form-group label="Have you participated in a hackathon before?" label-cols="5" label-class="required-label"
+        label-for="hackathon">
+        <b-form-radio-group id="hackathon" v-model="form.hackathon" name="hackathon" class="d-flex gap-3">
           <b-form-radio value="yes">Yes</b-form-radio>
           <b-form-radio value="no">No</b-form-radio>
         </b-form-radio-group>
@@ -137,10 +97,9 @@
 
       <b-form-group>
         <template #label>
-          <span :class="props.mode === 'edit' ? 'unrequired' : 'required-label'"
-            >What programming languages and frameworks are you comfortable
-            with?</span
-          >
+          <span :class="props.mode === 'edit' ? 'unrequired' : 'required-label'">What programming languages and
+            frameworks are you comfortable
+            with?</span>
         </template>
         <b-form-checkbox-group v-model="form.languages" stacked>
           <b-form-checkbox value="html/css">HTML/CSS</b-form-checkbox>
@@ -158,22 +117,17 @@
           <span :class="props.mode === 'edit' ? 'unrequired' : 'required-label'">What is your experience level?</span>
         </template>
         <b-form-radio-group v-model="form.experience" name="experience" stacked>
-          <b-form-radio value="beginner"
-            >Beginner (skill level 1-2)</b-form-radio
-          >
-          <b-form-radio value="inter"
-            >Intermediate (skill level 3-4)</b-form-radio
-          >
+          <b-form-radio value="beginner">Beginner (skill level 1-2)</b-form-radio>
+          <b-form-radio value="inter">Intermediate (skill level 3-4)</b-form-radio>
           <b-form-radio value="advanced">Advanced (skill level 5)</b-form-radio>
         </b-form-radio-group>
       </b-form-group>
 
       <b-form-group>
         <template #label>
-          <span :class="props.mode === 'edit' ? 'unrequired' : 'required-label'"
-            >Do you prefer working with someone with a similar skill
-            level?</span
-          >
+          <span :class="props.mode === 'edit' ? 'unrequired' : 'required-label'">Do you prefer working with someone with
+            a similar skill
+            level?</span>
         </template>
         <b-form-radio-group v-model="form.skill_level" name="skill-level">
           <b-form-radio value="yes">Yes</b-form-radio>
@@ -184,10 +138,9 @@
 
       <b-form-group>
         <template #label>
-          <span :class="props.mode === 'edit' ? 'unrequired' : 'required-label'"
-            >What kind of technologies do you want your teammates to have
-            knowledge of?</span
-          >
+          <span :class="props.mode === 'edit' ? 'unrequired' : 'required-label'">What kind of technologies do you want
+            your teammates to have
+            knowledge of?</span>
         </template>
         <b-form-checkbox-group v-model="form.skills_wanted" stacked>
           <b-form-checkbox value="html/css">HTML/CSS</b-form-checkbox>
@@ -204,10 +157,9 @@
       <div class="section-divider"></div>
       <b-form-group>
         <template #label>
-          <span :class="props.mode === 'edit' ? 'unrequired' : 'required-label'"
-            >What kind of projects are you interested in (i.e. web, mobile, AI,
-            etc.)?</span
-          >
+          <span :class="props.mode === 'edit' ? 'unrequired' : 'required-label'">What kind of projects are you
+            interested in (i.e. web, mobile, AI,
+            etc.)?</span>
         </template>
         <b-form-checkbox-group v-model="form.projects" stacked>
           <b-form-checkbox value="web_dev">Web Development</b-form-checkbox>
@@ -218,10 +170,9 @@
 
       <b-form-group>
         <template #label>
-          <span :class="props.mode === 'edit' ? 'unrequired' : 'required-label'"
-            >What Bitcamp prizes are you interested in catering your project
-            towards?</span
-          >
+          <span :class="props.mode === 'edit' ? 'unrequired' : 'required-label'">What Bitcamp prizes are you interested
+            in catering your project
+            towards?</span>
         </template>
         <b-form-checkbox-group v-model="form.prizes" stacked>
           <b-form-checkbox value="hardware">Best Hardware Hack</b-form-checkbox>
@@ -246,21 +197,16 @@
         </template>
         <b-form-radio-group v-model="form.serious" name="serious">
           <b-form-radio value="win">I want to win! (16-20 hours)</b-form-radio>
-          <b-form-radio value="funsies"
-            >I'm just doing this for fun (9-13 hours)</b-form-radio
-          >
-          <b-form-radio value="learning"
-            >I want to learn, if I win that will be a plus (1-8
-            hours)</b-form-radio
-          >
+          <b-form-radio value="funsies">I'm just doing this for fun (9-13 hours)</b-form-radio>
+          <b-form-radio value="learning">I want to learn, if I win that will be a plus (1-8
+            hours)</b-form-radio>
         </b-form-radio-group>
       </b-form-group>
 
       <b-form-group>
         <template #label>
-          <span :class="props.mode === 'edit' ? 'unrequired' : 'required-label'"
-            >Which way would you prefer collaborating with your team?</span
-          >
+          <span :class="props.mode === 'edit' ? 'unrequired' : 'required-label'">Which way would you prefer
+            collaborating with your team?</span>
         </template>
         <b-form-checkbox-group v-model="form.collab" stacked>
           <b-form-checkbox value="remote">Remote</b-form-checkbox>
@@ -271,9 +217,8 @@
 
       <b-form-group>
         <template #label>
-          <span :class="props.mode === 'edit' ? 'unrequired' : 'required-label'"
-            >How many team members do you already have? (Select 1 if you are the only one in the team)</span
-          >
+          <span :class="props.mode === 'edit' ? 'unrequired' : 'required-label'">How many team members do you already
+            have? (Select 1 if you are the only one in the team)</span>
         </template>
         <b-form-radio-group v-model="form.num_team_members" name="team-members">
           <b-form-radio value="one">1</b-form-radio>
@@ -288,12 +233,7 @@
         </b-button>
       </div>
     </b-form>
-    <b-button
-      variant="danger"
-      class="delete-button"
-      @click="deleteProfile"
-      v-if="mode === 'edit'"
-    >
+    <b-button variant="danger" class="delete-button" @click="deleteProfile" v-if="mode === 'edit'">
       Delete My Profile
     </b-button>
   </div>
@@ -339,7 +279,7 @@ const form = reactive({
 
 const registerUser = async () => {
   try {
-    const backendEndpoint = generalMixin.methods.getEnvVariable("BACKEND_ENDPOINT");
+    const backendEndpoint = generalMixin.methods.getEnvVariable("VITE_BACKEND_ENDPOINT");
     const env = generalMixin.methods.getCurrentEnvironment();
     const url = `${backendEndpoint}/${env}/register`;
 
@@ -377,7 +317,7 @@ const registerUser = async () => {
 //   if (!confirmDelete) return;
 
 //   try {
-//     const backendEndpoint = generalMixin.methods.getEnvVariable("BACKEND_ENDPOINT");
+//     const backendEndpoint = generalMixin.methods.getEnvVariable("VITE_BACKEND_ENDPOINT");
 //     const env = generalMixin.methods.getCurrentEnvironment();
 //     const url = `${backendEndpoint}/${env}/delete`;
 
@@ -415,7 +355,7 @@ const deleteProfile = async () => {
 
 
   try {
-    const backendEndpoint = generalMixin.methods.getEnvVariable("BACKEND_ENDPOINT");
+    const backendEndpoint = generalMixin.methods.getEnvVariable("VITE_BACKEND_ENDPOINT");
     const env = generalMixin.methods.getCurrentEnvironment();
     const url = `${backendEndpoint}/${env}/delete`;
 
@@ -457,6 +397,7 @@ const props = defineProps({
   margin: auto;
   text-align: left;
 }
+
 .b-form-group {
   margin-bottom: 20px;
 }
@@ -468,12 +409,13 @@ const props = defineProps({
   font-weight: bold;
 }
 
-.unrequired{
+.unrequired {
   font-size: var(--bitcamp-fontsize-body);
   font-family: var(--bitcamp-font-title);
   margin-right: 4px;
 
 }
+
 .b-form-input {
   width: 100%;
   padding: 10px;
