@@ -8,8 +8,5 @@
   },
   "devDependencies": {
     "serverless-sentry": "^2.5.3"
-  },
-  "optionalDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "*"
   }
 }
