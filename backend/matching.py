@@ -9,7 +9,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
 table = dynamodb.Table('team-matching-system-dev-new')
 
-def fetch_teams():
+def fetch_teams(): 
     try:
         response = table.scan()
         items = response['Items']
