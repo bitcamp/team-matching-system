@@ -8,6 +8,8 @@ from sklearn.metrics.pairwise import cosine_similarity
 # Fetch data from DynamoDB
 dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
 table = dynamodb.Table('team-matching-system-dev-new')
+visited = set()
+l = []
 
 def fetch_teams(): 
     try:
@@ -42,6 +44,7 @@ def fetch_teams():
                 working_preferences = [working_preferences] if working_preferences else ['In-person']
             teams[email] = {
                 "name": display_name,
+                "team_size": team_size,
                 "email": email,
                 "primary_track": item.get('track', 'N/A'),
                 "skills": skills,
@@ -132,6 +135,33 @@ def json_serializable(obj):
         return int(obj) if obj % 1 == 0 else float(obj)  # Convert Decimal to int or float
     raise TypeError(f"Object of type {type(obj).__name__} is not JSON serializable")
 
+def form_team(name, email, teammates_count, matches):
+    # megan
+    global visited
+
+    if (name, email) in visited:
+        return []
+
+    team = []
+
+    visited.add((name, email))
+    team.append((name, email))
+    translation_teammates_count = {"one": 1, "two": 2, "three": 3}
+
+    if teammates_count not in translation_teammates_count:
+        return []
+
+    for m in matches:
+        if len(team) >= translation_teammates_count[teammates_count]:
+            return team
+
+        if (m["name"], m["email"]) not in visited:
+            l.append((m["name"], m["email"]))
+            visited.add((m["name"], m["email"]))
+            team.append((m["name"], m["email"]))
+    
+    return team
+        
 # Generate matches and save to JSON
 def generate_matches():
     global teams, team_ids, primary_track_sim, avg_skill_sim, project_sim, prize_sim, working_pref_sim, skills_match_sim, commitment_sim
@@ -185,11 +215,13 @@ def generate_matches():
     for i in range(len(team_ids)):
         matches = get_top_matches(i)
         team_email = team_ids[i]  # Use email as key
-        cleaned_matches = [{"name": m["name"], "email": m["email"], "score": m["score"], "info": m["info"]} for m in matches]
-        all_matches[team_email] = cleaned_matches  # Key is now email
-        team_logs.append({"team": teams[team_email]["name"], "matches": [m["name"] for m in matches]})
+        # team_logs.append({"name": teams[team_email]["name"], "email": team_email, "# of teammates": teams[team_email]["team_size"], "matches": [(m["name"], m["score"]) for m in matches]})
+        team = form_team(teams[team_email]["name"], team_email, teams[team_email]["team_size"], matches)
+        
+        if len(team) > 0:
+            team_logs.append({f"team{i}": team})
 
-    output = {"matches": all_matches, "logs": team_logs}
+    output = {"Teams": team_logs}
 
     with open('matches.json', 'w') as f:
         json.dump(output, f, indent=2, default=json_serializable)
