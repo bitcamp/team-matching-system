@@ -92,6 +92,7 @@ package:
 plugins:
   # Remove or add plugins as needed. For example, if you want Sentry:
   - serverless-sentry
+  - serverless-offline
 custom:
   sentry:
     dsn: ${file(./config/${self:provider.stage}.json):SENTRY_DSN}

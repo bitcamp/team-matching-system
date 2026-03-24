@@ -1,15 +1,43 @@
 import json
+import os
+import sys
+
+# Avoid importing vendored package folders from this directory (e.g. backend/numpy),
+# which can shadow the active environment and break binary imports.
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path[:] = [p for p in sys.path if os.path.abspath(p or os.getcwd()) != CURRENT_DIR]
+
 import numpy as np
 import boto3
 from botocore.exceptions import ClientError
 from decimal import Decimal
 from sklearn.metrics.pairwise import cosine_similarity
 
+TARGET_TEAM_SIZE = 4
+
+
+def normalize_team_size(value):
+    if isinstance(value, Decimal):
+        value = int(value)
+
+    if isinstance(value, str):
+        mapping = {"one": 1, "two": 2, "three": 3, "four": 4}
+        lowered = value.strip().lower()
+        if lowered in mapping:
+            value = mapping[lowered]
+        elif lowered.isdigit():
+            value = int(lowered)
+        else:
+            return 1
+
+    if not isinstance(value, int):
+        return 1
+
+    return max(1, min(TARGET_TEAM_SIZE, value))
+
 # Fetch data from DynamoDB
 dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
-table = dynamodb.Table('team-matching-system-dev-new')
-visited = set()
-l = []
+table = dynamodb.Table('portal-prd-team-matching')
 
 def fetch_teams(): 
     try:
@@ -25,8 +53,7 @@ def fetch_teams():
             last_name = item.get('last_name', '').strip()
             display_name = f"{first_name} {last_name}".strip() or email
             team_size = item.get('num_team_members', 0)
-            if isinstance(team_size, Decimal):
-                team_size = int(team_size)
+            team_size = normalize_team_size(team_size)
             skills = item.get('languages', [])
             if isinstance(skills, str):
                 skills = [skills] if skills else []
@@ -102,16 +129,13 @@ def get_top_matches(team_index, top_n=None):
     if top_n is None:
         top_n = len(teams) - 1
     team_email = team_ids[team_index]
-    team_size = teams[team_email]["team_size"]
+    team_size = normalize_team_size(teams[team_email]["team_size"])
     match_scores = []
-    if team_size == 1:
-        compatible_indices = [i for i in range(len(teams)) if teams[team_ids[i]]["team_size"] in [1, 2, 3]]
-    elif team_size == 2:
-        compatible_indices = [i for i in range(len(teams)) if teams[team_ids[i]]["team_size"] in [1, 2]]
-    elif team_size == 3:
-        compatible_indices = [i for i in range(len(teams)) if teams[team_ids[i]]["team_size"] == 1]
-    else:
-        compatible_indices = [i for i in range(len(teams)) if i != team_index]
+    compatible_indices = [
+        i for i in range(len(teams))
+        if i != team_index and
+        team_size + normalize_team_size(teams[team_ids[i]]["team_size"]) <= TARGET_TEAM_SIZE
+    ]
     for i in compatible_indices:
         if i != team_index:
             score = get_combined_match_score(team_index, i)
@@ -136,35 +160,117 @@ def json_serializable(obj):
     raise TypeError(f"Object of type {type(obj).__name__} is not JSON serializable")
 
 def form_team(name, email, teammates_count, matches):
-    # megan
     global visited
 
     if (name, email) in visited:
         return []
 
     team = []
+    current_team_size = normalize_team_size(teammates_count)
 
     visited.add((name, email))
     team.append((name, email))
-    translation_teammates_count = {"one": 1, "two": 2, "three": 3}
+    filled_size = current_team_size
 
-    if teammates_count not in translation_teammates_count:
-        return []
+    if filled_size >= TARGET_TEAM_SIZE:
+        return team
 
     for m in matches:
-        if len(team) >= translation_teammates_count[teammates_count]:
+        if filled_size >= TARGET_TEAM_SIZE:
             return team
 
-        if (m["name"], m["email"]) not in visited:
-            l.append((m["name"], m["email"]))
+        match_size = normalize_team_size(m["info"].get("team_size", 1))
+
+        if (m["name"], m["email"]) not in visited and filled_size + match_size <= TARGET_TEAM_SIZE:
             visited.add((m["name"], m["email"]))
             team.append((m["name"], m["email"]))
+            filled_size += match_size
     
     return team
+
+
+def rebalance_single_member_teams(team_logs):
+    team_entries = []
+    for team_obj in team_logs:
+        team_id, members = next(iter(team_obj.items()))
+        team_entries.append([team_id, list(members)])
+
+    # Move members from singleton teams into existing non-full teams.
+    # We only add to teams with 2-3 visible members to avoid singleton-to-singleton shuffling.
+    singleton_indices = [
+        idx for idx, (_, members) in enumerate(team_entries)
+        if len(members) == 1
+    ]
+
+    for singleton_idx in singleton_indices:
+        if not team_entries[singleton_idx][1]:
+            continue
+
+        target_idx = next(
+            (
+                idx for idx, (_, members) in enumerate(team_entries)
+                if idx != singleton_idx and 1 < len(members) < TARGET_TEAM_SIZE
+            ),
+            None,
+        )
+
+        if target_idx is None:
+            continue
+
+        moved_member = team_entries[singleton_idx][1].pop(0)
+        team_entries[target_idx][1].append(moved_member)
+
+    # Merge 2-person teams into 4-person teams where possible (2 + 2).
+    two_person_indices = [
+        idx for idx, (_, members) in enumerate(team_entries)
+        if len(members) == 2
+    ]
+
+    while len(two_person_indices) >= 2:
+        idx_a = two_person_indices.pop(0)
+        idx_b = two_person_indices.pop(0)
+
+        if not team_entries[idx_a][1] or not team_entries[idx_b][1]:
+            continue
+
+        team_entries[idx_a][1].extend(team_entries[idx_b][1])
+        team_entries[idx_b][1].clear()
+
+    # For any remaining 2-person teams, distribute members into 3-person teams.
+    # This turns 3-person teams into 4-person teams when available.
+    remaining_two_indices = [
+        idx for idx, (_, members) in enumerate(team_entries)
+        if len(members) == 2
+    ]
+
+    for two_idx in remaining_two_indices:
+        members_to_place = list(team_entries[two_idx][1])
+        if not members_to_place:
+            continue
+
+        target_three_indices = [
+            idx for idx, (_, members) in enumerate(team_entries)
+            if idx != two_idx and len(members) == 3
+        ]
+
+        for target_idx in target_three_indices:
+            if not members_to_place:
+                break
+
+            member = members_to_place.pop(0)
+            team_entries[target_idx][1].append(member)
+
+        team_entries[two_idx][1] = members_to_place
+
+    # Keep only teams that still have at least one member.
+    team_entries = [entry for entry in team_entries if entry[1]]
+
+    # Rebuild stable team ids after rebalancing.
+    return [{f"team{i}": members} for i, (_, members) in enumerate(team_entries)]
         
 # Generate matches and save to JSON
 def generate_matches():
-    global teams, team_ids, primary_track_sim, avg_skill_sim, project_sim, prize_sim, working_pref_sim, skills_match_sim, commitment_sim
+    global teams, team_ids, primary_track_sim, avg_skill_sim, project_sim, prize_sim, working_pref_sim, skills_match_sim, commitment_sim, visited
     
     teams = fetch_teams()
     if not teams:
@@ -210,6 +316,7 @@ def generate_matches():
     commitment_values = np.array([commitment_levels[teams[email]["commitment"]] for email in team_ids]).reshape(-1, 1)
     commitment_sim = cosine_similarity(commitment_values)
 
+    visited = set()
     all_matches = {}
     team_logs = []
     for i in range(len(team_ids)):
@@ -220,6 +327,8 @@ def generate_matches():
         
         if len(team) > 0:
             team_logs.append({f"team{i}": team})
+
+    team_logs = rebalance_single_member_teams(team_logs)
 
     output = {"Teams": team_logs}
 

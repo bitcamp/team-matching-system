@@ -7,7 +7,9 @@
     "vue-router": "^4.5.0"
   },
   "devDependencies": {
-    "serverless-sentry": "^2.5.3"
+    "serverless-offline": "^14.4.0",
+    "serverless-sentry": "^2.5.3",
+    "serverless-sentry-lib": "^2.5.2"
   },
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "*"

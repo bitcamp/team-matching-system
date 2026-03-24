@@ -15,6 +15,7 @@ const TABLE_NAME = "team-matching-system-dev-new"; // Replace with your actual t
 // ✅ POST /register — create or update a profile
 app.post("/register", async (req, res) => {
   const formData = req.body;
+  console.log("Received skills_wanted:", formData.skills_wanted);
 
   if (!formData.email) {
     return res.status(400).json({ error: "Email is required!" });
