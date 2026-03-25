@@ -35,20 +35,58 @@ def normalize_team_size(value):
 
     return max(1, min(TARGET_TEAM_SIZE, value))
 
+
 # Fetch data from DynamoDB
 dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
-table = dynamodb.Table('portal-prd-team-matching')
+TEAM_MATCHING_TABLE = os.getenv('TEAM_MATCHING_TABLE', 'portal-prd-team-matching')
+REGISTRATION_TABLE = os.getenv('REGISTRATION_TABLE', 'portal-prd-registration')
+WAITLIST_FIELD = os.getenv('WAITLIST_FIELD', 'waitlist')
+
+team_matching_table = dynamodb.Table(TEAM_MATCHING_TABLE)
+registration_table = dynamodb.Table(REGISTRATION_TABLE)
+
+
+def fetch_waitlist_by_email():
+    waitlist_by_email = {}
+    try:
+        response = registration_table.scan(
+            ProjectionExpression='email, #waitlist',
+            ExpressionAttributeNames={'#waitlist': WAITLIST_FIELD}
+        )
+        items = response['Items']
+        while 'LastEvaluatedKey' in response:
+            response = registration_table.scan(
+                ProjectionExpression='email, #waitlist',
+                ExpressionAttributeNames={'#waitlist': WAITLIST_FIELD},
+                ExclusiveStartKey=response['LastEvaluatedKey']
+            )
+            items.extend(response['Items'])
+
+        for item in items:
+            email = item.get('email')
+            if not email:
+                continue
+            waitlist_by_email[email.lower()] = bool(item.get(WAITLIST_FIELD, False))
+
+        return waitlist_by_email
+    except ClientError as e:
+        print(f"Error fetching waitlist data from registration table: {e}")
+        return {}
 
 def fetch_teams(): 
     try:
-        response = table.scan()
+        waitlist_by_email = fetch_waitlist_by_email()
+
+        response = team_matching_table.scan()
         items = response['Items']
         while 'LastEvaluatedKey' in response:
-            response = table.scan(ExclusiveStartKey=response['LastEvaluatedKey'])
+            response = team_matching_table.scan(ExclusiveStartKey=response['LastEvaluatedKey'])
             items.extend(response['Items'])
         teams = {}
         for item in items:
             email = item.get('email')
+            if not email:
+                continue
             first_name = item.get('first_name', '').strip()
             last_name = item.get('last_name', '').strip()
             display_name = f"{first_name} {last_name}".strip() or email
@@ -69,6 +107,7 @@ def fetch_teams():
             working_preferences = item.get('working_preferences', ['In-person'])
             if isinstance(working_preferences, str):
                 working_preferences = [working_preferences] if working_preferences else ['In-person']
+            is_waitlisted = waitlist_by_email.get(email.lower(), False)
             teams[email] = {
                 "name": display_name,
                 "team_size": team_size,
@@ -81,7 +120,8 @@ def fetch_teams():
                 "prizes": prizes,
                 "working_preferences": working_preferences,
                 "commitment": item.get('commitment', 'I want to win'),
-                "team_size": team_size
+                "team_size": team_size,
+                "is_waitlisted": is_waitlisted,
             }
         return teams
     except ClientError as e:
@@ -189,104 +229,103 @@ def form_team(name, email, teammates_count, matches):
     return team
 
 
-def rebalance_single_member_teams(team_logs):
-    team_entries = []
-    for team_obj in team_logs:
-        team_id, members = next(iter(team_obj.items()))
-        team_entries.append([team_id, list(members)])
+def rebalance_single_member_teams(team_members):
+    team_entries = [list(members) for members in team_members if members]
 
-    # Move members from singleton teams into existing non-full teams.
-    # We only add to teams with 2-3 visible members to avoid singleton-to-singleton shuffling.
-    singleton_indices = [
-        idx for idx, (_, members) in enumerate(team_entries)
-        if len(members) == 1
-    ]
+    def member_size(member):
+        _, email = member
+        return normalize_team_size(teams[email].get("team_size", 1))
 
-    for singleton_idx in singleton_indices:
-        if not team_entries[singleton_idx][1]:
-            continue
+    def team_size(members):
+        return sum(member_size(member) for member in members)
 
-        target_idx = next(
-            (
-                idx for idx, (_, members) in enumerate(team_entries)
-                if idx != singleton_idx and 1 < len(members) < TARGET_TEAM_SIZE
-            ),
-            None,
-        )
-
-        if target_idx is None:
-            continue
-
-        moved_member = team_entries[singleton_idx][1].pop(0)
-        team_entries[target_idx][1].append(moved_member)
-
-    # Merge 2-person teams into 4-person teams where possible (2 + 2).
-    two_person_indices = [
-        idx for idx, (_, members) in enumerate(team_entries)
-        if len(members) == 2
-    ]
-
-    while len(two_person_indices) >= 2:
-        idx_a = two_person_indices.pop(0)
-        idx_b = two_person_indices.pop(0)
-
-        if not team_entries[idx_a][1] or not team_entries[idx_b][1]:
-            continue
-
-        team_entries[idx_a][1].extend(team_entries[idx_b][1])
-        team_entries[idx_b][1].clear()
-
-    # For any remaining 2-person teams, distribute members into 3-person teams.
-    # This turns 3-person teams into 4-person teams when available.
-    remaining_two_indices = [
-        idx for idx, (_, members) in enumerate(team_entries)
-        if len(members) == 2
-    ]
-
-    for two_idx in remaining_two_indices:
-        members_to_place = list(team_entries[two_idx][1])
-        if not members_to_place:
-            continue
-
-        target_three_indices = [
-            idx for idx, (_, members) in enumerate(team_entries)
-            if idx != two_idx and len(members) == 3
-        ]
-
-        for target_idx in target_three_indices:
-            if not members_to_place:
+    # Merge teams only when their weighted sizes complement exactly to 4.
+    merged = True
+    while merged:
+        merged = False
+        for i in range(len(team_entries)):
+            if not team_entries[i]:
+                continue
+            size_i = team_size(team_entries[i])
+            if size_i >= TARGET_TEAM_SIZE:
+                continue
+            for j in range(i + 1, len(team_entries)):
+                if not team_entries[j]:
+                    continue
+                size_j = team_size(team_entries[j])
+                if size_i + size_j == TARGET_TEAM_SIZE:
+                    team_entries[i].extend(team_entries[j])
+                    team_entries[j].clear()
+                    merged = True
+                    break
+            if merged:
                 break
 
-            member = members_to_place.pop(0)
-            team_entries[target_idx][1].append(member)
+    # If possible, move a single member to complete a target team exactly to 4.
+    changed = True
+    seen_states = set()
+    while changed:
+        changed = False
 
-        team_entries[two_idx][1] = members_to_place
+        # Guard against cyclic reshuffles between equivalent states.
+        state = tuple(
+            sorted(tuple(member[1] for member in members) for members in team_entries if members)
+        )
+        if state in seen_states:
+            break
+        seen_states.add(state)
 
-    # Keep only teams that still have at least one member.
-    team_entries = [entry for entry in team_entries if entry[1]]
+        for i in range(len(team_entries)):
+            if not team_entries[i]:
+                continue
+            size_i = team_size(team_entries[i])
+            if size_i >= TARGET_TEAM_SIZE:
+                continue
 
-    # Rebuild stable team ids after rebalancing.
-    return [{f"team{i}": members} for i, (_, members) in enumerate(team_entries)]
-        
-# Generate matches and save to JSON
-def generate_matches():
+            needed = TARGET_TEAM_SIZE - size_i
+            donor_found = False
+            for j in range(len(team_entries)):
+                if i == j or not team_entries[j]:
+                    continue
+
+                for k, candidate in enumerate(team_entries[j]):
+                    cand_size = member_size(candidate)
+                    donor_after = team_size(team_entries[j]) - cand_size
+                    # Only move when donor team is fully dissolved by the transfer.
+                    # This avoids A<->B oscillation where teams keep swapping members.
+                    if cand_size == needed and donor_after == 0:
+                        team_entries[i].append(candidate)
+                        del team_entries[j][k]
+                        changed = True
+                        donor_found = True
+                        break
+
+                if donor_found:
+                    break
+
+            if changed:
+                break
+
+    # Keep only teams that still have at least one member and never return overfilled teams.
+    cleaned = [members for members in team_entries if members and team_size(members) <= TARGET_TEAM_SIZE]
+    return cleaned
+
+
+def generate_matches_for_pool(pool_teams, start_index=0):
     global teams, team_ids, primary_track_sim, avg_skill_sim, project_sim, prize_sim, working_pref_sim, skills_match_sim, commitment_sim, visited
-    
-    teams = fetch_teams()
-    if not teams:
-        print("No teams found in database")
-        return
+
+    teams = pool_teams
+    team_ids = list(teams.keys())
 
     for team in teams.values():
         team["avg_skill_level"] = convert_skill_level(team["avg_skill_level"])
-    team_ids = list(teams.keys())
 
     all_possible_skills = set()
     for t_data in teams.values():
         all_possible_skills.update(t_data["skills"])
         all_possible_skills.update(t_data["skills_wanted"])
     all_possible_skills = list(all_possible_skills)
-    
+
     primary_tracks = [teams[email]["primary_track"] for email in team_ids]
     skills = [teams[email]["skills"] for email in team_ids]
     skills_wanted = [teams[email]["skills_wanted"] for email in team_ids]
@@ -313,22 +352,54 @@ def generate_matches():
     skills_match_sim = cosine_similarity(encoded_skills_wanted, encoded_skills)
 
     commitment_levels = {"I want to win": 3, "I'm doing this to learn": 2, "I'm doing this for fun": 1}
-    commitment_values = np.array([commitment_levels[teams[email]["commitment"]] for email in team_ids]).reshape(-1, 1)
+    commitment_values = np.array([commitment_levels.get(teams[email]["commitment"], 2) for email in team_ids]).reshape(-1, 1)
     commitment_sim = cosine_similarity(commitment_values)
 
     visited = set()
-    all_matches = {}
-    team_logs = []
+    team_members = []
     for i in range(len(team_ids)):
         matches = get_top_matches(i)
-        team_email = team_ids[i]  # Use email as key
-        # team_logs.append({"name": teams[team_email]["name"], "email": team_email, "# of teammates": teams[team_email]["team_size"], "matches": [(m["name"], m["score"]) for m in matches]})
+        team_email = team_ids[i]
         team = form_team(teams[team_email]["name"], team_email, teams[team_email]["team_size"], matches)
-        
         if len(team) > 0:
-            team_logs.append({f"team{i}": team})
+            team_members.append(team)
 
-    team_logs = rebalance_single_member_teams(team_logs)
+    team_members = rebalance_single_member_teams(team_members)
+    team_logs = [
+        {f"team{start_index + idx}": members}
+        for idx, members in enumerate(team_members)
+    ]
+    return team_logs, start_index + len(team_logs)
+        
+# Generate matches and save to JSON
+def generate_matches():
+    global teams
+
+    teams = fetch_teams()
+    if not teams:
+        print("No teams found in database")
+        return
+
+    non_waitlisted = {email: team for email, team in teams.items() if not team.get("is_waitlisted", False)}
+    waitlisted = {email: team for email, team in teams.items() if team.get("is_waitlisted", False)}
+
+    team_logs = []
+    next_team_index = 0
+
+    if non_waitlisted:
+        logs, next_team_index = generate_matches_for_pool(non_waitlisted, start_index=next_team_index)
+        team_logs.extend(logs)
+
+    if waitlisted:
+        logs, next_team_index = generate_matches_for_pool(waitlisted, start_index=next_team_index)
+        team_logs.extend(logs)
+        print("Waitlisted teams:")
+        for team_obj in logs:
+            team_id, members = next(iter(team_obj.items()))
+            member_names = ", ".join([name for name, _ in members])
+            print(f"- {team_id}: {member_names}")
+    else:
+        print("Waitlisted teams: none")
 
     output = {"Teams": team_logs}
 
