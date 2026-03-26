@@ -150,7 +150,17 @@
           <b-form-checkbox value="sql">SQL</b-form-checkbox>
           <b-form-checkbox value="flask">Flask</b-form-checkbox>
           <b-form-checkbox value="java">Java</b-form-checkbox>
+          <b-form-checkbox value="other">Other</b-form-checkbox>
         </b-form-checkbox-group>
+        <div v-if="form.skills_wanted.includes('other')" class="mt-2">
+          <b-form-group label="Please specify other skills (comma separated):">
+            <b-form-input
+              v-model="form.skills_wanted_other"
+              placeholder="e.g. Go, Rust, Swift"
+              required
+            ></b-form-input>
+          </b-form-group>
+        </div>
       </b-form-group>
 
       <h4 class="header">Interests & Project Preferences</h4>
@@ -268,6 +278,7 @@ const form = reactive({
   experience: "",
   skill_level: "",
   skills_wanted: [],
+  skills_wanted_other: "",
   projects: [],
   prizes: [],
   serious: "",
@@ -284,7 +295,13 @@ const registerUser = async () => {
     const url = `${backendEndpoint}/${env}/register`;
 
     console.log("Posting to:", url);
-    const response = await axios.post(url, form);
+    // If 'other' is selected, merge the custom skills into the skills_wanted array before sending
+    let payload = { ...form };
+    if (payload.skills_wanted.includes('other') && payload.skills_wanted_other) {
+      const customSkills = payload.skills_wanted_other.split(',').map(s => s.trim()).filter(Boolean);
+      payload.skills_wanted = payload.skills_wanted.filter(s => s !== 'other').concat(customSkills);
+    }
+    const response = await axios.post(url, payload);
 
     // Assuming the backend returns the email in the response
     const userEmail = response.data.email || form.email; // Fallback to form.email if not returned

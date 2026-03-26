@@ -1,0 +1,70 @@
+diff --git a/backend/index.js b/backend/index.js
+index 0a7d0e6..b7c0093 100644
+--- a/backend/index.js
++++ b/backend/index.js
+@@ -15,6 +15,7 @@ const TABLE_NAME = "team-matching-system-dev-new"; // Replace with your actual t
+ // ✅ POST /register — create or update a profile
+ app.post("/register", async (req, res) => {
+   const formData = req.body;
++  console.log("Received skills_wanted:", formData.skills_wanted);
+ 
+   if (!formData.email) {
+     return res.status(400).json({ error: "Email is required!" });
+diff --git a/backend/serverless.yml b/backend/serverless.yml
+index d4e61e6..655d225 100644
+--- a/backend/serverless.yml
++++ b/backend/serverless.yml
+@@ -92,6 +92,7 @@ package:
+ plugins:
+   # Remove or add plugins as needed. For example, if you want Sentry:
+   - serverless-sentry
++  - serverless-offline
+ custom:
+   sentry:
+     dsn: ${file(./config/${self:provider.stage}.json):SENTRY_DSN}
+\ No newline at end of file
+diff --git a/frontend/src/components/ProfileForm.vue b/frontend/src/components/ProfileForm.vue
+index 4e51602..e2cc22c 100644
+--- a/frontend/src/components/ProfileForm.vue
++++ b/frontend/src/components/ProfileForm.vue
+@@ -150,7 +150,17 @@
+           <b-form-checkbox value="sql">SQL</b-form-checkbox>
+           <b-form-checkbox value="flask">Flask</b-form-checkbox>
+           <b-form-checkbox value="java">Java</b-form-checkbox>
++          <b-form-checkbox value="other">Other</b-form-checkbox>
+         </b-form-checkbox-group>
++        <div v-if="form.skills_wanted.includes('other')" class="mt-2">
++          <b-form-group label="Please specify other skills (comma separated):">
++            <b-form-input
++              v-model="form.skills_wanted_other"
++              placeholder="e.g. Go, Rust, Swift"
++              required
++            ></b-form-input>
++          </b-form-group>
++        </div>
+       </b-form-group>
+ 
+       <h4 class="header">Interests & Project Preferences</h4>
+@@ -268,6 +278,7 @@ const form = reactive({
+   experience: "",
+   skill_level: "",
+   skills_wanted: [],
++  skills_wanted_other: "",
+   projects: [],
+   prizes: [],
+   serious: "",
+@@ -284,7 +295,13 @@ const registerUser = async () => {
+     const url = `${backendEndpoint}/${env}/register`;
+ 
+     console.log("Posting to:", url);
+-    const response = await axios.post(url, form);
++    // If 'other' is selected, merge the custom skills into the skills_wanted array before sending
++    let payload = { ...form };
++    if (payload.skills_wanted.includes('other') && payload.skills_wanted_other) {
++      const customSkills = payload.skills_wanted_other.split(',').map(s => s.trim()).filter(Boolean);
++      payload.skills_wanted = payload.skills_wanted.filter(s => s !== 'other').concat(customSkills);
++    }
++    const response = await axios.post(url, payload);
+ 
+     // Assuming the backend returns the email in the response
+     const userEmail = response.data.email || form.email; // Fallback to form.email if not returned
